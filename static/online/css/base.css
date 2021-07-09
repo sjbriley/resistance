@@ -1,0 +1,64 @@
+:root {
+    --pinkText: #b3618a;
+    --heightNav: 50px;
+}
+
+#topNavCustom a{
+    /* padding: 8px 8px 8px 22px; */
+    text-decoration: none;
+    font-size: 17px;
+    color: white;
+    font-family: "Arial";
+    display: inline;
+    transition: 0.2s;
+    text-align: right;
+}
+
+#topNavCustom a:hover {
+    color: #9e9e9e;
+  }
+
+  #title1 {
+    font-family: "Arial";
+    color: var(--pinkText);
+    background-color: #434242;
+    display: inline;
+}
+
+body {
+    /* background-image: url("/static/images/bg.jpg"); */
+    background-color: #292929;
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+
+#headLine {
+    border-bottom: medium solid var(--pinkText);
+    margin-bottom: 8px;
+    height: var(--heightNav);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+#mainBlock {
+    background-color: rgb(241, 241, 241);
+    display: block;
+    height:100%;
+}
+
+#gitLink a{
+    text-decoration: none;
+    color: var(--pinkText);
+    transition: 0.2s;
+}
+
+#gitLink a:hover {
+    color: black;
+}
+
+h1 a, a:hover{
+    text-decoration: none;
+    color: inherit;
+    font-family: inherit;
+}

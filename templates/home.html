@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Home{% endblock %}
+
+{% load widget_tweaks %}
+
+{% block input_box %}
+<br>
+<div class="lead" id="customLink">
+    {% if user.is_authenticated %}
+    Welcome, {{ user.username }}.
+    {% else %}
+    Please login below or <a href="{% url 'sign_up' %}">sign up</a> before continuing.
+    <form action="{% url 'home_page' %}" method='POST'>
+        {% csrf_token %}
+        <br>
+        <div class="form-control">
+            <div class="lead">
+                <div class="row">
+                    <span class="col-md-1">{{ form.username.label_tag }}</span>
+                    <span class="col-md-3">{% render_field form.username class+="form-control" %}</span>
+                    <span class="col-md-7">
+                        {% if form.errors %}
+                        <span style="color:red;">{{ form.errors }}</span>
+                        {% endif %}
+                        {% if userError %}
+                        <span style="color:red;">{{ userError }}</span>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-secondary btn-lg btn-block" style="width:150px;">Login</button>
+    {% endif %}
+</div>
+
+<div class="row">
+    <div class="lead">
+        <br>
+        <div class="span2">
+            <a href="{% url 'online_new' %}" type="button" class="btn btn-primary btn-lg btn-block" style="width:150px;">Online</a>
+        </div>
+        <br>
+        <div class="span2">
+            <a href="#" type="button"  class="btn btn-primary btn-lg btn-block" style="width:150px;">Local</a>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+{% block javascript %}
+{{ block.super }}
+
+{% load static %}
+<script src='{% static "solver/javascript/base.js" %}'></script>
+{% endblock javascript %}
