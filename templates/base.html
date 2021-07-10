@@ -40,14 +40,14 @@
             <div class="row d-none d-md-flex" id="secondRow">
                 <div class="col-md-1 float-left">
 
-                </div> <!-- end col-md-2-->
+                </div> <!-- end col-md-1-->
 
-                <div class="col-md-10 float-right" id="mainBlock">
-                    <h1 class="display-6">{% block page_title %}{% endblock %}</h1>
-                    <span class="dropdown" style="float:right; margin-top:10px;">
+                <div class="col-md-10 text-center" id="mainBlock">
+                    <div class="dropdown" style="margin-top:10px; position: absolute; right:9.2%;">
                         <button onclick='toggleDropdown()' class="btn btn-primary btn-lg">Roles</button>
-                    </span>
-                    <br>{% block input_box %}{% endblock %}
+                    </div>
+                    <h1 class="display-2">{% block page_title %}{% endblock %}</h1>
+                    {% block input_box %}{% endblock %}
 
                 </div> <!-- end col-md-10 -->
                 <div class="col-md-1 float-left">

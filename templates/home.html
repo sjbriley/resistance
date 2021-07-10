@@ -2,48 +2,45 @@
 
 {% block page_title %}Home{% endblock %}
 
-{% load widget_tweaks %}
-
 {% block input_box %}
 <br>
 <div class="lead" id="customLink">
-    {% if user.is_authenticated %}
-    Welcome, {{ user.username }}.
-    {% else %}
-    Please login below or <a href="{% url 'sign_up' %}">create a username</a> before continuing.
-    <form action="{% url 'home_page' %}" method='POST'>
-        {% csrf_token %}
-        <br>
-        <div class="form-control">
-            <div class="lead">
-                <div class="row">
-                    <span class="col-md-1">{{ form.username.label_tag }}</span>
-                    <span class="col-md-3">{% render_field form.username class+="form-control" placeholder="Enter your unique username" %}</span>
-                    <span class="col-md-7">
-                        {% if form.errors %}
-                        <span style="color:red;">{{ form.errors }}</span>
-                        {% endif %}
-                        {% if userError %}
-                        <span style="color:red;">{{ userError }}</span>
-                        {% endif %}
-                    </span>
+    <div id="leadCustom">
+        {% if user.is_authenticated %}
+        <br><div id="leadCustom">Welcome, {{ user.username }}.</div>
+        {% else %}
+        Please login below or <a href="{% url 'sign_up' %}">create a username</a> before continuing.<br>
+
+        <form action="{% url 'home_page' %}" method='POST'>
+            {% csrf_token %}
+            <div class="form-control">
+                <div class="lead">
+                    <div class="row">
+                        <span class="col-md-4" style="float:none;margin:auto;">{{ form.username }}</span>
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <br>
-        <button type="submit" class="btn btn-dark btn-lg btn-block" style="width:150px;">Login</button>
-    {% endif %}
+            {% if form.errors %}
+                <div style="color:red;">{{ form.errors }}</div>
+            {% endif %}
+            {% if userError %}
+                <div style="color:red;">{{ userError }}</div>
+            {% endif %}
+            <button type="submit" class="btn btn-dark btn-lg btn-block" style="width:250px;">Login</button>
+        {% endif %}
+    </div>
 </div>
 
 <div class="row">
-    <div class="lead">
+    <div class="lead" id="leadCustom">
         <br>
         <div class="span2">
-            <a href="{% url 'home_online' %}" type="button" class="btn btn-primary btn-lg btn-block" style="width:150px;">Online</a>
+            <a href="{% url 'home_online' %}" type="button" class="btn btn-primary btn-lg btn-block" style="width:250px;">Online</a>
         </div>
         <br>
         <div class="span2">
-            <a href="{% url 'home_local' %}" type="button"  class="btn btn-primary btn-lg btn-block" style="width:150px;">Local</a>
+            <a href="{% url 'home_local' %}" type="button"  class="btn btn-primary btn-lg btn-block" style="width:250px;">Local</a>
         </div>
     </div>
 </div>

@@ -3,4 +3,3 @@ django-environ==0.4.5
 django-widget-tweaks==1.4.8
 channels==3.0.3
 asgi-redis==1.4.3
-channels-redis==3.3.0

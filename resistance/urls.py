@@ -28,5 +28,4 @@ urlpatterns = [
     path('accounts/sign_up', online_views.sign_up, name="sign_up"),
     path('my_account', online_views.my_account, name="my_account"),
     path('local', include(local_urls)),
-    path('ws/sheet/<str:gameID>/', online_views.user_list, name="user_list"),
 ]

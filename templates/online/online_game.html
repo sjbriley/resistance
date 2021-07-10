@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block input_box %}
+
+<h1 class="display-6 float-left">Game ID: {{ gameID.0 }}{{ gameID.1 }}{{ gameID.2 }} {{ gameID.3 }}{{ gameID.4 }}{{ gameID.5 }}</h1>
+
+{% endblock %}
+
+{% block javascript %}
+{{ block.super }}
+
+{{ settings|json_script:"settings" }}
+
+{{ 'gameID'|json_script:"gameID" }}
+{{ user.username|json_script:"username" }}
+
+{% load static %}
+<script src="{% static 'online/javascript/sockets.js' %}"></script>
+
+{% endblock javascript %}
