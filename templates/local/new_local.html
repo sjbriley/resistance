@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Local{% endblock %}
+
+
+{% block input_box %}
+
+{% if user.is_authenticated %}
+<div class="lead">
+    New Local Game
+</div>
+{% else %}
+<div class="lead" id="customLink">
+    Please  <a href="{% url 'home_page' %}">Log in</a>.
+</div>
+{% endif %}
+
+{% endblock %}

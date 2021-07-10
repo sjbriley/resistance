@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'online',
     'widget_tweaks',
+    'local',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +143,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = "home_page"
 LOGOUT_REDIRECT_URL = "home_page"
+
+ASGI_APPLICATION = 'resistance.routing.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer', # asgi_redis.RedisChannelLayer ?
+        'CONFIG': {
+            'hosts': [('localhost', 6379)],
+        },
+    }
+}

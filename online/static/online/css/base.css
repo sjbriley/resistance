@@ -1,5 +1,6 @@
 :root {
-    --pinkText: #407dd8;
+    --blueText: #407dd8;
+    --transparentBlueText: #407dd8b1;
     --heightNav: 50px;
 }
 
@@ -20,7 +21,7 @@
 
 #title1 {
     font-family: "Arial";
-    color: var(--pinkText);
+    color: var(--blueText);
     background-color: #303030d4;
     display: inline;
 }
@@ -36,7 +37,7 @@ body {
 }
 
 #headLine {
-    border-bottom: medium solid var(--pinkText);
+    border-bottom: medium solid var(--blueText);
     margin-bottom: 8px;
     height: var(--heightNav);
     position: sticky;
@@ -53,7 +54,7 @@ body {
 
 #customLink a{
     text-decoration: none;
-    color: var(--pinkText);
+    color: var(--blueText);
     transition: 0.2s;
 }
 
@@ -76,3 +77,16 @@ h1 {
 }
 
 html,body { height:100%; }
+
+#rolesPopup {
+    display: none;
+    width: 30%;
+    height: 60%;            
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color:var(--transparentBlueText);
+    z-index: 10;
+    border-radius: 10px;
+}

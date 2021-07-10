@@ -22,8 +22,8 @@ def home_page(request):
             print(form.errors)
     return render(request, 'home.html', {'form':form})
 
-def online_new(request):
-    return render(request, 'online_new.html')
+def home_online(request):
+    return render(request, 'online/home_online.html')
 
 def sign_up(request):
     form = customAuthenticationForm()
@@ -41,3 +41,6 @@ def sign_up(request):
 
 def my_account(request):
     return render(request, 'my_account.html')
+
+def user_list(request, gameID):
+    return render(request, 'socketTest.html', {'gameID': gameID})

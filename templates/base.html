@@ -6,10 +6,11 @@
         <link href='{% static "online/bootstrap/css/bootstrap.css" %}' rel="stylesheet" type="text/css">
         <link href='{% static "online/css/base.css" %}' rel="stylesheet" type="text/css">
         {% block javascript %}
+        <script src="{% static 'online/javascript/base.js' %}"></script>
         <script src='{% static "online/bootstrap/js/bootstrap.min.js" %}'></script>
         {% endblock javascript %}
 
-        <title>MathBuilder</title>
+        <title>The Resistance</title>
     </head>
     
     <body>
@@ -26,7 +27,7 @@
                         <a href='{% url "home_page" %}'>help</a> |
                         <a href='{% url "home_page" %}'>leaderboards</a> |
                         {% if user.is_authenticated %}
-                            <a href='{% url "my_account" %}'>My Account- {{ user.username }}</a>
+                            <a href='{% url "my_account" %}'>my account - {{ user.username }}</a>
                         {% else %}
                             <a href='{% url "home_page" %}'>login or sign up</a>
                         {% endif %}
@@ -43,7 +44,11 @@
 
                 <div class="col-md-10 float-right" id="mainBlock">
                     <h1 class="display-6">{% block page_title %}{% endblock %}</h1>
+                    <span class="dropdown" style="float:right; margin-top:10px;">
+                        <button onclick='toggleDropdown()' class="btn btn-primary btn-lg">Roles</button>
+                    </span>
                     <br>{% block input_box %}{% endblock %}
+
                 </div> <!-- end col-md-10 -->
                 <div class="col-md-1 float-left">
                 </div>
@@ -51,8 +56,11 @@
             <div class="row">
                 <!-- <div class="col-md-10" id="mainBlock" style="display:inline-block;position:absolute; height:100%; left:8.33333%;"></div> -->
             </div>
-
         </div>  <!-- end container-fluid -->
+
+        <div id="rolesPopup">TEST
+        </div>
+
     </body>
 </html>
 
