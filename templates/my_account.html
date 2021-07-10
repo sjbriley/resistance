@@ -5,16 +5,11 @@
 
 {% block input_box %}
 
-{% if user.is_authenticated %}
 <div class="lead" id="customLink">
     Welcome, {{user.username}}
     <br>
     <a href="{% url 'logout' %}">Log out</a>
 </div>
-{% else %}
-<div class="lead" id="customLink">
-    Please  <a href="{% url 'home_page' %}">Log in</a>.
-</div>
-{% endif %}
+
 
 {% endblock %}

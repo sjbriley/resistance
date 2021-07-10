@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Online{% endblock %}
+
+{% load widget_tweaks %}
+
+{% block input_box %}
+<form action="{% url 'online_game' gameID=gameID %}" method='POST'>
+    {% csrf_token %}
+    <div class="form-control">
+        <div class="lead">
+            {% for option in form %}
+                <div class="row">
+                    <div class="form-check">
+                        <span class="col-md-1">{{ option.label_tag }}</span>
+                        <span class="col-md-3">{% render_field option class+="form-control" placeholder="Choose a unique username" %}</span>
+                        <span class="col-md-7">
+                            {% if form.errors %}
+                            <span style="color:red;">{{ form.username.errors | striptags }}</span>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary btn-md">Start Game</button>
+</form>
+{% endblock %}

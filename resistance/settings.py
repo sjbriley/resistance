@@ -142,9 +142,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 LOGIN_REDIRECT_URL = "home_page"
+LOGIN_URL = "home_page"
 LOGOUT_REDIRECT_URL = "home_page"
 
 ASGI_APPLICATION = 'resistance.routing.application'
+
+AUTH_USER_MODEL = 'online.CustomUser'
 
 CHANNEL_LAYERS = {
     'default': {

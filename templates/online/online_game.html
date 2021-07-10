@@ -1,22 +1,12 @@
 {% extends 'base.html' %}
 
-{% block page_title %}My Account{% endblock %}
+{% block page_title %}Game ID: {{ gameID }}{% endblock %}
 
 
 {% block input_box %}
 
-{% if user.is_authenticated %}
-
-
-
-
-{% else %}
-<div class="lead" id="customLink">
-    Please  <a href="{% url 'home_page' %}">Log in</a>.
-</div>
-{% endif %}
-
-<textarea class="form-control" id="textContent" rows="5"></textarea>
+{{ settings }}
+<textarea class="form-control" id="aaaaaa" rows="5"></textarea>
 <button class="btn btn-primary btn-md" id="textSubmit" style="float: right; margin-bottom: 6px; margin-top:6px;" onclick='buttonClicked()'>Click Me</button>
 
 {% endblock %}
@@ -53,10 +43,10 @@
   }
 
     function buttonClicked() {
-      const textContent = document.getElementById("textContent")
+      const textContent2 = document.getElementById("aaaaaa").value
       updateSocket.send(JSON.stringify({
         'gameID': game_ID,
-        'message': textContent,
+        'message': textContent2,
         'username': username,
       }));
     };

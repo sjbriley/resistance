@@ -6,9 +6,15 @@
 {% block input_box %}
 
 {% if user.is_authenticated %}
-<div class="lead">
+
+<div class="lead" id="customLink">
     New Online Game
+    <form action="{% url 'new_game_set_up' %}" id='my_form' method='POST'>
+        {% csrf_token %}
+        <a onclick="document.getElementById('my_form').submit();">Start a new game</a>
+    </form>
 </div>
+
 {% else %}
 <div class="lead" id="customLink">
     Please  <a href="{% url 'home_page' %}">Log in</a>.
