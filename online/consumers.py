@@ -42,6 +42,8 @@ class GameConsumer(WebsocketConsumer):
                 'gameID': text_data_json['gameID'],
                 'message': text_data_json['message'],
                 'username': text_data_json['username'],
+                'init': text_data_json['init'],
+                'host': text_data_json['host'],
             }
         )
 
@@ -52,4 +54,6 @@ class GameConsumer(WebsocketConsumer):
             'gameID': event['gameID'],
             'message': event['message'],
             'username': event['username'],
+            'init': event['init'],
+            'host': event['host'],
         }))

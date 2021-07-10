@@ -2,8 +2,6 @@
 
 {% block page_title %}Online{% endblock %}
 
-{% load widget_tweaks %}
-
 {% block input_box %}
 <form action="{% url 'online_game' gameID=gameID %}" method='POST'>
     {% csrf_token %}
@@ -11,20 +9,19 @@
         <div class="lead">
             {% for option in form %}
                 <div class="row">
-                    <div class="form-check">
-                        <span class="col-md-1">{{ option.label_tag }}</span>
-                        <span class="col-md-3">{% render_field option class+="form-control" placeholder="Choose a unique username" %}</span>
-                        <span class="col-md-7">
-                            {% if form.errors %}
-                            <span style="color:red;">{{ form.username.errors | striptags }}</span>
-                            {% endif %}
-                        </span>
-                    </div>
+                    <span class="col-lg">{{ option.label_tag }}&ensp;{{ option }}</span>
                 </div>
             {% endfor %}
+            
+            {% if form.errors %}
+                {% for option in form %}
+                    {% if option.errors %}<br>{% endif %}
+                    <span style="color:red;">{{ option.errors | striptags }}</span>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
     <br>
-    <button type="submit" class="btn btn-primary btn-md">Start Game</button>
+    <button type="submit" class="btn btn-primary btn-md" style="width:250px;">Start Game</button>
 </form>
 {% endblock %}

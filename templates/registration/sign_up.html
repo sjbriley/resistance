@@ -4,31 +4,28 @@
 
 {% block input_box %}
 
-{% load widget_tweaks %}
-
-    <form action="{% url 'sign_up' %}" method='POST'>
-        {% csrf_token %}
-        <br>
-        <div class="form-control">
-            <div class="lead">
-                <div class="row">
-                    <span class="col-md-1">{{ form.username.label_tag }}</span>
-                    <span class="col-md-3">{% render_field form.username class+="form-control" placeholder="Choose a unique username" %}</span>
-                    <span class="col-md-7">
-                        {% if form.errors %}
-                        <span style="color:red;">{{ form.username.errors | striptags }}</span>
-                        {% endif %}
-                    </span>
-                </div>
+<form action="{% url 'sign_up' %}" method='POST'>
+    {% csrf_token %}
+    <br>
+    <div class="form-control">
+        <div class="lead">
+            <div class="row">
+                <span class="col-md-3" style="float:none;margin:auto;">{{ form.username }}</span>
+                    
             </div>
         </div>
-        <br>
-        <button type="submit" class="btn btn-primary btn-md">Create Account</button>
-    </form>
-
-    <br>
-    <div id="customLink" class="lead">
-        <a href="{% url 'home_page' %}">Or Log In</a>
     </div>
+    <br>
+    {% if form.errors %}
+        <div style="color:red;">{{ form.username.errors | striptags }}</div>
+        <br>
+    {% endif %}
+    <button type="submit" class="btn btn-primary btn-md" style="width:250px;">Create Account</button>
+</form>
+
+<br>
+<div id="customLink" class="lead">
+    <a href="{% url 'home_page' %}">Or Log In</a>
+</div>
 
 {% endblock %}

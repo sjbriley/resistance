@@ -6,9 +6,11 @@
 {% block input_box %}
 
 <div class="lead" id="customLink">
-    Welcome, {{user.username}}
-    <br>
-    <a href="{% url 'logout' %}">Log out</a>
+    <div id="leadCustom">
+        <br>Welcome, {{user.username}}
+        <br>
+        <a href="{% url 'logout' %}">Log out</a>
+    </div>
 </div>
 
 

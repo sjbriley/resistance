@@ -1,56 +1,20 @@
 {% extends 'base.html' %}
 
-{% block page_title %}Game ID: {{ gameID }}{% endblock %}
-
-
 {% block input_box %}
 
-{{ settings }}
-<textarea class="form-control" id="aaaaaa" rows="5"></textarea>
-<button class="btn btn-primary btn-md" id="textSubmit" style="float: right; margin-bottom: 6px; margin-top:6px;" onclick='buttonClicked()'>Click Me</button>
+<h1 class="display-6 float-left">Game ID: {{ gameID.0 }}{{ gameID.1 }}{{ gameID.2 }} {{ gameID.3 }}{{ gameID.4 }}{{ gameID.5 }}</h1>
 
 {% endblock %}
 
 {% block javascript %}
+{{ block.super }}
 
-{{ gameID|json_script:"gameID" }}
+{{ settings|json_script:"settings" }}
+
+{{ 'gameID'|json_script:"gameID" }}
 {{ user.username|json_script:"username" }}
-<script>
 
-  const game_ID = JSON.parse(document.getElementById('gameID').textContent);
-  const username = JSON.parse(document.getElementById('username').textContent);
-  let updateSocket;
+{% load static %}
+<script src="{% static 'online/javascript/sockets.js' %}"></script>
 
-  function connectSocket() {
-
-      updateSocket = new WebSocket(
-          'ws://' + window.location.host +
-          '/ws/sheet/' + game_ID + '/');
-
-      updateSocket.onmessage = function(e) {
-        const data = JSON.parse(e.data);
-        console.log("Received a message from the socket:", e.data);
-      };
-
-      updateSocket.onclose = function(e) {
-        console.error('Chat socket closed unexpectedly; reconnecting');
-        setTimeout(connectSocket, 1000);
-      };
-
-      updateSocket.onopen = function(e) {
-        console.log("Socket connected; sending a ping");
-      };
-  }
-
-    function buttonClicked() {
-      const textContent2 = document.getElementById("aaaaaa").value
-      updateSocket.send(JSON.stringify({
-        'gameID': game_ID,
-        'message': textContent2,
-        'username': username,
-      }));
-    };
-
-  connectSocket();
-</script>
 {% endblock javascript %}
