@@ -54,19 +54,6 @@ def home_online(request):
 
 @login_required
 def online_game_set_up(request):
-    
-    game = GameLog()
-    game.save()
-    game2 = GameLog()
-    game2.save()
-
-    user = request.user
-    user.games.add(game)
-    user.games.add(game2)
-    print(user.games.all())
-    
-
-    
     form = GameForm()
     import random, string
     gameID = ''.join([random.choice(string.ascii_uppercase + string.digits) for _ in range(6)])
