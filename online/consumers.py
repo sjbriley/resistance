@@ -40,10 +40,11 @@ class GameConsumer(WebsocketConsumer):
             {
                 'type': 'refresh_sheet',
                 'gameID': text_data_json['gameID'],
-                'message': text_data_json['message'],
+                'gameType': text_data_json['gameType'],
                 'username': text_data_json['username'],
                 'init': text_data_json['init'],
                 'host': text_data_json['host'],
+                'userRoles': text_data_json['userRoles'],
             }
         )
 
@@ -52,8 +53,9 @@ class GameConsumer(WebsocketConsumer):
         # Send gameID to WebSocket
         self.send(text_data=json.dumps({
             'gameID': event['gameID'],
-            'message': event['message'],
+            'gameType': event['gameType'],
             'username': event['username'],
             'init': event['init'],
             'host': event['host'],
+            'userRoles': event['userRoles'],
         }))

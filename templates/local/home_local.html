@@ -5,14 +5,32 @@
 
 {% block input_box %}
 
-{% if user.is_authenticated %}
-<div class="lead">
-    New Local Game
-</div>
-{% else %}
 <div class="lead" id="customLink">
-    Please  <a href="{% url 'home_page' %}">Log in</a>.
+    <div id="leadCustom">
+
+
+        Join an Existing Game
+        <form action="{% url 'home_local' %}" id='my_form' method='POST'>
+            {% csrf_token %}
+            <div class="form-control">
+                <div class="lead">
+                    <div class="row">
+                        <span class="col-md-3" style="float:none;margin:auto;">{{ form.gameID }}</span>
+                        {% if form.errors %}
+                        <span style="color:red;">{{ form.gameID.errors | striptags }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-md" style="width:150px;">Join</button>
+        </form>
+        <br>
+        Or start a new game
+        <form action="{% url 'local_game_set_up' %}" id='my_form' method='POST'>
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-md" style="width:150px;">Start</button>
+        </form>
+    </div>
 </div>
-{% endif %}
 
 {% endblock %}
