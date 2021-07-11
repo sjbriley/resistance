@@ -7,8 +7,12 @@ let updateSocket;
 
 function connectSocket() {
 
+    if (window.location.protocol == 'https:') {
+        wsProtocol = 'wss://'
+      } else {wsProtocol = 'ws://'}
+      
     updateSocket = new WebSocket(
-        'ws://' + window.location.host +
+        wsProtocol + window.location.host +
         '/ws/sheet/' + game_ID + '/');
 
     updateSocket.onmessage = function(e) {
@@ -50,16 +54,22 @@ function connectSocket() {
     };
 }
 
-function buttonClicked() {
-    const textContent2 = document.getElementById("aaaaaa").value
-    updateSocket.send(JSON.stringify({
-    'gameID': game_ID,
-    'message': textContent2,
-    'username': username,
-    'init': init,
-    'settings': settings,
-    'host': host,
-    }));
-};
-
 connectSocket();
+
+window.onload = function() {
+    document.getElementById("changeJester").onclick = function changeJester() {
+        console.log("clicked");
+        if (settings['jester'] == true) {
+            settings['jester'] = false;
+            updateSocket.send(JSON.stringify({
+                'settings': settings,
+            }));
+        }
+        else {
+            settings['jester'] = true;
+            updateSocket.send(JSON.stringify({
+                'settings': settings,
+            }));
+        }
+    };
+};
