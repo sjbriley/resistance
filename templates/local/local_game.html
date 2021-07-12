@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+
+
+{% block input_box %}
+
+<h1 class="display-6 float-left" style="position:absolute; left:1%;">Game ID: {{ gameID.0 }}{{ gameID.1 }}{{ gameID.2 }} {{ gameID.3 }}{{ gameID.4 }}{{ gameID.5 }}</h1>
+<br>
+
+<div id="leadCustom">
+    <div class="ul" id="listUsers">
+    </div>
+</div>
+
+<div id="guestWaitScreen" style="display:none;">
+    Waiting for host
+</div>
+<div id="hostStartButton" style="display:none;">
+    <button class="btn btn-primary btn-md" style="width:150px;margin-top:5px;" id="startGameClicked">Start Game</button>
+</div>
+
+
+{% endblock %}
+
+
+{% block javascript %}
+{{ block.super }}
+
+{{ settings|json_script:"settings" }}
+
+{{ gameID|json_script:"gameID" }}
+{{ user.username|json_script:"username" }}
+
+{% load static %}
+<script src="{% static 'local/javascript/during_game.js' %}"></script>
+<script src="{% static 'local/javascript/local_game.js' %}"></script>
+
+{% endblock javascript %}

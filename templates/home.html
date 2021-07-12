@@ -3,11 +3,10 @@
 {% block page_title %}Home{% endblock %}
 
 {% block input_box %}
-<br>
 <div class="lead" id="customLink">
     <div id="leadCustom">
         {% if user.is_authenticated %}
-        <br><div id="leadCustom">Welcome, {{ user.username }}.</div>
+        <div id="leadCustom">Welcome, {{ user.username }}.</div>
         {% else %}
         Please login below or <a href="{% url 'sign_up' %}">create a username</a> before continuing.<br>
 
@@ -27,21 +26,33 @@
             {% if userError %}
                 <div style="color:red;">{{ userError }}</div>
             {% endif %}
-            <button type="submit" class="btn btn-dark btn-lg btn-block" style="width:250px;">Login</button>
+            <button type="submit" class="btn btn-dark btn-lg btn-block" style="width:250px; margin-top:4%;">Login</button>
         {% endif %}
     </div>
 </div>
 
 <div class="row">
     <div class="lead" id="leadCustom">
-        <br>
-        <div class="span2">
+        <div class="span2" style="margin-top:4%;">
             <a href="{% url 'home_online' %}" type="button" class="btn btn-primary btn-lg btn-block" style="width:250px;">Online</a>
         </div>
-        <br>
-        <div class="span2">
+        <div class="span2" style="margin-top:4%;">
             <a href="{% url 'home_local' %}" type="button"  class="btn btn-primary btn-lg btn-block" style="width:250px;">Local</a>
         </div>
+        <span class="d-lg-none">
+            <div class="span2" style="margin-top:4%;">
+                <a href="{% url 'home_local' %}" type="button"  class="btn btn-secondary btn-lg btn-block" style="width:250px;">Go to my account</a>
+            </div>
+            <div class="span2" style="margin-top:4%;">
+                <a href="{% url 'home_local' %}" type="button"  class="btn btn-secondary btn-lg btn-block" style="width:250px;">Leaderboards</a>
+            </div>
+            <div class="span2" style="margin-top:4%;">
+                <a href="{% url 'home_local' %}" type="button"  class="btn btn-secondary btn-lg btn-block" style="width:250px;">Help</a>
+            </div>
+            <div class="span2" style="margin-top:4%;">
+                <a href="{% url 'home_local' %}" type="button"  class="btn btn-secondary btn-lg btn-block" style="width:250px;">About</a>
+            </div>
+        </span>
     </div>
 </div>
 

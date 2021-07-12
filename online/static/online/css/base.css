@@ -1,18 +1,15 @@
 :root {
     --blueText: #407dd8;
-    --transparentBlueText: #407dd8d9;
-    --heightNav: 50px;
+    --transparentBlueText: #407dd8ef;
+    --heightNav: 4vw;
 }
 
 #topNavCustom a{
-    /* padding: 8px 8px 8px 22px; */
     text-decoration: none;
-    font-size: 17px;
+    font-size: 20px;
     color: white;
     font-family: "Arial";
-    display: inline;
     transition: 0.2s;
-    text-align: right;
 }
 
 #topNavCustom a:hover {
@@ -23,7 +20,6 @@
     font-family: "Arial";
     color: var(--blueText);
     background-color: #303030d4;
-    display: inline;
 }
 
 body {
@@ -32,22 +28,59 @@ body {
     image-rendering: pixelated;
     background-position: center center;
     background-size: cover;
+    /* max-width: 100%;
+    width: 100%;
+    height: 100%; */
 }
 
 #headLine {
     border-bottom: medium solid var(--blueText);
-    margin-bottom: 8px;
-    height: var(--heightNav);
+    margin-bottom: 1vw;
+    height: auto;
     position: sticky;
-    top: 0;
     z-index: 9;
 }
 
 #mainBlock {
     background-color: rgba(241, 241, 241, 0.892);
-    display: block;
-    height:100%;
-    border-radius: 10px;
+    position:absolute;
+    width:85%;
+    margin-left: 7.5%;
+    border-radius: 2.5%;
+}
+
+@media (max-width: 991px) { /* mobile phone */
+    #mainBlock {
+        height:95%;
+    }
+    #leadCustom {
+        font-size: 1.5rem;
+    }
+    #hide_from_desktop {
+        display: none;
+    }
+    #rolesPopup {
+        width: 75%;
+        height: 80%;
+    }
+    #goodRole, #badRole, #roleInfo {
+        font-size: .8rem;
+    }
+}
+@media (min-width: 992px) { /* desktop */
+    #mainBlock {
+        height:90%;
+    }
+    #leadCustom {
+        font-size: 2.2rem;
+    }
+    #hideFromDesktop {
+        display:none;
+    }
+    #rolesPopup {
+        width: 40%;
+        height: 75%;
+    }
 }
 
 #customLink a{
@@ -67,7 +100,10 @@ h1 a, a:hover{
 }
 
 #secondRow {
-    height:calc(95% - var(--heightNav));
+    margin-top:1vw;
+    margin-bottom:1vw;
+    width:auto;
+    height:100%;
 }
 
 h1 {
@@ -77,19 +113,28 @@ h1 {
 html,body { height:100%; }
 
 #rolesPopup {
-    display: none;
-    width: 30%;
-    height: 60%;            
+    display: none;    
     position: absolute;
-    top: 50%;
-    left: 50%;
     transform: translate(-50%, -50%);
     background-color:var(--transparentBlueText);
     z-index: 10;
-    border-radius: 10px;
+    border-radius: 1.5%;
+    top: 50%;
+    left: 50%;
 }
 
 #leadCustom {
-    font-size: 40px;
     font-weight: 300;
+}
+
+#rolesPopup {
+    color: white;
+}
+
+#goodRole {
+    color: blue;
+}
+
+#badRole {
+    color:red;
 }

@@ -1,5 +1,6 @@
 :root {
-    --pinkText: #407dd8;
+    --blueText: #407dd8;
+    --transparentBlueText: #407dd8d9;
     --heightNav: 50px;
 }
 
@@ -20,32 +21,30 @@
 
 #title1 {
     font-family: "Arial";
-    color: var(--pinkText);
+    color: var(--blueText);
     background-color: #303030d4;
     display: inline;
 }
 
 body {
     background-image: url("/static/online/images/bg.jpg");
-    /* background-color: #292929; */
     background-repeat: no-repeat;
-    background-size: auto;
     image-rendering: pixelated;
     background-position: center center;
     background-size: cover;
 }
 
 #headLine {
-    border-bottom: medium solid var(--pinkText);
+    border-bottom: medium solid var(--blueText);
     margin-bottom: 8px;
     height: var(--heightNav);
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 9;
 }
 
 #mainBlock {
-    background-color: rgb(241, 241, 241, 0.75);
+    background-color: rgba(241, 241, 241, 0.892);
     display: block;
     height:100%;
     border-radius: 10px;
@@ -53,7 +52,7 @@ body {
 
 #customLink a{
     text-decoration: none;
-    color: var(--pinkText);
+    color: var(--blueText);
     transition: 0.2s;
 }
 
@@ -77,16 +76,20 @@ h1 {
 
 html,body { height:100%; }
 
-.rolesPopup {
+#rolesPopup {
     display: none;
-    width: 100%;
-    height: 100%;            
+    width: 30%;
+    height: 60%;            
     position: absolute;
-    top: 0;
-    left: 0;
-    background-color:white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color:var(--transparentBlueText);
     z-index: 10;
+    border-radius: 10px;
 }
-.contain {
-    position: relative;
+
+#leadCustom {
+    font-size: 40px;
+    font-weight: 300;
 }

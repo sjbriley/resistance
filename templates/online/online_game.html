@@ -2,9 +2,7 @@
 
 {% block input_box %}
 
-<h1 class="display-6 float-left">Game ID: {{ gameID.0 }}{{ gameID.1 }}{{ gameID.2 }} {{ gameID.3 }}{{ gameID.4 }}{{ gameID.5 }}</h1>
-{{ settings }}
-<!-- <button class="btn btn-primary btn-md" id="changeJester" value="change jester" style="width:250px;">change jester</button > -->
+<h1 class="display-6">Game ID: {{ gameID.0 }}{{ gameID.1 }}{{ gameID.2 }} {{ gameID.3 }}{{ gameID.4 }}{{ gameID.5 }}</h1>
 
 
 {% endblock %}
@@ -14,10 +12,10 @@
 
 {{ settings|json_script:"settings" }}
 
-{{ 'gameID'|json_script:"gameID" }}
+{{ gameID|json_script:"gameID" }}
 {{ user.username|json_script:"username" }}
 
 {% load static %}
-<script src="{% static 'online/javascript/sockets.js' %}"></script>
+<script src="{% static 'online/javascript/online_game.js' %}"></script>
 
 {% endblock javascript %}

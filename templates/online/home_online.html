@@ -2,10 +2,9 @@
 
 {% block page_title %}Online{% endblock %}
 
+{% load widget_tweaks %}
 
 {% block input_box %}
-
-{% if user.is_authenticated %}
 
 <div class="lead" id="customLink">
     <div id="leadCustom">
@@ -24,21 +23,15 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary btn-md" style="width:150px;">Join</button>
+            <button type="submit" class="btn btn-primary btn-md" style="width:150px;margin-top:4%;">Join</button>
         </form>
         <br>
         Or start a new game
         <form action="{% url 'online_game_set_up' %}" id='my_form' method='POST'>
             {% csrf_token %}
-            <button type="submit" class="btn btn-primary btn-md" style="width:150px;">Start</button>
+            <button type="submit" class="btn btn-primary btn-md" style="width:150px;margin-top:2%;">Start</button>
         </form>
     </div>
 </div>
-
-{% else %}
-<div class="lead" id="customLink">
-    Please  <a href="{% url 'home_page' %}">Log in</a>.
-</div>
-{% endif %}
 
 {% endblock %}

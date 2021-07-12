@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Online{% endblock %}
+
+{% block input_box %}
+<form action="{% url 'local_game' gameID=gameID %}" method='POST'>
+    {% csrf_token %}
+    <div class="form-control">
+        <div class="lead">
+            {% for option in form %}
+                <div class="row">
+                    <span class="col-lg">{{ option.label_tag }}&ensp;{{ option }}</span>
+                </div>
+            {% endfor %}
+            
+            {% if form.errors %}
+                {% for option in form %}
+                    {% if option.errors %}<br>{% endif %}
+                    <span style="color:red;">{{ option.errors | striptags }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary btn-md" style="width:250px;">Start Game</button>
+</form>
+{% endblock %}

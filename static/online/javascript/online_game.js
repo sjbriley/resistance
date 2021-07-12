@@ -10,9 +10,12 @@ function connectSocket() {
     if (window.location.protocol == 'https:') {
         wsProtocol = 'wss://'
       } else {wsProtocol = 'ws://'}
-      
+
+    var logthis = wsProtocol + window.location.host + '/ws/sheet/' + game_ID + '/';
+    console.log(logthis);
+
     updateSocket = new WebSocket(
-        wsProtocol + window.location.host +
+        wsProtocol + window.location.host + 
         '/ws/sheet/' + game_ID + '/');
 
     updateSocket.onmessage = function(e) {

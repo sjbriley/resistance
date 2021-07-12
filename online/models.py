@@ -8,15 +8,20 @@ from django.contrib.auth.models import AbstractUser
     
 class CustomUser(AbstractUser):
 
-    games = models.ManyToManyField('GameLog')
+    online_games = models.ManyToManyField('online.OnlineGames')
+    local_games = models.ManyToManyField('local.LocalGames')
 
     def __str__(self):
         return self.username
    
-   
-class GameLog(models.Model):
+class OnlineGames(models.Model):
+    gameID = models.CharField(max_length=6)
+    is_active = models.BooleanField(default=True)
+    players = models.ManyToManyField('online.CustomUser') # a list
     
-    user = models.CharField(max_length=30) 
+    def get_active(self):
+        return self.is_active
+    
 """
 To create relationships using ManyToManyField:
     1. creaate user
