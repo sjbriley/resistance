@@ -41,13 +41,18 @@ def sign_up(request):
 def leaderboards(request):
     games = LocalGames.objects.all()
     users = CustomUser.objects.all()
+    leaderboard = {}
     for user in users:
+        print('username: ' + str(user.username))
+        leaderboard[user.username] = {}
+        leaderboard[user.username]['gamesPlayed'] = 0
         games = LocalGames.objects.filter(players=user)
         for game in games:
-            pass
+            print('gameID: ' + str(game.gameID))
+            leaderboard[user.username]['gamesPlayed'] += 1
             # check if user won and add to count
             # can check to see what roles user won as
-    return render(request, 'leaderboards.html')
+    return render(request, 'leaderboards.html', {'leaderboard': leaderboard})
 
 @login_required
 def my_account(request):

@@ -5,6 +5,25 @@
 
 {% block input_box %}
 
+<br>
 
+<div class="lead">
+    <table class="table" style="background-color:white;">
+        <thead>
+            <th scope="col">Place</th>
+            <th scope="col">Name</th>
+            <th scope="col">Games Played</th>
+        </thead>
+        <tbody>
+            {% for key, value in leaderboard.items %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ key }}</td>
+                    <td>{{ value.gamesPlayed }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 {% endblock %}

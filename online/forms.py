@@ -92,7 +92,7 @@ class JoinExistingGame(forms.Form):
                                 label="Game ID",
                                 error_messages={'invalid': "Invalid Game ID"},
                                 required=True,
-                                widget=forms.TextInput(attrs={'class': 'form-control text-center', 'placeholder': 'Enter 6-character Game ID', 'style': 'font-size:1.25rem;text-transform:uppercase;'})
+                                widget=forms.TextInput(attrs={'class': 'form-control text-center', 'placeholder': 'Enter 6-character Game ID', 'style': 'font-size:1rem;text-transform:uppercase;'})
                             )
     
     class Meta:
