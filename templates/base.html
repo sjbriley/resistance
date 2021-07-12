@@ -26,13 +26,13 @@
                         </span>
                         <span class="col-sm-6 text-right" style="margin-right:7.5%;">
                             <span id="topNavCustom" style="position:absolute; bottom:0; right:7.5%;">
-                                <a href='{% url "home_page" %}'>about</a> |
-                                <a href='{% url "home_page" %}'>help</a> |
-                                <a href='{% url "home_page" %}'>leaderboards</a> |
+                                <a href='{% url "home_page" %}'>about</a>&ensp;<span style="font-weight: 1000;font-size:1.5rem;">|</span>
+                                <a href='{% url "home_page" %}'>&ensp;help</a>&ensp;<span style="font-weight: 1000;font-size:1.5rem;">|</span>
+                                <a href='{% url "leaderboards" %}'>&ensp;leaderboards</a>&ensp;<span style="font-weight: 1000;font-size:1.5rem;">|</span>
                                 {% if user.is_authenticated %}
-                                    <a href='{% url "my_account" %}'>my account - {{ user.username }}</a>
+                                    <a href='{% url "my_account" %}'>&ensp;my account - {{ user.username }}</a>
                                 {% else %}
-                                    <a href='{% url "home_page" %}'>login or sign up</a>
+                                    <a href='{% url "home_page" %}'>&ensp;login or sign up</a>
                                 {% endif %}
                             </span>
                         </span>
@@ -52,7 +52,21 @@
 
         </div>  <!-- end container-fluid -->
 
-        <div id="rolesPopup">
+        <div id="rolesPopup" style="padding-left:1rem;padding-top:1rem;">
+            <div class="display-6 text-center">Roles</div>
+            <div class="lead">
+                <span id="goodRole">Jester</span><span id="roleInfo">: does stuff</span>
+                <br><span id="goodRole">Merlin</span><span id="roleInfo">: does stuff</span>
+                <br><span id="goodRole">Merlin</span><span id="roleInfo">: does stuff</span>
+                <br><span id="goodRole">Merlin</span><span id="roleInfo">: does stuff</span>
+                <br><span id="goodRole">Merlin</span><span id="roleInfo">: does stuff</span>
+                <br><span id="goodRole">Merlin</span><span id="roleInfo">: does stuff</span>
+                <br><span id="goodRole">Merlin</span><span id="roleInfo">: does stuff</span>
+                <br><span id="badRole">Merlin</span><span id="roleInfo">: does stuff</span>
+                <br><span id="badRole">Merlin</span><span id="roleInfo">: does stuff</span>
+                <br><span id="badRole">Merlin</span><span id="roleInfo">: does stuff</span>
+                <br><span id="badRole">Merlin</span><span id="roleInfo">: does stuff</span>
+            </div>
         </div>
 
     </body>

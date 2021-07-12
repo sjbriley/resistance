@@ -1,12 +1,12 @@
 :root {
     --blueText: #407dd8;
-    --transparentBlueText: #407dd8d9;
+    --transparentBlueText: #407dd8ef;
     --heightNav: 4vw;
 }
 
 #topNavCustom a{
     text-decoration: none;
-    font-size: 17px;
+    font-size: 20px;
     color: white;
     font-family: "Arial";
     transition: 0.2s;
@@ -45,9 +45,42 @@ body {
     background-color: rgba(241, 241, 241, 0.892);
     position:absolute;
     width:85%;
-    height:90%;
     margin-left: 7.5%;
     border-radius: 2.5%;
+}
+
+@media (max-width: 991px) { /* mobile phone */
+    #mainBlock {
+        height:95%;
+    }
+    #leadCustom {
+        font-size: 1.5rem;
+    }
+    #hide_from_desktop {
+        display: none;
+    }
+    #rolesPopup {
+        width: 75%;
+        height: 80%;
+    }
+    #goodRole, #badRole, #roleInfo {
+        font-size: .8rem;
+    }
+}
+@media (min-width: 992px) { /* desktop */
+    #mainBlock {
+        height:90%;
+    }
+    #leadCustom {
+        font-size: 2.2rem;
+    }
+    #hideFromDesktop {
+        display:none;
+    }
+    #rolesPopup {
+        width: 40%;
+        height: 75%;
+    }
 }
 
 #customLink a{
@@ -80,19 +113,28 @@ h1 {
 html,body { height:100%; }
 
 #rolesPopup {
-    display: none;
-    width: 30%;
-    height: 60%;            
+    display: none;    
     position: absolute;
-    top: 50%;
-    left: 50%;
     transform: translate(-50%, -50%);
     background-color:var(--transparentBlueText);
     z-index: 10;
     border-radius: 1.5%;
+    top: 50%;
+    left: 50%;
 }
 
 #leadCustom {
-    font-size: 3vw;
     font-weight: 300;
+}
+
+#rolesPopup {
+    color: white;
+}
+
+#goodRole {
+    color: blue;
+}
+
+#badRole {
+    color:red;
 }

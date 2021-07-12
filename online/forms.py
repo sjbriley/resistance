@@ -4,7 +4,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from online.models import GameLog, CustomUser
+from online.models import CustomUser, OnlineGames
 
 roles = ()
 
@@ -14,7 +14,7 @@ class CustomAuthenticationForm(forms.Form):
                                 max_length=30,
                                 label="Username",
                                 error_messages={'invalid': "Invalid Username"},
-                                widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Enter your unique username'}),
+                                widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Choose a unique username', 'style': 'font-size:1.25rem;text-align:center;'}),
                                 )
     
     def clean_username(self):
@@ -33,7 +33,7 @@ class CustomLoginForm(AuthenticationForm):
                                 max_length=30,
                                 label="Username",
                                 error_messages={'invalid': "Invalid Username"},
-                                widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Choose a unique username'}),
+                                widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Enter your unique username', 'style': 'font-size:1.25rem;text-align:center;'}),
                                 )
     
     def __init__(self,*args, **kwargs):
@@ -72,7 +72,7 @@ class GameForm(forms.Form):
     def getRoles(self):
         return self.roles
     class Meta:
-        model = GameLog
+        model = OnlineGames
         fields = ['__all__']
         widgets = {}
         good = ('jester', 'merlin')
@@ -96,4 +96,5 @@ class JoinExistingGame(forms.Form):
                             )
     
     class Meta:
-        model = GameLog
+        model = OnlineGames
+        fields = ('gameID',)

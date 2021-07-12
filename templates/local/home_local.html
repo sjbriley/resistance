@@ -2,6 +2,7 @@
 
 {% block page_title %}Local{% endblock %}
 
+{% load widget_tweaks %}
 
 {% block input_box %}
 
@@ -22,13 +23,13 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary btn-md" style="width:150px;">Join</button>
+            <button type="submit" class="btn btn-primary btn-md" style="width:150px;margin-top:4%;">Join</button>
         </form>
         <br>
         Or start a new game
         <form action="{% url 'local_game_set_up' %}" id='my_form' method='POST'>
             {% csrf_token %}
-            <button type="submit" class="btn btn-primary btn-md" style="width:150px;">Start</button>
+            <button type="submit" class="btn btn-primary btn-md" style="width:150px;margin-top:2%;">Start</button>
         </form>
     </div>
 </div>
