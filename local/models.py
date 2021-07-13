@@ -19,6 +19,10 @@ class LocalGames(models.Model):
             playerSet.add(player.username)
         self.numPlayers = str(len(playerSet))
         return playerSet
+
+    def get_user_leaderboard_info(self, player):
+        player = CustomUser.objects.filter(username__iexact=player)[0]
+        return [True, 'resistance', 'jester']
     
     def add_player(self, player):
         player = CustomUser.objects.filter(username__iexact=player)[0]

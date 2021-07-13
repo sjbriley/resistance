@@ -2,24 +2,56 @@
 
 {% block page_title %}Leaderboards{% endblock %}
 
+{% block javascript %}
+{{ block.super }}
+
+{% load static %}
+<script src="{% static 'online/javascript/leaderboards.js' %}"></script>
+
+{% endblock javascript %}
 
 {% block input_box %}
 
 <br>
 
-<div class="lead">
-    <table class="table" style="background-color:white;">
+<div class="leadCustom">
+    <table class="table" id="tableCustom" style="background-color:white;">
         <thead>
             <th scope="col">Place</th>
             <th scope="col">Name</th>
-            <th scope="col">Games Played</th>
+            <th scope="col">Wins</th>
+            <th scope="col">Losses</th>
+            <th scope="col">
+                <select class="form-select" id="leaderboardSelect" onchange="ChangeDropdowns(this.value);">
+                    <option value="1" selected>Resistance Wins</option>
+                    <option value="2">Spy Wins</option>
+                    <option value="3">Resistance Losses</option>
+                    <option value="4">Spy Losses</option>
+                    <option value="5">Jester Wins</option>
+                    <option value="6">Merlin Wins</option>
+                    <option value="7">Puck Wins</option>
+                    <option value="8">Lancelot Wins</option>
+                  </select>
+                  <span id="hideFromDesktop"><span id="tableName">Resistance Wins</span></span>
+            </th>
         </thead>
-        <tbody>
+        <tbody class="sortable-theme-dark" data-sortable>
             {% for key, value in leaderboard.items %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ key }}</td>
-                    <td>{{ value.gamesPlayed }}</td>
+                    <td>{{ value.wins }}</td>
+                    <td>{{ value.losses }}</td>
+                    <td>
+                        <span class="resistanceWins">{{ value.resistanceWins }}</span>
+                        <span class="spyWins" style='display:none;'>{{ value.spyWins }}</span>
+                        <span class="resistanceLosses" style='display:none;'>{{ value.resistanceLosses }}</span>
+                        <span class="spyLosses" style='display:none;'>{{ value.spyLosses }}</span>
+                        <span class="jesterWins" style='display:none;'>{{ value.jesterWins }}</span>
+                        <span class="merlinWins" style='display:none;'>{{ value.merlinWins }}</span>
+                        <span class="puckWins" style='display:none;'>{{ value.puckWins }}</span>
+                        <span class="lancelotWins" style='display:none;'>{{ value.lancelotWins }}</span>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
