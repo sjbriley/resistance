@@ -6,7 +6,10 @@ from django.contrib.auth.decorators import login_required
 from online.models import CustomUser, OnlineGames
 from local.models import LocalGames
 
-# Create your views here.
+# from django.template.defaulttags import register
+# @register.filter
+# def get_item(dictionary, key):
+#     return dictionary.get(key)
 
 def home_page(request):
     form = CustomLoginForm()
@@ -42,17 +45,45 @@ def leaderboards(request):
     games = LocalGames.objects.all()
     users = CustomUser.objects.all()
     leaderboard = {}
+    sortedLeaderboardList = []
     for user in users:
-        print('username: ' + str(user.username))
+        sortedLeaderboardList.append(user.username)
         leaderboard[user.username] = {}
-        leaderboard[user.username]['gamesPlayed'] = 0
+        for stat in ('gamesPlayed', 'wins', 'losses', 'resistanceWins', 'spyWins',
+                     'resistanceLosses', 'spyLosses', 'jesterWins', 'puckWins', 'lancelotWins',
+                     'merlinWins'):
+            leaderboard[user.username][stat] = 0
         games = LocalGames.objects.filter(players=user)
         for game in games:
-            print('gameID: ' + str(game.gameID))
+            info = game.get_user_leaderboard_info(user.username)
             leaderboard[user.username]['gamesPlayed'] += 1
-            # check if user won and add to count
-            # can check to see what roles user won as
-    return render(request, 'leaderboards.html', {'leaderboard': leaderboard})
+            if info[0] == False:
+                leaderboard[user.username]['losses'] += 1
+                if info[1] == 'spy':
+                    leaderboard[user.username]['spyLosses'] += 1
+                else:
+                    leaderboard[user.username]['resistanceLosses'] += 1
+            else:
+                leaderboard[user.username]['wins'] += 1
+                if info[1] == 'spy':
+                    leaderboard[user.username]['spyWins'] += 1
+                else:
+                    leaderboard[user.username]['resistanceWins'] += 1
+                    if info[2] == 'jester':
+                        leaderboard[user.username]['jesterWins'] += 1
+                    if info[2] == 'puck':
+                        leaderboard[user.username]['puckWins'] += 1
+                    if info[2] == 'lancelot':
+                        leaderboard[user.username]['lancelotWins'] += 1
+                    if info[2] == 'merlin':
+                        leaderboard[user.username]['merlinWins'] += 1
+    sortedLeaderboardList = sorted(sortedLeaderboardList, key=lambda x: leaderboard[x]['wins'])
+    print(leaderboard)
+    print(sortedLeaderboardList)
+    return render(request, 'leaderboards.html', {
+        'leaderboard': leaderboard, 
+        'sortedLeaderboardList': sortedLeaderboardList
+        })
 
 @login_required
 def my_account(request):

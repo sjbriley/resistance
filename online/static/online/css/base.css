@@ -66,6 +66,9 @@ body {
     #goodRole, #badRole, #roleInfo {
         font-size: .8rem;
     }
+    #tableCustom {
+        font-size: .7rem;
+    }
 }
 @media (min-width: 992px) { /* desktop */
     #mainBlock {
@@ -80,6 +83,9 @@ body {
     #rolesPopup {
         width: 40%;
         height: 75%;
+    }
+    #tableCustom {
+        font-size: 1.2rem;
     }
 }
 
