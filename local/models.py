@@ -7,18 +7,22 @@ class LocalGames(models.Model):
     gameID = models.CharField(max_length=6)
     is_active = models.BooleanField(default=True)
     players = models.ManyToManyField('online.CustomUser') # a list
-    numPlayers = models.CharField(max_length=2)
     settings = models.CharField(max_length=1000)
+    numPlayers = models.CharField(max_length=2)
+    winningTeam = models.CharField(max_length=50)
+    inSession = models.BooleanField(default=False)
     
-    def get_active(self):
-        return self.is_active
+    def get_lobby_setup(self):
+        if self.is_active == False or self.inSession == True:
+            return False
+        return True
     
     def get_players(self):
-        playerSet = set()
+        playerList = []
         for player in self.players.all():
-            playerSet.add(player.username)
-        self.numPlayers = str(len(playerSet))
-        return playerSet
+            playerList.append(player.username)
+        self.numPlayers = str(len(playerList))
+        return playerList
 
     def get_user_leaderboard_info(self, player):
         player = CustomUser.objects.filter(username__iexact=player)[0]
@@ -27,6 +31,10 @@ class LocalGames(models.Model):
     def add_player(self, player):
         player = CustomUser.objects.filter(username__iexact=player)[0]
         self.players.add(player) # will not duplicate
+    
+    def remove_player(self, player):
+        player = CustomUser.objects.filter(username__iexact=player)[0]
+        self.players.remove(player) # will not duplicate
         
     def set_settings(self, settings):
         # assumes it is a dictionary -> converts it to a string
@@ -34,11 +42,18 @@ class LocalGames(models.Model):
         
     def start_game(self):
         players = self.get_players()
-        if len(players) > 10 or len(players) < 5:
-            return
+        settings = self.settings
+        self.inSession = True
+        # if len(players) > 10 or len(players) < 5:
+        #     return False
         if self.settings == '':
-            return
+            return False
         # info = getInfo(self.numPlayers, players, settings)
+    
+    def finish_game(self, team):
+        self.is_active = False
+        self.winningTeam = team
+        self.inSession = False
 """ 
 user = CustomUser(username='test')
 user.save()

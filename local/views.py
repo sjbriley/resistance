@@ -14,7 +14,7 @@ def home_local(request):
             gameID = form.cleaned_data['gameID'].upper()
             try:
                 game = LocalGames.objects.filter(gameID__iexact=gameID)[0]
-                if game.get_active():
+                if game.get_lobby_setup():
                     return redirect('local_game', gameID = gameID)
             except:
                 pass
@@ -35,7 +35,7 @@ def local_game(request, gameID):
         game = LocalGames.objects.filter(gameID__iexact=gameID)[0]
     except:
         return redirect('home_local')
-    if not game.get_active():
+    if game.get_lobby_setup() == False:
         return redirect('home_local')
     game.players.add(request.user)
     if request.method == 'POST':
@@ -47,5 +47,5 @@ def local_game(request, gameID):
                 settings[role] = form.cleaned_data[role]
             return render(request, 'local/local_game.html', {'gameID': gameID, 'settings': settings})
         else:
-            return render(request, 'local/local_game.html', {'form': form, 'gameID': gameID})
+            return render(request, 'local/local_game_set_up.html', {'form': form, 'gameID': gameID})
     return render(request, 'local/local_game.html', {'gameID': gameID})

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--, maximum-scale=1, user-scalable=no">-->
 <html lang="en">
     <head>
         {% load static %}
@@ -26,13 +26,13 @@
                         </span>
                         <span class="col-sm-6 text-right" style="margin-right:7.5%;">
                             <span id="topNavCustom" style="position:absolute; bottom:0; right:7.5%;">
-                                <a href='{% url "home_page" %}'>about</a>&ensp;<span style="font-weight: 1000;font-size:1.5rem;">|</span>
-                                <a href='{% url "home_page" %}'>&ensp;help</a>&ensp;<span style="font-weight: 1000;font-size:1.5rem;">|</span>
-                                <a href='{% url "leaderboards" %}'>&ensp;leaderboards</a>&ensp;<span style="font-weight: 1000;font-size:1.5rem;">|</span>
+                                <a href='{% url "about" %}'>about</a>&ensp;<span style="font-weight: 1000;font-size:1.5rem;">|</span>
+                                &ensp;<a href='{% url "help" %}'>help</a>&ensp;<span style="font-weight: 1000;font-size:1.5rem;">|</span>
+                                &ensp;<a href='{% url "leaderboards" %}'>leaderboards</a>&ensp;<span style="font-weight: 1000;font-size:1.5rem;">|</span>
                                 {% if user.is_authenticated %}
-                                    <a href='{% url "my_account" %}'>&ensp;my account - {{ user.username }}</a>
+                                    &ensp;<a href='{% url "my_account" %}'>my account - {{ user.username }}</a>
                                 {% else %}
-                                    <a href='{% url "home_page" %}'>&ensp;login or sign up</a>
+                                    &ensp;<a href='{% url "home_page" %}'>login or sign up</a>
                                 {% endif %}
                             </span>
                         </span>

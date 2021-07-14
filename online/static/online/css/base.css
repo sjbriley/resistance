@@ -1,6 +1,6 @@
 :root {
     --blueText: #407dd8;
-    --transparentBlueText: #407dd8ef;
+    --transparentBlueText: #6794d6e5;
     --heightNav: 4vw;
 }
 
@@ -87,6 +87,10 @@ body {
     #tableCustom {
         font-size: 1.2rem;
     }
+    #leaderboardSelect {
+        width:50%;
+        margin-left: 25%;
+    }
 }
 
 #customLink a{
@@ -116,7 +120,11 @@ h1 {
     display: inline;
 }
 
-html,body { height:100%; }
+html,body { 
+    height:100%;
+    touch-action: manipulation; /* disable double tap to zoom on mobile, still allows pinching */
+    -webkit-appearance: none; /* So buttons do not render weird on phone */
+}
 
 #rolesPopup {
     display: none;    
@@ -138,9 +146,10 @@ html,body { height:100%; }
 }
 
 #goodRole {
-    color: blue;
+    color: rgb(195, 215, 255);
 }
 
 #badRole {
+    
     color:red;
 }

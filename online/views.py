@@ -27,6 +27,13 @@ def home_page(request):
             print(form.errors)
     return render(request, 'home.html', {'form':form})
 
+def help(request):
+    return render(request, 'help.html')
+
+def about(request):
+    return render(request, 'about.html')
+
+
 def sign_up(request):
     form = CustomAuthenticationForm()
     if request.method == 'POST':
@@ -78,8 +85,6 @@ def leaderboards(request):
                     if info[2] == 'merlin':
                         leaderboard[user.username]['merlinWins'] += 1
     sortedLeaderboardList = sorted(sortedLeaderboardList, key=lambda x: leaderboard[x]['wins'])
-    print(leaderboard)
-    print(sortedLeaderboardList)
     return render(request, 'leaderboards.html', {
         'leaderboard': leaderboard, 
         'sortedLeaderboardList': sortedLeaderboardList
@@ -126,7 +131,6 @@ def online_game(request, gameID):
         form = GameForm(data=request.POST)
         if form.is_valid():
             roles = form.getRoles()
-            print('got roles' + str(roles))
             settings = {}
             for role in roles:
                 settings[role] = form.cleaned_data[role]

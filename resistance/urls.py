@@ -29,4 +29,6 @@ urlpatterns = [
     path('my_account', online_views.my_account, name="my_account"),
     path('local/', include(local_urls)),
     path('leaderboards', online_views.leaderboards, name="leaderboards"),
+    path('about', online_views.about, name="about"),
+    path('help', online_views.help, name="help"),
 ]
