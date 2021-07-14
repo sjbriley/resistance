@@ -17,9 +17,35 @@
 </div>
 <div id="hostStartButton" style="display:none;">
     <button class="btn btn-primary btn-md" style="width:150px;margin-top:5px;" id="startGameClicked">Start Game</button>
+    <div id='errorStarting'></div>
 </div>
 
+<div id="duringGame" style="display:none;">
+</div>
 
+<div id="endGameButtons" style="display:none;">
+    <br>
+    <div id="resistanceWins">
+        <button class="btn btn-outline-primary btn-lg" style="width:200px;" id="resistanceWins">Resistance Wins</button>
+    </div>
+    <br><br><br><br><br>
+    <div id="spiesWin">
+        <button class="btn btn-outline-danger btn-lg" style="width:200px;" id="spiesWin">Spies Win</button>
+    </div>
+    <br><br><br><br><br>
+    <div id="goBack">
+        <button class="btn btn-secondary btn-lg" style="width:200px;" id="goBack">Go Back</button>
+    </div>
+</div>
+
+<span class="lead">
+    <div id='showWinner' style="display:none;">
+    </div>
+</span>
+
+<div id="endGame" style="display:none;">
+    <button class="btn btn-primary btn-md" style="width:150px;margin-top:5px;" id="startGameClicked">End Game</button>
+</div>
 {% endblock %}
 
 

@@ -31,7 +31,7 @@ SECRET_KEY=env("SECRET_KEY")
 DEBUG = env("DEBUG") == 'TRUE' # env("DEBUG") returns a string "TRUE" or "FALSE"
 
 if DEBUG == True:
-    ALLOWED_HOSTS = ['*', 'www.mydjangoproject.xyz', 'mydjangoproject.xyz']
+    ALLOWED_HOSTS = ['*', 'www.mydjangoproject.xyz', 'mydjangoproject.xyz', '0.0.0.0', '192.168.0.16']
 else:
     ALLOWED_HOSTS =['www.mydjangoproject.xyz', 'mydjangoproject.xyz']
 
