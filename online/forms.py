@@ -87,7 +87,7 @@ class GameForm(forms.Form):
             self.add_error('iseult', "Both iseult and tristan must be selected or not selected")
         return cleaned_data
 class JoinExistingGame(forms.Form):
-    gameID = forms.CharField(
+    game_id = forms.CharField(
                                 max_length=6,
                                 label="Game ID",
                                 error_messages={'invalid': "Invalid Game ID"},
@@ -97,4 +97,4 @@ class JoinExistingGame(forms.Form):
     
     class Meta:
         model = OnlineGames
-        fields = ('gameID',)
+        fields = ('game_id',)

@@ -1,0 +1,25 @@
+How to start local server:
+
+After cloning and CD'ing into project where manage.py is located, start virtualenv-
+    python -m venv virtualenv
+
+start virtualenv and install dependencies (windows)-
+    virtualenv/scripts/activate
+    pip install -r requirements.txt
+
+collect static files-
+    python manage.py collectstatic
+
+set up database-
+    python manage.py migrate --run-syncdb
+
+install WSL/ubuntu to run redis on windows through ubuntu(for websocket communication)-
+    https://docs.microsoft.com/en-us/windows/wsl/install-win10
+
+on ubuntu WSL 2, run redis on port 6379 (specified in settings.py)-
+    sudo apt get redis
+    sudo redis-server -p 6379
+
+back on windows, run the server (make sure virtualenv is still active)-
+    python manage.py runserver
+

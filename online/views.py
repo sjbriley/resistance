@@ -89,11 +89,11 @@ def home_online(request):
     if request.method == 'POST':
         form = JoinExistingGame(data=request.POST)
         if form.is_valid():
-            gameID = form.cleaned_data['gameID'].upper()
+            game_id = form.cleaned_data['game_id'].upper()
             try:
-                game = OnlineGames.objects.filter(gameID__iexact=gameID)[0]
+                game = OnlineGames.objects.filter(game_id__iexact=game_id)[0]
                 if game.get_active():
-                    return redirect('online_game', gameID = gameID)
+                    return redirect('online_game', game_id = game_id)
             except:
                 pass
     return render(request, 'online/home_online.html', {'form': form})
@@ -102,15 +102,15 @@ def home_online(request):
 def online_game_set_up(request):
     form = GameForm()
     import random, string
-    gameID = ''.join([random.choice(string.ascii_uppercase.replace('O','') + string.digits.replace('0','')) for _ in range(6)])
-    game = OnlineGames(gameID=gameID)
+    game_id = ''.join([random.choice(string.ascii_uppercase.replace('O','') + string.digits.replace('0','')) for _ in range(6)])
+    game = OnlineGames(game_id=game_id)
     game.save()
-    return render(request, 'online/online_game_set_up.html', {'form': form, 'gameID': gameID})
+    return render(request, 'online/online_game_set_up.html', {'form': form, 'game_id': game_id})
     
 @login_required
-def online_game(request, gameID):
+def online_game(request, game_id):
     try:
-        game = OnlineGames.objects.filter(gameID__iexact=gameID)[0]
+        game = OnlineGames.objects.filter(game_id__iexact=game_id)[0]
     except:
         return redirect('home_online')
     if not game.get_active():
@@ -123,34 +123,38 @@ def online_game(request, gameID):
             settings = {}
             for role in roles:
                 settings[role] = form.cleaned_data[role]
-            return render(request, 'online/online_game.html', {'gameID': gameID, 'settings': settings})
+            return render(request, 'online/online_game.html', {'game_id': game_id, 'settings': settings})
         else:
-            return render(request, 'online/online_game_set_up.html', {'form': form, 'gameID': gameID})
-    return render(request, 'online/online_game.html', {'gameID': gameID})
+            return render(request, 'online/online_game_set_up.html', {'form': form, 'game_id': game_id})
+    return render(request, 'online/online_game.html', {'game_id': game_id})
 
 def get_leaderboard_info(games, user, leaderboard):
     for game in games:
+        if game.get_lobby_setup() == True: continue # was the game not finished and/or still in progress?
         info = game.get_user_leaderboard_info(user.username)
-        leaderboard[user.username]['gamesPlayed'] += 1
+        leaderboard[user.username]['games_player'] += 1
         if info[0] == False:
             leaderboard[user.username]['losses'] += 1
             if info[1] == 'spy':
-                leaderboard[user.username]['spyLosses'] += 1
+                leaderboard[user.username]['spy_losses'] += 1
             else:
-                leaderboard[user.username]['resistanceLosses'] += 1
+                leaderboard[user.username]['resistance_losses'] += 1
         else:
             leaderboard[user.username]['wins'] += 1
             if info[1] == 'spy':
-                leaderboard[user.username]['spyWins'] += 1
+                leaderboard[user.username]['spy_wins'] += 1
             else:
-                leaderboard[user.username]['resistanceWins'] += 1
+                leaderboard[user.username]['resistance_wins'] += 1
                 if info[2] == 'jester':
-                    leaderboard[user.username]['jesterWins'] += 1
+                    leaderboard[user.username]['jester_wins'] += 1
                 if info[2] == 'puck':
-                    leaderboard[user.username]['puckWins'] += 1
+                    leaderboard[user.username]['puck_wins'] += 1
                 if info[2] == 'lancelot':
-                    leaderboard[user.username]['lancelotWins'] += 1
+                    leaderboard[user.username]['lancelot_wins'] += 1
                 if info[2] == 'merlin':
-                    leaderboard[user.username]['merlinWins'] += 1
-    leaderboard[user.username]['winPercentage'] = round(leaderboard[user.username]['wins'] / leaderboard[user.username]['gamesPlayed'] * 100, 1)
+                    leaderboard[user.username]['merlin_wins'] += 1
+    try:
+        leaderboard[user.username]['win_percentage'] = round(leaderboard[user.username]['wins'] / leaderboard[user.username]['gamesPlayed'] * 100, 1)
+    except ZeroDivisionError:
+        leaderboard[user.username]['win_percentage'] = 'N/A'
     return leaderboard

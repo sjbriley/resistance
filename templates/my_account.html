@@ -5,11 +5,9 @@
 
 {% block input_box %}
 
-<div class="lead" id="customLink">
+<div class="lead">
     <div id="leadCustom">
         Welcome, {{user.username}}
-        <br>
-        <a href="{% url 'logout' %}">Log out</a>
     </div>
 </div>
 
@@ -31,6 +29,12 @@
                 <tr><td>Merlin Wins</td><td>{{ data.merlinWins }}</td></tr>
             </tbody>
         </table>
+    </div>
+</div>
+
+<div class="lead" id="customLink">
+    <div id="leadCustom">
+        <a href="{% url 'logout' %}">Log out</a>
     </div>
 </div>
 
