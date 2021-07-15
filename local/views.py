@@ -38,6 +38,7 @@ def local_game(request, gameID):
     if game.get_lobby_setup() == False:
         return redirect('home_local')
     game.players.add(request.user)
+    request.user.local_games.add(game)
     if request.method == 'POST':
         form = GameForm(data=request.POST)
         if form.is_valid():
