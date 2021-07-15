@@ -1,7 +1,7 @@
-const game_ID = JSON.parse(document.getElementById('gameID').textContent);
+const game_ID = JSON.parse(document.getElementById('game_id').textContent);
 const username = JSON.parse(document.getElementById('username').textContent);
 const settings = JSON.parse(document.getElementById('settings').textContent) || '';
-let userRoles = '';
+let user_roles = '';
 let host = false;
 let init = false;
 let updateSocket;
@@ -25,13 +25,13 @@ function connectSocket() {
     if (data.username != username){
         if (data['init'] == true && host == true){
             updateSocket.send(JSON.stringify({
-                'gameID': game_ID,
+                'game_id': game_ID,
                 'gameType': 'online',
                 'username': username,
                 'init': init,
                 'settings': settings,
                 'host': host,
-                'userRoles': userRoles,
+                'user_roles': user_roles,
                 }));
         }
     }
@@ -49,13 +49,13 @@ function connectSocket() {
     }
     console.log("Host joined, sending data");
     updateSocket.send(JSON.stringify({
-        'gameID': game_ID,
+        'game_id': game_ID,
         'gameType': 'online',
         'username': username,
         'init': true,
         'settings': settings,
         'host': host,
-        'userRoles': userRoles,
+        'user_roles': user_roles,
         }));
     };
 }

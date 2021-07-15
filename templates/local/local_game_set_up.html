@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
-{% block page_title %}Online{% endblock %}
+{% block page_title %}Local{% endblock %}
 
 {% block input_box %}
-<form action="{% url 'local_game' gameID=gameID %}" method='POST'>
+<form action="{% url 'local_game' game_id=game_id %}" method='POST'>
     {% csrf_token %}
     <div class="form-control">
         <div class="lead">

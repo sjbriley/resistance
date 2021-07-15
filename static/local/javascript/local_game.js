@@ -1,4 +1,4 @@
-const game_ID = JSON.parse(document.getElementById('gameID').textContent);
+const game_ID = JSON.parse(document.getElementById('game_id').textContent);
 const username = JSON.parse(document.getElementById('username').textContent);
 const settings = JSON.parse(document.getElementById('settings').textContent) || '';
 let host = false;
@@ -24,7 +24,7 @@ function connectSocket() {
     if (data.username != username){
         if (data['init'] == true && host == true){
             updateSocket.send(JSON.stringify({
-                'gameID': game_ID,
+                'game_id': game_ID,
                 'message': '',
                 'username': username,
                 'init': init,
@@ -47,7 +47,7 @@ function connectSocket() {
     }
     console.log("Host joined, sending data");
     updateSocket.send(JSON.stringify({
-    'gameID': game_ID,
+    'game_id': game_ID,
     'message': '',
     'username': username,
     'init': true,

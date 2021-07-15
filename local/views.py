@@ -11,11 +11,11 @@ def home_local(request):
     if request.method == 'POST':
         form = JoinExistingGame(data=request.POST)
         if form.is_valid():
-            gameID = form.cleaned_data['gameID'].upper()
+            game_id = form.cleaned_data['game_id'].upper()
             try:
-                game = LocalGames.objects.filter(gameID__iexact=gameID)[0]
+                game = LocalGames.objects.filter(game_id__iexact=game_id)[0]
                 if game.get_lobby_setup():
-                    return redirect('local_game', gameID = gameID)
+                    return redirect('local_game', game_id = game_id)
             except:
                 pass
     return render(request, 'local/home_local.html', {'form': form})
@@ -24,15 +24,15 @@ def home_local(request):
 def local_game_set_up(request):
     form = GameForm()
     import random, string
-    gameID = ''.join(([random.choice(string.ascii_uppercase.replace('O','') + string.digits.replace('0','')) for _ in range(6)]))
-    game = LocalGames(gameID=gameID)
+    game_id = ''.join(([random.choice(string.ascii_uppercase.replace('O','') + string.digits.replace('0','')) for _ in range(6)]))
+    game = LocalGames(game_id=game_id)
     game.save()
-    return render(request, 'local/local_game_set_up.html', {'form': form, 'gameID': gameID})
+    return render(request, 'local/local_game_set_up.html', {'form': form, 'game_id': game_id})
 
 @login_required
-def local_game(request, gameID):
+def local_game(request, game_id):
     try:
-        game = LocalGames.objects.filter(gameID__iexact=gameID)[0]
+        game = LocalGames.objects.filter(game_id__iexact=game_id)[0]
     except:
         return redirect('home_local')
     if game.get_lobby_setup() == False:
@@ -46,7 +46,7 @@ def local_game(request, gameID):
             settings = {}
             for role in roles:
                 settings[role] = form.cleaned_data[role]
-            return render(request, 'local/local_game.html', {'gameID': gameID, 'settings': settings})
+            return render(request, 'local/local_game.html', {'game_id': game_id, 'settings': settings})
         else:
-            return render(request, 'local/local_game_set_up.html', {'form': form, 'gameID': gameID})
-    return render(request, 'local/local_game.html', {'gameID': gameID})
+            return render(request, 'local/local_game_set_up.html', {'form': form, 'game_id': game_id})
+    return render(request, 'local/local_game.html', {'game_id': game_id})

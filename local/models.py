@@ -4,25 +4,25 @@ import json
 
 # Create your models here.
 class LocalGames(models.Model):
-    gameID = models.CharField(max_length=6)
+    game_id = models.CharField(max_length=6)
     is_active = models.BooleanField(default=True)
     players = models.ManyToManyField('online.CustomUser') # a list
     settings = models.CharField(max_length=1000)
-    numPlayers = models.CharField(max_length=2)
-    winningTeam = models.CharField(max_length=50)
-    inSession = models.BooleanField(default=False)
+    num_players = models.CharField(max_length=2)
+    winning_team = models.CharField(max_length=50)
+    in_session = models.BooleanField(default=False)
     
     def get_lobby_setup(self):
-        if self.is_active == False or self.inSession == True:
+        if self.is_active == False or self.in_session == True:
             return False
         return True
     
     def get_players(self):
-        playerList = []
+        player_list = []
         for player in self.players.all():
-            playerList.append(player.username)
-        self.numPlayers = str(len(playerList))
-        return playerList
+            player_list.append(player.username)
+        self.num_players = str(len(player_list))
+        return player_list
 
     def get_user_leaderboard_info(self, player):
         player = CustomUser.objects.filter(username__iexact=player)[0]
@@ -43,7 +43,7 @@ class LocalGames(models.Model):
     def start_game(self):
         players = self.get_players()
         settings = self.settings
-        self.inSession = True
+        self.in_session = True
         # if len(players) > 10 or len(players) < 5:
         #     return False
         if self.settings == '':
@@ -52,8 +52,8 @@ class LocalGames(models.Model):
     
     def finish_game(self, team):
         self.is_active = False
-        self.winningTeam = team
-        self.inSession = False
+        self.winning_team = team
+        self.in_session = False
 """ 
 user = CustomUser(username='test')
 user.save()

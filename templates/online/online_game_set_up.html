@@ -3,7 +3,7 @@
 {% block page_title %}Online{% endblock %}
 
 {% block input_box %}
-<form action="{% url 'online_game' gameID=gameID %}" method='POST'>
+<form action="{% url 'online_game' game_id=game_id %}" method='POST'>
     {% csrf_token %}
     <div class="form-control">
         <div class="lead">

@@ -1,7 +1,7 @@
-const game_ID = JSON.parse(document.getElementById('gameID').textContent);
+const game_id = JSON.parse(document.getElementById('game_id').textContent);
 const username = JSON.parse(document.getElementById('username').textContent);
 const settings = JSON.parse(document.getElementById('settings').textContent) || '';
-let userRoles = '';
+let user_roles = '';
 let users = [username];
 let listed_players = [];
 let host = false;
@@ -18,7 +18,7 @@ function connectSocket() {
       } else {wsProtocol = 'ws://'}
     updateSocket = new WebSocket(
         wsProtocol + window.location.host + 
-        '/local/wss/' + game_ID + '/');
+        '/local/wss/' + game_id + '/');
 
     // lose connection to websocket, try to reconnect
     updateSocket.onclose = function(e) {
@@ -44,7 +44,7 @@ function connectSocket() {
         // Request a list of users when joining
         updateSocket.send(JSON.stringify({
             'username': username,
-            'newUserJoined': true,       
+            'new_user_joined': true,       
         }));
         
         // update HTML with either 'start game' button or 'waiting for host'
@@ -57,7 +57,7 @@ function connectSocket() {
         console.log("Received data:", e.data);
 
         // if you or any other user join for first time
-        if (data['newUserJoined'] == true){
+        if (data['new_user_joined'] == true){
             players = data['players'];
             for (let i = 0; i < players.length; i++){
                 if (listed_players.includes(players[i]) !== true) {
@@ -72,8 +72,8 @@ function connectSocket() {
         };
 
         // if host hits 'start game', then process LocalGames response with roles and update HTML
-        if (data['gameStarted'] == true) {
-            // myRole = data['userRoles'][username]
+        if (data['game_started'] == true) {
+            // myRole = data['user_roles'][username]
             document.getElementById('startGameClicked').style.display = 'none';
             document.getElementById('guestWaitScreen').style.display = 'none';
             document.getElementById('listUsers').style.display = 'none';
@@ -82,7 +82,7 @@ function connectSocket() {
             }
         };
 
-        if (data['gameFinished'] === true){
+        if (data['game_finished'] === true){
             document.getElementById('listUsers').style.display = 'none';
             document.getElementById('guestWaitScreen').style.display = 'none';
             document.getElementById('endGameButtons').style.display = 'none';
@@ -109,12 +109,12 @@ window.onload = function() {
         }
         else {
             updateSocket.send(JSON.stringify({
-                'gameStarted': true,
+                'game_started': true,
             }));
         }
         // REMOVE THIS BELOW
         updateSocket.send(JSON.stringify({
-            'gameStarted': true,
+            'game_started': true,
         }));
         document.getElementById('errorStarting').style.display = 'none';
     };
@@ -136,7 +136,7 @@ window.onload = function() {
     document.getElementById('resistanceWins').onclick = function showResistanceWinner(){
         if (host){
             updateSocket.send(JSON.stringify({
-                'gameFinished': true,
+                'game_finished': true,
                 'winner': 'resistance',
             }));
         };
@@ -148,7 +148,7 @@ window.onload = function() {
         // send websocket message updating others to call this function
         if (host){
             updateSocket.send(JSON.stringify({
-                'gameFinished': true,
+                'game_finished': true,
                 'winner': 'spies',
             }));
         };

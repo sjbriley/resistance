@@ -18,7 +18,7 @@ class CustomUser(AbstractUser):
         return self.local_games.all()
    
 class OnlineGames(models.Model):
-    gameID = models.CharField(max_length=6)
+    game_id = models.CharField(max_length=6)
     is_active = models.BooleanField(default=True)
     players = models.ManyToManyField('online.CustomUser') # a list
     
