@@ -20,6 +20,10 @@ on ubuntu WSL 2, run redis on port 6379 (specified in settings.py)-
     sudo apt get redis
     sudo redis-server -p 6379
 
+set up a .env file in /resistance (where settings.py is located), with contents (change SECRET_KEY):
+    SECRET_KEY=dsafsfgsdsdfgsdasdfsa
+    DEBUG=TRUE
+    
 back on windows, run the server (make sure virtualenv is still active)-
     python manage.py runserver
 
