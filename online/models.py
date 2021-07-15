@@ -8,11 +8,14 @@ from django.contrib.auth.models import AbstractUser
     
 class CustomUser(AbstractUser):
 
-    online_games = models.ManyToManyField('online.OnlineGames')
+    online_games = models.CharField(max_length=1000)
     local_games = models.ManyToManyField('local.LocalGames')
 
     def __str__(self):
         return self.username
+    
+    def get_games(self):
+        return self.local_games.all()
    
 class OnlineGames(models.Model):
     gameID = models.CharField(max_length=6)

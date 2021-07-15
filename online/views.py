@@ -61,29 +61,8 @@ def leaderboards(request):
                      'merlinWins'):
             leaderboard[user.username][stat] = 0
         games = LocalGames.objects.filter(players=user)
-        for game in games:
-            info = game.get_user_leaderboard_info(user.username)
-            leaderboard[user.username]['gamesPlayed'] += 1
-            if info[0] == False:
-                leaderboard[user.username]['losses'] += 1
-                if info[1] == 'spy':
-                    leaderboard[user.username]['spyLosses'] += 1
-                else:
-                    leaderboard[user.username]['resistanceLosses'] += 1
-            else:
-                leaderboard[user.username]['wins'] += 1
-                if info[1] == 'spy':
-                    leaderboard[user.username]['spyWins'] += 1
-                else:
-                    leaderboard[user.username]['resistanceWins'] += 1
-                    if info[2] == 'jester':
-                        leaderboard[user.username]['jesterWins'] += 1
-                    if info[2] == 'puck':
-                        leaderboard[user.username]['puckWins'] += 1
-                    if info[2] == 'lancelot':
-                        leaderboard[user.username]['lancelotWins'] += 1
-                    if info[2] == 'merlin':
-                        leaderboard[user.username]['merlinWins'] += 1
+        leaderboard = get_leaderboard_info(games, user, leaderboard)
+        
     sortedLeaderboardList = sorted(sortedLeaderboardList, key=lambda x: leaderboard[x]['wins'])
     return render(request, 'leaderboards.html', {
         'leaderboard': leaderboard, 
@@ -92,7 +71,17 @@ def leaderboards(request):
 
 @login_required
 def my_account(request):
-    return render(request, 'my_account.html')
+    user = request.user
+    games = user.get_games()
+    leaderboard = {}
+    leaderboard[user.username] = {}
+    for stat in ('gamesPlayed', 'wins', 'losses', 'resistanceWins', 'spyWins',
+                     'resistanceLosses', 'spyLosses', 'jesterWins', 'puckWins', 'lancelotWins',
+                     'merlinWins', 'winPercentage'):
+            leaderboard[user.username][stat] = 0
+    leaderboard = get_leaderboard_info(games, user, leaderboard)
+    data = leaderboard[user.username]
+    return render(request, 'my_account.html', {'data':data})
 
 @login_required
 def home_online(request):
@@ -138,3 +127,30 @@ def online_game(request, gameID):
         else:
             return render(request, 'online/online_game_set_up.html', {'form': form, 'gameID': gameID})
     return render(request, 'online/online_game.html', {'gameID': gameID})
+
+def get_leaderboard_info(games, user, leaderboard):
+    for game in games:
+        info = game.get_user_leaderboard_info(user.username)
+        leaderboard[user.username]['gamesPlayed'] += 1
+        if info[0] == False:
+            leaderboard[user.username]['losses'] += 1
+            if info[1] == 'spy':
+                leaderboard[user.username]['spyLosses'] += 1
+            else:
+                leaderboard[user.username]['resistanceLosses'] += 1
+        else:
+            leaderboard[user.username]['wins'] += 1
+            if info[1] == 'spy':
+                leaderboard[user.username]['spyWins'] += 1
+            else:
+                leaderboard[user.username]['resistanceWins'] += 1
+                if info[2] == 'jester':
+                    leaderboard[user.username]['jesterWins'] += 1
+                if info[2] == 'puck':
+                    leaderboard[user.username]['puckWins'] += 1
+                if info[2] == 'lancelot':
+                    leaderboard[user.username]['lancelotWins'] += 1
+                if info[2] == 'merlin':
+                    leaderboard[user.username]['merlinWins'] += 1
+    leaderboard[user.username]['winPercentage'] = round(leaderboard[user.username]['wins'] / leaderboard[user.username]['gamesPlayed'] * 100, 1)
+    return leaderboard

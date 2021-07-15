@@ -7,11 +7,31 @@
 
 <div class="lead" id="customLink">
     <div id="leadCustom">
-        <br>Welcome, {{user.username}}
+        Welcome, {{user.username}}
         <br>
         <a href="{% url 'logout' %}">Log out</a>
     </div>
 </div>
 
+<div class="col-md-4" style="float: none;margin: 0 auto;">
+    <div class="leadCustom">
+        <table class="table" id="tableCustom" style="background-color:white;">
+            <tbody class="sortable-theme-dark" data-sortable>
+                <tr><td>Games Played</td><td>{{ data.gamesPlayed }}</td></tr>
+                <tr><td>Wins</td><td>{{ data.wins }}</td></tr>
+                <tr><td>Losses</td><td>{{ data.losses }}</td></tr>
+                <tr><td>Win %</td><td>{{ data.winPercentage }}%</td></tr>
+                <tr><td>Resistance Wins</td><td>{{ data.resistanceWins }}</td></tr>
+                <tr><td>Ppy Wins</td><td>{{ data.spyWins }}</td></tr>
+                <tr><td>Resistance Losses</td><td>{{ data.resistanceLosses }}</td></tr>
+                <tr><td>Spy Losses</td><td>{{ data.spyLosses }}</td></tr>
+                <tr><td>Jester Wins</td><td>{{ data.jesterWins }}</td></tr>
+                <tr><td>Puck Wins</td><td>{{ data.puckWins }}</td></tr>
+                <tr><td>Lancelot Wins</td><td>{{ data.lancelotWins }}</td></tr>
+                <tr><td>Merlin Wins</td><td>{{ data.merlinWins }}</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 {% endblock %}
