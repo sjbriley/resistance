@@ -5,12 +5,15 @@
 
 {% block input_box %}
 
-<div class="lead">
+<div class="lead" id="customLink">
     <div id="leadCustom">
-        Welcome, {{user.username}}
+        Welcome, {{ data.full_name }}
     </div>
 </div>
 
+
+
+<div id="show_table">
 <div class="col-md-4" style="float: none;margin: 0 auto;">
     <div class="leadCustom">
         <table class="table" id="tableCustom" style="background-color:white;">
@@ -31,11 +34,65 @@
         </table>
     </div>
 </div>
+</div>
+
+
+
+<div id="change_name" style="display:none;">
+    <form action="{% url 'my_account' %}" method='POST'>
+        {% csrf_token %}
+        <br>
+        <div class="form-control">
+            <div class="lead">
+                Change my name<br>
+                <div class="row">
+                    <span class="col-md-4" style="float:none;margin:auto;">{{ form.first_name }}</span>
+                    </span>
+                </div><br>
+                <div class="row">
+                    <span class="col-md-4" style="float:none;margin:auto;">{{ form.last_name }}</span>
+                    </span>
+                </div>
+            </div>
+        </div><br>
+        {% if form.errors %}
+            <div style="color:red;">{{ form.errors }}</div>
+        {% endif %}
+        {% if userError %}
+            <div style="color:red;">{{ userError }}</div>
+        {% endif %}
+        <button type="submit" class="btn btn-dark btn-lg btn-block" style="width:250px; margin-top:4%;">Submit Change</button>
+    </form>
+    <br>
+</div>
+
+
+<!-- mobile -->
+<span class="d-block d-lg-none">
+<div class="lead">
+    <button id="change_name_button" onclick = "click_me()" class="btn btn-primary btn-md">Change My Display Name</button>
+</div>
+</span>
 
 <div class="lead" id="customLink">
     <div id="leadCustom">
-        <a href="{% url 'logout' %}">Log out</a>
+        <br><a href="{% url 'logout' %}">Log out</a>
     </div>
 </div>
 
+
+
+<!-- desktop -->
+<span class="d-none d-lg-block">
+    <div style="position: absolute; left:1%; top:1%;">
+        <button id="change_name_button2" onclick = "click_me2()" class="btn btn-primary btn-lg">Change My Display Name</button>
+    </div>
+</span>
+
 {% endblock %}
+
+{% block javascript %}
+{{ block.super }}
+{% load static %}
+<script src='{% static "online/javascript/my_account.js" %}'></script>
+{% endblock javascript %}

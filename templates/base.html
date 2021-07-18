@@ -6,22 +6,18 @@
         <!-- <link href='{% static "bootstrap/css/bootstrap.min.css" %}' rel="stylesheet">  -->
         <link href='{% static "online/bootstrap/css/bootstrap.css" %}' rel="stylesheet" type="text/css">
         <link href='{% static "online/css/base.css" %}' rel="stylesheet" type="text/css">
-        {% block javascript %}
-        <script src="{% static 'online/javascript/base.js' %}"></script>
-        <script src='{% static "online/bootstrap/js/bootstrap.min.js" %}'></script>
-        {% endblock javascript %}
-
         <title>The Resistance</title>
     </head>
     
     <body>
-        
-        <div class="container-fluid">
+        <div class="myBG">
+        </div>
 
+        <div class="container-fluid">
             <span class="d-none d-lg-block">
                 <div class="row" id="headLine">
                     <div id="title1">
-                        <span class="col-sm-6" style="margin-left:7.5%;">
+                        <span class="col-sm-6" id="titleLink">
                             <h1><a href='{% url "home_page" %}'>The Resistance</a></h1>
                         </span>
                         <span class="col-sm-6 text-right" style="margin-right:7.5%;">
@@ -69,6 +65,14 @@
             </div>
         </div>
 
+        {% block loadBackgroundAnimation %}
+        {% endblock %}
     </body>
 </html>
 
+
+{% block javascript %}
+<script src="{% static 'online/javascript/base.js' %}"></script>
+<script src='{% static "online/bootstrap/js/bootstrap.min.js" %}'></script>
+
+{% endblock javascript %}

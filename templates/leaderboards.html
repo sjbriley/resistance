@@ -39,7 +39,7 @@
             {% for key, value in leaderboard.items %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ key }}</td>
+                    <td>{{ value.full_name }}</td>
                     <td>{{ value.wins }}</td>
                     <td>{{ value.losses }}</td>
                     <td>

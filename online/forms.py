@@ -14,9 +14,19 @@ class CustomAuthenticationForm(forms.Form):
                                 max_length=30,
                                 label="Username",
                                 error_messages={'invalid': "Invalid Username"},
-                                widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Choose a unique username', 'style': 'font-size:1.25rem;text-align:center;'}),
+                                widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Choose a unique username', 'style': 'font-size:1.25rem;'}),
                                 )
-    
+    first_name = forms.CharField(
+                                label="First Name",
+                                error_messages={'invalid': "Invalid Name"},
+                                widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'First Name', 'style': 'font-size:1.25rem;'}),
+                                )
+    last_name = forms.CharField(
+                                label="Last Name",
+                                error_messages={'invalid': "Invalid Name"},
+                                widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Last Name', 'style': 'font-size:1.25rem;'}),
+                                )
+        
     def clean_username(self):
         existing = CustomUser.objects.filter(username__iexact=self.cleaned_data['username'])
         if existing.exists():
@@ -25,7 +35,7 @@ class CustomAuthenticationForm(forms.Form):
             return self.cleaned_data['username']
     class Meta:
         model = CustomUser
-        fields = ('username',)
+        fields = ('username', 'first_name', 'last_name')
         
 class CustomLoginForm(AuthenticationForm):
     
@@ -98,3 +108,16 @@ class JoinExistingGame(forms.Form):
     class Meta:
         model = OnlineGames
         fields = ('game_id',)
+        
+        
+class ChangeName(forms.Form):
+    first_name = forms.CharField(
+                                label="First Name",
+                                error_messages={'invalid': "Invalid Name"},
+                                widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'First Name', 'style': 'font-size:1.25rem;'}),
+                                )
+    last_name = forms.CharField(
+                                label="Last Name",
+                                error_messages={'invalid': "Invalid Name"},
+                                widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Last Name', 'style': 'font-size:1.25rem;'}),
+                                )

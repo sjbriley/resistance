@@ -2,7 +2,9 @@
 
 
 
+
 {% block input_box %}
+
 
 <h1 class="display-6 float-left" style="position:absolute; left:1%;">Game ID: {{ game_id.0 }}{{ game_id.1 }}{{ game_id.2 }} {{ game_id.3 }}{{ game_id.4 }}{{ game_id.5 }}</h1>
 <br>
@@ -16,7 +18,7 @@
     Waiting for host
 </div>
 <div id="hostStartButton" style="display:none;">
-    <button class="btn btn-primary btn-md" style="width:150px;margin-top:5px;" id="startGameClicked">Start Game</button>
+    <button class="btn btn-primary btn-md button" style="width:150px;margin-top:5px;" id="startGameClicked"><span>Start Game</span></button>
     <div id='errorStarting'></div>
 </div>
 
@@ -46,7 +48,30 @@
 <div id="endGame" style="display:none;">
     <button class="btn btn-primary btn-md" style="width:150px;margin-top:5px;" id="startGameClicked">End Game</button>
 </div>
+
+
+
 {% endblock %}
+
+
+
+{% block  loadBackgroundAnimation %}
+<div class="area">
+            <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    
+</ul>
+</div >
+{% endblock loadBackgroundAnimation %}
+
 
 
 {% block javascript %}
@@ -55,7 +80,7 @@
 {{ settings|json_script:"settings" }}
 
 {{ game_id|json_script:"game_id" }}
-{{ user.username|json_script:"username" }}
+{{ full_name|json_script:"username" }}
 
 {% load static %}
 <script src="{% static 'local/javascript/during_game.js' %}"></script>

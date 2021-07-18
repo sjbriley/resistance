@@ -6,25 +6,43 @@ import json
 class LocalGames(models.Model):
     game_id = models.CharField(max_length=6)
     is_active = models.BooleanField(default=True)
-    players = models.ManyToManyField('online.CustomUser') # a list
+    players = models.ManyToManyField('online.CustomUser') # a list of usernames
     settings = models.CharField(max_length=1000)
     num_players = models.CharField(max_length=2)
     winning_team = models.CharField(max_length=50)
     in_session = models.BooleanField(default=False)
     
     def get_lobby_setup(self):
+        """Return if the lobby is in lobby or not"""
         if self.is_active == False or self.in_session == True:
             return False
         return True
     
     def get_players(self):
-        player_list = []
+        """Get a list of players. 
+        If two users are in game with same first name, it adds last initial
+        If the two users have same last initial, it sends full last name
+        """
+        player_list = {}
         for player in self.players.all():
-            player_list.append(player.username)
+            if player.get_first_name() not in player_list.keys():
+                player_list[player.get_first_name()] = player.username
+            else:
+                existing_player = player_list[player.get_first_name()]
+                user_with_same_name = CustomUser.objects.filter(username__iexact=existing_player)[0]
+                del player_list[player.get_first_name()]
+                if user_with_same_name.get_last_name()[0] != user_with_same_name.get_last_name()[0]:
+                    player_list[user_with_same_name.get_first_name() + user_with_same_name.get_last_name()[0]] = user_with_same_name
+                    player_list[player.get_first_name() + player.get_last_name()[0]] = player.username
+                else:
+                    player_list[user_with_same_name.get_full_name()] = user_with_same_name
+                    player_list[player.get_full_name()] = player.username
         self.num_players = str(len(player_list))
-        return player_list
+        return list(player_list.keys())
 
     def get_user_leaderboard_info(self, player):
+        """Returns games results for a particular player
+        Reurns [won,team, role]"""
         player = CustomUser.objects.filter(username__iexact=player)[0]
         return [True, 'resistance', 'jester']
     

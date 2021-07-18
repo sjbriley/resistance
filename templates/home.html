@@ -3,10 +3,11 @@
 {% block page_title %}Home{% endblock %}
 
 {% block input_box %}
+<br>
 <div class="lead" id="customLink">
     <div id="leadCustom">
         {% if user.is_authenticated %}
-        <div id="leadCustom">Welcome, {{ user.username }}.</div>
+        <div id="leadCustom">Welcome, {{ full_name }}.</div>
         {% else %}
         Please login below or <a href="{% url 'sign_up' %}">create a username</a> before continuing.<br>
 
@@ -15,31 +16,109 @@
             <div class="form-control">
                 <div class="lead">
                     <div class="row">
-                        <span class="col-md-4" style="float:none;margin:auto;">{{ form.username }}</span>
+                        <span class="col-md-4" style="float:none;margin:auto;">{{ login_form.username }}</span>
                         </span>
                     </div>
                 </div>
             </div>
-            {% if form.errors %}
-                <div style="color:red;">{{ form.errors }}</div>
+            {% if login_form.errors %}
+                <div style="color:red;">{{ login_form.errors }}</div>
             {% endif %}
             {% if userError %}
                 <div style="color:red;">{{ userError }}</div>
             {% endif %}
-            <button type="submit" class="btn btn-dark btn-lg btn-block" style="width:250px; margin-top:4%;">Login</button>
+            <button type="submit" class="btn btn-dark btn-lg btn-block button" style="width:250px; margin-top:4%;"><span>Login</span></button>
+            </form>
         {% endif %}
     </div>
 </div>
 
 {% if user.is_authenticated %}
-<div class="row">
     <div class="lead" id="leadCustom">
-        <div class="span2" style="margin-top:4%;">
-            <a href="{% url 'home_online' %}" type="button" class="btn btn-primary btn-lg btn-block" style="width:250px;">Online</a>
+        <br>
+
+        <div class="card" id="mainCard" onMouseOut="mouse_out_main_card()" onMouseOver="mouse_in_main_card()">
+
+                <span class="lead" id="localCard" style="display:inline-block;display:none;">
+                    <p>Join an Existing Game</p>
+                    <form action="{% url 'home_local' %}" id='my_form' method='POST' name="localGame">
+                        {% csrf_token %}
+                        <div class="form-control">
+                            <div class="lead">
+                                    <span class="col-md-3" style="float:none;margin:auto;">{{ game_form.game_id }}</span>
+                                    {% if form.errors %}
+                                    <span style="color:red;">{{ game_form.game_id.errors | striptags }}</span>
+                                    {% endif %}
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-md" style="width:150px;">Join</button>
+                    </form>
+                    <br>
+                    Or start a new game
+                    <form action="{% url 'local_game_set_up' %}" id='my_form' method='POST'>
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-md" style="width:150px;">Start</button>
+                    </form>
+                </span>
+
+
+            <span class="lead" id="accountCard" style="font-size:2rem;">
+                <span id="customLink">
+                    <a href="{% url 'my_account' %}">View my account</a>
+                    <br>Wins: {{ data.wins }}
+                    <br>Losses: {{ data.losses }}
+                    <br>Win %: {{ data.win_percentage }}
+                    <br><a href="{% url 'logout' %}">Logout</a>
+                </span>
+            </span>
+
+
+            <span class="lead" id="onlineCard" style="display:inline-block;display:none;">
+                <p>Join an Existing Game</p>
+                <form action="{% url 'home_online' %}" id='my_form' method='POST' name="onlineGame">
+                    {% csrf_token %}
+                    <div class="form-control">
+                        <div class="lead">
+                                <span class="col-md-3" style="float:none;margin:auto;">{{ game_form.game_id }}</span>
+                                {% if form.errors %}
+                                <span style="color:red;">{{ game_form.game_id.errors | striptags }}</span>
+                                {% endif %}
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-md" style="width:150px;">Join</button>
+                </form>
+                <br>
+                Or start a new game
+                <form action="{% url 'online_game_set_up' %}" id='my_form' method='POST'>
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-md" style="width:150px;">Start</button>
+                </form>
+            </span>
+
+            <span class="lead" id="leaderboardsCard">
+                leaderboard card
+            </span>
+
         </div>
-        <div class="span2" style="margin-top:4%;">
-            <a href="{% url 'home_local' %}" type="button"  class="btn btn-primary btn-lg btn-block" style="width:250px;">Local</a>
+
+        <div class="card" id="hoverShowOnline" onClick="show_main_card('online')" onMouseOut="hide_main_card()">
+            Online
         </div>
+
+        <div class="card" id="hoverShowAccount" onClick="show_main_card('account')" onMouseOut="hide_main_card()">
+            My Account
+        </div>
+
+        <br><br><br><br>
+        <div class="card" id="hoverShowLocal" onClick="show_main_card('local')" onMouseOut="hide_main_card()">
+            Local
+        </div>
+
+        <div class="card" id="hoverShowLeaderboards" onClick="show_main_card('leaderboards')" onMouseOut="hide_main_card()">
+            Leaderboards
+        </div>
+
+
         <span class="d-lg-none">
             <div class="span2" style="margin-top:4%;">
                 <a href="{% url 'my_account' %}" type="button"  class="btn btn-secondary btn-lg btn-block" style="width:250px;">Go to my account</a>
@@ -54,16 +133,19 @@
                 <a href="{% url 'about' %}" type="button"  class="btn btn-secondary btn-lg btn-block" style="width:250px;">About</a>
             </div>
         </span>
-    </div>
 </div>
 {% endif %}
-
 
 {% endblock %}
 
 
 {% block javascript %}
 {{ block.super }}
+
+<script>
+    document.getElementById("hoverShowOnline").onhover = function changeCard() {
+            document.getElementById("onlineCard").style.display = "block";
+</script>
 
 {% load static %}
 <script src='{% static "online/javascript/base.js" %}'></script>
