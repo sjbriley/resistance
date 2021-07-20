@@ -4,6 +4,7 @@ from online.forms import CustomAuthenticationForm, CustomLoginForm, GameForm, Jo
 from django.contrib.auth.decorators import login_required
 from online.models import CustomUser
 from local.models import LocalGames
+from django.contrib import messages
 
 @login_required
 def home_local(request):
@@ -19,7 +20,8 @@ def home_local(request):
                     return redirect('local_game', game_id = game_id)
             except:
                 pass
-    return render(request, 'local/home_local.html', {'form': form})
+    messages.add_message(request, messages.ERROR, 'Game ID not valid')
+    return redirect(reverse('home_page'))
 
 @login_required
 def local_game_set_up(request):

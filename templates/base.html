@@ -23,7 +23,7 @@
                         <span class="col-sm-6 text-right" style="margin-right:7.5%;">
                             <span id="topNavCustom" style="position:absolute; bottom:0; right:7.5%;">
                                 <a href='{% url "about" %}'>about</a>&ensp;<span style="font-weight: 1000;font-size:1.5rem;">|</span>
-                                &ensp;<a href='{% url "help" %}'>help</a>&ensp;<span style="font-weight: 1000;font-size:1.5rem;">|</span>
+                                &ensp;<a href='{% url "game_information" %}'>game information</a>&ensp;<span style="font-weight: 1000;font-size:1.5rem;">|</span>
                                 &ensp;<a href='{% url "leaderboards" %}'>leaderboards</a>&ensp;<span style="font-weight: 1000;font-size:1.5rem;">|</span>
                                 {% if user.is_authenticated %}
                                     &ensp;<a href='{% url "my_account" %}'>my account - {{ user.username }}</a>
@@ -38,9 +38,9 @@
 
             <div class="row" id="secondRow">
                 <div class="text-center" id="mainBlock">
-                    <div class="dropdown" style="margin-top:1%; position: absolute; right:1%;">
+                    {% comment %} <div class="dropdown" style="margin-top:1%; position: absolute; right:1%;">
                         <button onclick='toggleDropdown()' class="btn btn-secondary btn-sm">Roles</button>
-                    </div>
+                    </div> {% endcomment %}
                     <h1 class="display-2">{% block page_title %}{% endblock %}</h1>
                     {% block input_box %}{% endblock %}
                 </div>

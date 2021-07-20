@@ -148,7 +148,6 @@ LOGOUT_REDIRECT_URL = "home_page"
 
 ASGI_APPLICATION = 'resistance.routing.application'
 
-AUTH_USER_MODEL = 'online.CustomUser'
 
 CHANNEL_LAYERS = {
     'default': {
@@ -158,3 +157,7 @@ CHANNEL_LAYERS = {
         },
     }
 }
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+AUTH_USER_MODEL = 'online.CustomUser'

@@ -35,7 +35,7 @@ class CustomAuthenticationForm(forms.Form):
             return self.cleaned_data['username']
     class Meta:
         model = CustomUser
-        fields = ('username', 'first_name', 'last_name')
+        fields = ('username', 'first_name', 'last_name',)
         
 class CustomLoginForm(AuthenticationForm):
     
@@ -102,7 +102,10 @@ class JoinExistingGame(forms.Form):
                                 label="Game ID",
                                 error_messages={'invalid': "Invalid Game ID"},
                                 required=True,
-                                widget=forms.TextInput(attrs={'class': 'form-control text-center', 'placeholder': 'Enter 6-character Game ID', 'style': 'font-size:1rem;text-transform:uppercase;'})
+                                widget=forms.TextInput(attrs={'class': 'form-control text-center', 
+                                                              'placeholder': 'Enter 6-character Game ID', 
+                                                              'style': 'font-size:1rem;text-transform:uppercase;',
+                                                              'autocomplete':'off',})
                             )
     
     class Meta:

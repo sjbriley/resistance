@@ -5,11 +5,10 @@ from online.forms import CustomAuthenticationForm, CustomLoginForm, GameForm, Jo
 from django.contrib.auth.decorators import login_required
 from online.models import CustomUser, OnlineGames
 from local.models import LocalGames
+from django.contrib import messages
+from django.contrib.auth.models import User
 
-# from django.template.defaulttags import register
-# @register.filter
-# def get_item(dictionary, key):
-#     return dictionary.get(key)
+
 
 def home_page(request):
     """Passes form for user to allow thme to sign in, along with their full name for display"""
@@ -45,8 +44,8 @@ def home_page(request):
         data = ''
     return render(request, 'home.html', {'data':data,'game_form':game_form,'login_form':login_form, 'full_name': full_name})
 
-def help(request):
-    return render(request, 'help.html')
+def game_information(request):
+    return render(request, 'game_information.html')
 
 def about(request):
     return render(request, 'about.html')
@@ -59,10 +58,14 @@ def sign_up(request):
         form = CustomAuthenticationForm(data=request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
+            # password1 = form.cleaned_data['password1']
+            # password2 = form.cleaned_data['password2']
             first_name = form.cleaned_data['first_name'].capitalize()
             last_name = form.cleaned_data['last_name'].capitalize()
-            print(first_name)
-            user = CustomUser.objects.create_user(username = username, password = '', first_name=first_name, last_name=last_name)
+            user = CustomUser.objects.create_user(username = username,
+                                                  password = '',
+                                                  first_name = first_name,
+                                                  last_name = last_name)
             user.is_active = True
             login(request, user)
             return redirect(reverse('home_page'))
@@ -131,7 +134,8 @@ def home_online(request):
                     return redirect('online_game', game_id = game_id)
             except:
                 pass
-    return render(request, 'online/home_online.html', {'form': form})
+    messages.add_message(request, messages.ERROR, 'Game ID not valid')
+    return redirect(reverse('home_page'))
 
 @login_required
 def online_game_set_up(request):
