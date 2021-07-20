@@ -30,5 +30,5 @@ urlpatterns = [
     path('local/', include(local_urls)),
     path('leaderboards', online_views.leaderboards, name="leaderboards"),
     path('about', online_views.about, name="about"),
-    path('help', online_views.help, name="help"),
+    path('game_information', online_views.game_information, name="game_information"),
 ]

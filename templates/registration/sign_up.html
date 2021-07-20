@@ -10,8 +10,19 @@
     <div class="form-control">
         <div class="lead">
             <div class="row">
-                <span class="col-md-3" style="float:none;margin:auto;">{{ form.username }}</span>
-                    
+                <div class="col-md-3"></div>
+                <span class="col-md-2" style="text-align:right;">{{ form.username.label_tag }}</span>
+                <span class="col-md-3">{{ form.username }}</span>
+            </div><br>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <span class="col-md-2" style="text-align:right;">{{ form.first_name.label_tag }}</span>
+                <span class="col-md-3">{{ form.first_name }}</span>
+            </div><br>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <span class="col-md-2" style="text-align:right;">{{ form.last_name.label_tag }}</span>
+                <span class="col-md-3">{{ form.last_name }}</span>
             </div>
         </div>
     </div>
@@ -22,7 +33,7 @@
             <br>
         {% endif %}
     </div>
-    <button type="submit" class="btn btn-primary btn-md" style="width:250px;">Create Account</button>
+    <button type="submit" class="btn btn-primary btn-md button" style="width:250px;"><span>Create Account</span></button>
 </form>
 
 <br>
