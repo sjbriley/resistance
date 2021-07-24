@@ -1,21 +1,27 @@
 from django.db import models
+from django.db.models.fields import related
 from online.models import CustomUser
 import json
+from local.game_logic import start_game
 
 # Create your models here.
 class LocalGames(models.Model):
     game_id = models.CharField(max_length=6)
     is_active = models.BooleanField(default=True)
-    players = models.ManyToManyField('online.CustomUser') # a list of usernames
+    players = models.ManyToManyField('online.CustomUser', related_name = 'local_games') # related_name allows for accesing LocalGames through players with '.games' instead of using 'games_set'
+    roles = models.CharField(max_length=5000)
     settings = models.CharField(max_length=1000)
     num_players = models.CharField(max_length=2)
     winning_team = models.CharField(max_length=50)
     in_session = models.BooleanField(default=False)
     
+    def __str__(self):
+        return self.game_id
+    
     def get_lobby_setup(self):
         """Return if the lobby is in lobby or not"""
-        if self.is_active == False or self.in_session == True:
-            return False
+        # if self.is_active == False or self.in_session == True:
+        #     return False
         return True
     
     def get_players(self):
@@ -60,13 +66,15 @@ class LocalGames(models.Model):
         
     def start_game(self):
         players = self.get_players()
-        settings = self.settings
         self.in_session = True
-        # if len(players) > 10 or len(players) < 5:
-        #     return False
+        if len(players) > 10 or len(players) < 5:
+            return False
         if self.settings == '':
             return False
-        # info = getInfo(self.numPlayers, players, settings)
+        info = start_game(self.num_players, players, self.settings)
+        self.roles = json.dumps(info)
+        if info: return info
+        else: return False
     
     def finish_game(self, team):
         self.is_active = False

@@ -2,6 +2,20 @@ import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from local.models import LocalGames
+from local.game_logic import JESTER, \
+                        MERLIN, \
+                        PUCK, \
+                        LANCELOT, \
+                        UTHER, \
+                        TRISTAN, \
+                        ISEULT, \
+                        ARTHUR, \
+                        ASSASSIN, \
+                        MORDRED, \
+                        GUINEVERE, \
+                        MORGANA, \
+                        MAELAGANT, \
+                        COLGREVANCE
 
 class GameConsumer(WebsocketConsumer):
 
@@ -50,6 +64,9 @@ class GameConsumer(WebsocketConsumer):
                     )
                     
         if 'new_user_joined' in text_data_json:
+            
+            # DO CHECK HERE TO SEE IF GAME STARTED AND USER IS REFRESHING OR RE-JOINING
+            
             players = self.game.get_players()
             async_to_sync(self.channel_layer.group_send)(
                         self.game_group_name,

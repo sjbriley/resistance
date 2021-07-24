@@ -53,26 +53,74 @@ class CustomLoginForm(AuthenticationForm):
         model = CustomUser
         fields = ('username',)
 
+
+FIELDS = [
+            'jester_good', 'jester_good_percent', 
+            'merlin_good', 'merlin_good_percent',
+            'percival_good', 'percival_good_percent', 
+            'uther_good', 'uther_good_percent',
+            'tristan_good', 'tristan_good_percent',
+            'iseult_good', 'iseult_good_percent',
+            'arthur_good', 'arthur_good_percent',
+            'lancelot_good', 'lancelot_good_percent',
+            'guinevere_good', 'guinevere_good_percent',
+            'mordred_bad', 'mordred_bad_percent',
+            'morgana_bad', 'morgana_bad_percent',
+            'maelagant_bad', 'maelagant_bad_percent',
+            'colgrevance_bad', 'colgrevance_bad_percent',
+            'assassin_bad', 'assassin_bad_percent'
+        ]
 class GameForm(forms.Form):
     
     # good roles
-    jester = forms.BooleanField(label="jester", required=False, initial=True)
-    merlin = forms.BooleanField(label="merlin", required=False, initial=True)
-    percival = forms.BooleanField(label="percival", required=False, initial=True)
-    uther = forms.BooleanField(label="uther", required=False, initial=True)
-    tristan = forms.BooleanField(label="tristan", required=False, initial=True)
-    iseult = forms.BooleanField(label="iseult", required=False, initial=True)
-    arthur = forms.BooleanField(label="arthur", required=False, initial=True)
-    lancelot = forms.BooleanField(label="lancelot", required=False, initial=True)
-    guinevere = forms.BooleanField(label="guinevere", required=False, initial=True)
+    jester_good      = forms.BooleanField(label="jester", required=False, initial=True)
+    merlin_good      = forms.BooleanField(label="merlin", required=False, initial=True)
+    percival_good    = forms.BooleanField(label="percival", required=False, initial=True)
+    uther_good       = forms.BooleanField(label="uther", required=False, initial=True)
+    tristan_good     = forms.BooleanField(label="tristan", required=False, initial=True)
+    iseult_good      = forms.BooleanField(label="iseult", required=False, initial=True)
+    arthur_good      = forms.BooleanField(label="arthur", required=False, initial=True)
+    lancelot_good    = forms.BooleanField(label="lancelot", required=False, initial=True)
+    guinevere_good   = forms.BooleanField(label="guinevere", required=False, initial=True)
     
     # bad roles
-    mordred = forms.BooleanField(label="mordred", required=False, initial=True)
-    morgana = forms.BooleanField(label="morgana", required=False, initial=True)
-    maelagant = forms.BooleanField(label="maelagant", required=False, initial=True)
-    colgrevance = forms.BooleanField(label="colgrevance", required=False, initial=True)
-    assassin = forms.BooleanField(label="assassin", required=False, initial=True)
+    mordred_bad     = forms.BooleanField(label="mordred", required=False, initial=True)
+    morgana_bad     = forms.BooleanField(label="morgana", required=False, initial=True)
+    maelagant_bad   = forms.BooleanField(label="maelagant", required=False, initial=True)
+    colgrevance_bad = forms.BooleanField(label="colgrevance", required=False, initial=True)
+    assassin_bad    = forms.BooleanField(label="assassin", required=False, initial=True)
     
+    jester_good_percent      = forms.IntegerField(label = '')
+    merlin_good_percent      = forms.IntegerField(label = '')
+    percival_good_percent    = forms.IntegerField(label = '')
+    uther_good_percent       = forms.IntegerField(label = '')
+    tristan_good_percent     = forms.IntegerField(label = '')
+    iseult_good_percent      = forms.IntegerField(label = '')
+    arthur_good_percent      = forms.IntegerField(label = '')
+    lancelot_good_percent    = forms.IntegerField(label = '')
+    guinevere_good_percent   = forms.IntegerField(label = '')
+    mordred_bad_percent     = forms.IntegerField(label = '')
+    morgana_bad_percent     = forms.IntegerField(label = '')
+    maelagant_bad_percent   = forms.IntegerField(label = '')
+    colgrevance_bad_percent = forms.IntegerField(label = '')
+    assassin_bad_percent    = forms.IntegerField(label = '')
+    
+    
+    field_order = FIELDS
+
+    def roles(self):
+        print('2222')
+        print([field for field in self if 'percent' not in str(field)])
+        return [field for field in self if 'percent' not in str(field)]
+    
+    def percents(self):
+        return [field for field in self if 'percent' in str(field)]
+
+    def get_fields(self):
+        print('here')
+        print(zip(self.roles(), self.percents()))
+        return zip(self.roles(), self.percents())
+        
     
     def __init__(self, *args, **kwargs):
         super(GameForm, self).__init__(*args, **kwargs)
@@ -83,11 +131,13 @@ class GameForm(forms.Form):
         return self.roles
     class Meta:
         model = OnlineGames
-        fields = ['__all__']
+        fields = FIELDS
         widgets = {}
-        good = ('jester', 'merlin')
         for role in fields:
-            widgets[role] = forms.RadioSelect(attrs={'class': 'form-check-label', 'default': 'enabled'})
+            if 'percent' in role:
+                widgets[role] = forms.NumberInput(attrs={'class':'form-control','min': '0', 'max': '100'})
+            else:
+                widgets[role] = forms.RadioSelect(attrs={'class': 'form-check-label', 'default': 'enabled'})
 
     def clean(self):
         cleaned_data = super(GameForm, self).clean()

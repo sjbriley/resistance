@@ -154,7 +154,7 @@ def online_game(request, game_id):
         game = OnlineGames.objects.filter(game_id__iexact=game_id)[0]
     except:
         return redirect('home_online')
-    if not game.get_active():
+    if not game.get_lobby_setup():
         return redirect('home_online')
     game.players.add(request.user)
     if request.method == 'POST':

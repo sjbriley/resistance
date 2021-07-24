@@ -11,8 +11,9 @@ from django.dispatch import receiver
     
 class CustomUser(AbstractUser):
 
-    online_games = models.CharField(max_length=1000)
-    local_games = models.ManyToManyField('local.LocalGames')
+    # we do not need local_games or online_games since we use manyToManyField in our game models, with related_names
+    # online_games = models.CharField(max_length=1000)
+    # local_games = models.CharField(max_length=3000)
     first_name = models.CharField(max_length=25, unique=False)
     last_name = models.CharField(max_length=25, unique=False)
         
@@ -38,10 +39,18 @@ class CustomUser(AbstractUser):
 class OnlineGames(models.Model):
     game_id = models.CharField(max_length=6)
     is_active = models.BooleanField(default=True)
-    players = models.ManyToManyField('online.CustomUser') # a list
+    players = models.ManyToManyField('online.CustomUser', related_name = 'online_games') # a list of usernames
+    roles = models.CharField(max_length=5000)
+    settings = models.CharField(max_length=1000)
+    num_players = models.CharField(max_length=2)
+    winning_team = models.CharField(max_length=50)
+    in_session = models.BooleanField(default=False)
     
-    def get_active(self):
-        return self.is_active
+    def get_lobby_setup(self):
+        """Return if the lobby is in lobby or not"""
+        if self.is_active == False or self.in_session == True:
+            return False
+        return True
     
 """
 To create relationships using ManyToManyField:

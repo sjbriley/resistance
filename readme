@@ -27,3 +27,7 @@ set up a .env file in /resistance (where settings.py is located), with contents 
 back on windows, run the server (make sure virtualenv is still active)-
     python manage.py runserver
 
+
+for issues with migrations, try with a specific app-
+    python manage.py makemigrations online
+    python manage.py migrate
