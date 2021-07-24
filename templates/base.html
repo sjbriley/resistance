@@ -13,8 +13,7 @@
         <div class="myBG">
         </div>
 
-        <div class="container-fluid">
-            <span class="d-none d-lg-block">
+            <span class="d-none d-lg-block" style='padding:0 0 0 0;'>
                 <div class="row" id="headLine">
                     <div id="title1">
                         <span class="col-sm-6" id="titleLink">
@@ -36,17 +35,16 @@
                 </div>
             </span>
 
-            <div class="row" id="secondRow">
-                <div class="text-center" id="mainBlock">
-                    {% comment %} <div class="dropdown" style="margin-top:1%; position: absolute; right:1%;">
-                        <button onclick='toggleDropdown()' class="btn btn-secondary btn-sm">Roles</button>
-                    </div> {% endcomment %}
-                    <h1 class="display-2">{% block page_title %}{% endblock %}</h1>
-                    {% block input_box %}{% endblock %}
-                </div>
+            <div class="text-center" id="mainBlock">
+
+                {% comment %} <div class="dropdown" style="margin-top:1%; position: absolute; right:1%;">
+                    <button onclick='toggleDropdown()' class="btn btn-secondary btn-sm">Roles</button>
+                </div> {% endcomment %}
+                <h1 class="display-2">{% block page_title %}{% endblock %}</h1>
+                {% block input_box %}{% endblock %}
+
             </div>
 
-        </div>  <!-- end container-fluid -->
 
         <div id="rolesPopup" style="padding-left:1rem;padding-top:1rem;">
             <div class="display-6 text-center">Roles</div>
