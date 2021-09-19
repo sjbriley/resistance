@@ -10,3 +10,7 @@ db.sqlite3
 db.sqlite3-journal
 /migrations
 /static_deploy
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

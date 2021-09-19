@@ -109,7 +109,6 @@ class GameForm(forms.Form):
     field_order = FIELDS
 
     def roles(self):
-        print('2222')
         print([field for field in self if 'percent' not in str(field)])
         return [field for field in self if 'percent' not in str(field)]
     
@@ -117,7 +116,6 @@ class GameForm(forms.Form):
         return [field for field in self if 'percent' in str(field)]
 
     def get_fields(self):
-        print('here')
         print(zip(self.roles(), self.percents()))
         return zip(self.roles(), self.percents())
         
