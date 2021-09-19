@@ -62,20 +62,20 @@ function connectSocket() {
 
 connectSocket();
 
-window.onload = function() {
-    document.getElementById("changeJester").onclick = function changeJester() {
-        console.log("clicked");
-        if (settings['jester'] == true) {
-            settings['jester'] = false;
-            updateSocket.send(JSON.stringify({
-                'settings': settings,
-            }));
-        }
-        else {
-            settings['jester'] = true;
-            updateSocket.send(JSON.stringify({
-                'settings': settings,
-            }));
-        }
-    };
-};
+// window.onload = function() {
+//     document.getElementById("changeJester").onclick = function changeJester() {
+//         console.log("clicked");
+//         if (settings['jester'] == true) {
+//             settings['jester'] = false;
+//             updateSocket.send(JSON.stringify({
+//                 'settings': settings,
+//             }));
+//         }
+//         else {
+//             settings['jester'] = true;
+//             updateSocket.send(JSON.stringify({
+//                 'settings': settings,
+//             }));
+//         }
+//     };
+// };

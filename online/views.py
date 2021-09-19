@@ -163,7 +163,8 @@ def online_game(request, game_id):
             roles = form.getRoles()
             settings = {}
             for role in roles:
-                settings[role] = form.cleaned_data[role]
+                # settings[role] = form.cleaned_data[role]
+                settings[role] = 'yes'
             return render(request, 'online/online_game.html', {'game_id': game_id, 'settings': settings})
         else:
             return render(request, 'online/online_game_set_up.html', {'form': form, 'game_id': game_id})
