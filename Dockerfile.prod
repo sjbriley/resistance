@@ -2,7 +2,7 @@
 
 # importing base image
 FROM python:3.9.6-alpine
-
+# RUN apk add --update --no-cache curl py-pip
 # create directory for user app
 RUN mkdir -p /home/app
 
@@ -24,14 +24,19 @@ ENV PYTHONUNBUFFERED 1
 # copying requirement.txt file to present working directory
 COPY requirements.txt ./
 
+# RUN apt-get update && sudo apt-get upgrade
+# RUN python -m pip install --upgrade pip
+
 # installing dependency in container
+RUN apk add -U --no-cache gcc build-base linux-headers ca-certificates python3-dev libffi-dev libressl-dev libxslt-dev
 RUN pip install -r requirements.txt
 
 # copying all the files to present working directory
 COPY . .
 
 # Collect static files
-RUN python manage.py collectstatic --no-input --clear
+# RUN virtualenv/bin/python manage.py collectstatic --no-input --clear
+# RUN python manage.py collectstatic --no-input --clear
 
 # Chown all the files to the app user
 RUN chown -R app:app $APP_HOME

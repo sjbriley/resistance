@@ -33,7 +33,7 @@ DEBUG = env("DEBUG") == 'TRUE' # env("DEBUG") returns a string "TRUE" or "FALSE"
 if DEBUG == True:
     ALLOWED_HOSTS = ['*', 'www.mydjangoproject.xyz', 'mydjangoproject.xyz', '0.0.0.0', '192.168.0.16']
 else:
-    ALLOWED_HOSTS =['www.mydjangoproject.xyz', 'mydjangoproject.xyz']
+    ALLOWED_HOSTS =['0.0.0.0', '*', 'www.mydjangoproject.xyz', 'mydjangoproject.xyz']
 
 
 # Application definition
@@ -129,12 +129,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static_deploy/'
+STATIC_URL = '/static/'
 STATICFILES_DIR = [
     os.path.join(BASE_DIR, '/online/static/online/'),
     os.path.join(BASE_DIR, '/local/static/local/'),
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static_deploy')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

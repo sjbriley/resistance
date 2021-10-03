@@ -24,9 +24,13 @@ virtualenv/scripts/python manage.py collectstatic
 virtualenv/scripts/python manage.py migrate --run-syncdb
 echo SECRET_KEY=changeme12345 > resistance/.env
 echo DEBUG=TRUE >> resistance/.env
-virtualenv/scripts/python manage.py runserver 
+virtualenv/scripts/python manage.py runserver
+docker-compose -f docker-compose.prod.yml exec web python manage.py collectstatic --no-input --clear
 ```
 
 for issues with migrations, try with a specific app-
     python manage.py makemigrations online
     python manage.py migrate
+
+To brind down containers-
+docker-compose -f docker-compose.prod.yml down -v
