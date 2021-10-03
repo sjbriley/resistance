@@ -3,13 +3,14 @@ __pycache__/
 *.py[cod]
 *$py.class
 .env
+.env.prod
 
 #Django
 *.log
 db.sqlite3
 db.sqlite3-journal
 /migrations
-/static_deploy
+/static
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml

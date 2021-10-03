@@ -9,15 +9,15 @@ let updateSocket;
 function connectSocket() {
 
     if (window.location.protocol == 'https:') {
-        wsProtocol = 'wss://'
+        wsProtocol = 'ws://'
       } else {wsProtocol = 'ws://'}
 
-    var logthis = wsProtocol + window.location.host + '/online/wss/' + game_ID + '/';
+    var logthis = wsProtocol + window.location.host + '/online/ws/' + game_ID + '/';
     console.log(logthis);
 
     updateSocket = new WebSocket(
         wsProtocol + window.location.host + 
-        '/online/wss/' + game_ID + '/');
+        '/online/ws/' + game_ID + '/');
 
     updateSocket.onmessage = function(e) {
     const data = JSON.parse(e.data);

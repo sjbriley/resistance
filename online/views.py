@@ -8,10 +8,9 @@ from local.models import LocalGames
 from django.contrib import messages
 from django.contrib.auth.models import User
 
-
-
 def home_page(request):
-    """Passes form for user to allow thme to sign in, along with their full name for display"""
+    """Passes form for user to allow thme to sign in, along with their full name for display.
+    """
     login_form = CustomLoginForm()
     game_form = JoinExistingGame()
     if request.method == 'POST':
@@ -22,9 +21,19 @@ def home_page(request):
             if user:
                 login(request, user)
                 full_name = request.user.get_full_name()
-                return render(request, 'home.html', {'game_form':game_form,'login_form':login_form, 'full_name': full_name})
+                return render(request, 'home.html',
+                              {
+                               'game_form':game_form,
+                               'login_form':login_form,
+                               'full_name': full_name
+                               })
             else:
-                return render(request, 'home.html', {'game_form':game_form,'login_form':login_form, 'userError':'User does not exist.'})
+                return render(request, 'home.html',
+                            {
+                            'game_form':game_form,
+                            'login_form':login_form,
+                            'userError':'User does not exist.'
+                            })
         else:
             print(login_form.errors)
     if request.user.is_authenticated:
@@ -32,9 +41,11 @@ def home_page(request):
         leaderboard = {}
         user = request.user
         leaderboard[user.username] = {}
-        for stat in ('gamesPlayed', 'wins', 'losses', 'resistanceWins', 'spyWins',
-                     'resistanceLosses', 'spyLosses', 'jesterWins', 'puckWins', 'lancelotWins',
-                     'merlinWins'):
+        for stat in ('gamesPlayed', 'wins', 'losses',
+                     'resistanceWins', 'spyWins',
+                     'resistanceLosses', 'spyLosses',
+                     'jesterWins', 'puckWins',
+                     'lancelotWins', 'merlinWins'):
             leaderboard[user.username][stat] = 0
         games = LocalGames.objects.filter(players=user)
         leaderboard = get_leaderboard_info(games, user, leaderboard)
@@ -42,14 +53,19 @@ def home_page(request):
     else:
         full_name = ''
         data = ''
-    return render(request, 'home.html', {'data':data,'game_form':game_form,'login_form':login_form, 'full_name': full_name})
+    return render(request, 'home.html', 
+                    {
+                    'data':data,
+                    'game_form':game_form,
+                    'login_form':login_form,
+                    'full_name': full_name
+                    })
 
 def game_information(request):
     return render(request, 'game_information.html')
 
 def about(request):
     return render(request, 'about.html')
-
 
 def sign_up(request):
     """passes form to user allowing for signing up"""
@@ -62,10 +78,12 @@ def sign_up(request):
             # password2 = form.cleaned_data['password2']
             first_name = form.cleaned_data['first_name'].capitalize()
             last_name = form.cleaned_data['last_name'].capitalize()
-            user = CustomUser.objects.create_user(username = username,
+            user = CustomUser.objects.create_user(
+                                                  username = username,
                                                   password = '',
                                                   first_name = first_name,
-                                                  last_name = last_name)
+                                                  last_name = last_name
+                                                  )
             user.is_active = True
             login(request, user)
             return redirect(reverse('home_page'))
@@ -82,9 +100,13 @@ def leaderboards(request):
     for user in users:
         sortedLeaderboardList.append(user.username)
         leaderboard[user.username] = {}
-        for stat in ('gamesPlayed', 'wins', 'losses', 'resistanceWins', 'spyWins',
-                     'resistanceLosses', 'spyLosses', 'jesterWins', 'puckWins', 'lancelotWins',
-                     'merlinWins'):
+        for stat in (
+                     'gamesPlayed', 'wins', 'losses',
+                     'resistanceWins', 'spyWins',
+                     'resistanceLosses', 'spyLosses',
+                     'jesterWins', 'puckWins',
+                     'lancelotWins', 'merlinWins'
+                     ):
             leaderboard[user.username][stat] = 0
         games = LocalGames.objects.filter(players=user)
         leaderboard = get_leaderboard_info(games, user, leaderboard)
@@ -142,7 +164,9 @@ def online_game_set_up(request):
     """Allows host to set up game with their settings"""
     form = GameForm()
     import random, string
-    game_id = ''.join([random.choice(string.ascii_uppercase.replace('O','') + string.digits.replace('0','')) for _ in range(6)])
+    # generate a 6 digit game ID with numbers and uppercase letters
+    game_id = ''.join([random.choice(string.ascii_uppercase.replace('O','')
+                                     + string.digits.replace('0','')) for _ in range(6)])
     game = OnlineGames(game_id=game_id)
     game.save()
     return render(request, 'online/online_game_set_up.html', {'form': form, 'game_id': game_id})
@@ -165,18 +189,34 @@ def online_game(request, game_id):
             for role in roles:
                 # settings[role] = form.cleaned_data[role]
                 settings[role] = 'yes'
-            return render(request, 'online/online_game.html', {'game_id': game_id, 'settings': settings})
+            return render(request, 'online/online_game.html',
+                          {
+                          'game_id': game_id,
+                          'settings': settings
+                          })
         else:
-            return render(request, 'online/online_game_set_up.html', {'form': form, 'game_id': game_id})
+            return render(request, 'online/online_game_set_up.html',
+                                            {
+                                            'form': form,
+                                            'game_id': game_id
+                                            })
     return render(request, 'online/online_game.html', {'game_id': game_id})
 
 def get_leaderboard_info(games, user, leaderboard):
     """Returns information for the leaderboards page and my_account
     Searches games that user was in and compiles information
+
+    Args:
+        games
+        user
+        leaderboard
+        
     """
     leaderboard[user.username]['full_name'] = user.get_full_name()
     for game in games:
-        if game.get_lobby_setup() == True: continue # was the game not finished and/or still in progress?
+        # was the game not finished and/or still in progress?
+        if game.get_lobby_setup() == True:
+            continue
         info = game.get_user_leaderboard_info(user.username)
         leaderboard[user.username]['games_player'] += 1
         if info[0] == False:
@@ -200,7 +240,9 @@ def get_leaderboard_info(games, user, leaderboard):
                 if info[2] == 'merlin':
                     leaderboard[user.username]['merlin_wins'] += 1
     try:
-        leaderboard[user.username]['win_percentage'] = round(leaderboard[user.username]['wins'] / leaderboard[user.username]['gamesPlayed'] * 100, 1)
+        leaderboard[user.username]['win_percentage'] = round(
+                                leaderboard[user.username]['wins'] / leaderboard[user.username]['gamesPlayed'] * 100, 1
+                                )
     except ZeroDivisionError:
         leaderboard[user.username]['win_percentage'] = 'N/A'
     return leaderboard

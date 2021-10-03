@@ -21,6 +21,7 @@ ENV PYTHONUNBUFFERED 1
 COPY requirements.txt ./
 
 # installing dependency in container
+RUN apk add -U --no-cache gcc build-base linux-headers ca-certificates python3-dev libffi-dev libressl-dev libxslt-dev
 RUN pip install -r requirements.txt
 
 # copying all the files to present working directory
@@ -36,4 +37,4 @@ USER app
 
 # running server
 # CMD ["python", "manage.py", "runserver", "0.0.0.0:80"]
-# CMD ["gunicorn", "portfolio.wsgi:application", "--bind", "0.0.0.0:80"]
+# CMD ["gunicorn", "resistance.wsgi:application", "--bind", "0.0.0.0:80"]

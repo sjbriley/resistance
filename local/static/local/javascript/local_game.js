@@ -14,11 +14,11 @@ function connectSocket() {
 
     // connect to the socket
     if (window.location.protocol == 'https:') {
-        wsProtocol = 'wss://'
+        wsProtocol = 'ws://'
       } else {wsProtocol = 'ws://'}
     updateSocket = new WebSocket(
         wsProtocol + window.location.host + 
-        '/local/wss/' + game_id + '/');
+        '/local/ws/' + game_id + '/');
 
     // lose connection to websocket, try to reconnect
     updateSocket.onclose = function(e) {
