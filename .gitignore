@@ -1,9 +1,11 @@
 /virtualenv
+virtualenv/
 __pycache__/
 *.py[cod]
 *$py.class
 .env
 .env.prod
+.env.dev
 
 #Django
 *.log

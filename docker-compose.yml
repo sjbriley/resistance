@@ -13,3 +13,11 @@ services:
       - 8000:8000
     env_file:
       - ./resistance/.env.dev
+      
+  redis:
+    image: redis:5.0.5-alpine
+    hostname: redis-container
+    expose:
+      - 6379
+    ports:
+      - 6379:6379

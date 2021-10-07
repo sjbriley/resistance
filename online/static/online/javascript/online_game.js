@@ -8,16 +8,22 @@ let updateSocket;
 
 function connectSocket() {
 
+    // not using https
     if (window.location.protocol == 'https:') {
         wsProtocol = 'ws://'
       } else {wsProtocol = 'ws://'}
 
-    var logthis = wsProtocol + window.location.host + '/online/ws/' + game_ID + '/';
-    console.log(logthis);
-
-    updateSocket = new WebSocket(
-        wsProtocol + window.location.host + 
-        '/online/ws/' + game_ID + '/');
+    if (window.location.host.includes('8000')){
+        updateSocket = new WebSocket(
+            wsProtocol + window.location.host + 
+            '/online/ws/' + game_ID + '/');
+    }
+    else{
+        updateSocket = new WebSocket(
+            wsProtocol + window.location.host + 
+            ':8001/online/ws/' + game_ID + '/');
+    }
+    }
 
     updateSocket.onmessage = function(e) {
     const data = JSON.parse(e.data);

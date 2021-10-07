@@ -16,6 +16,7 @@ class GameConsumer(WebsocketConsumer):
     def connect(self):
         self.game_id = self.scope['url_route']['kwargs']['game_id']
         self.sheet_group_name = 'sheet_%s' % self.game_id
+        print(f'game id is {self.game_id} and sheet name is {self.sheet_group_name}')
 
         # Join sheet group
         async_to_sync(self.channel_layer.group_add)(

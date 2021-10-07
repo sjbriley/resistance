@@ -31,9 +31,9 @@ SECRET_KEY=env("SECRET_KEY")
 DEBUG = env("DEBUG") == 'TRUE' # env("DEBUG") returns a string "TRUE" or "FALSE"
 
 if DEBUG == True:
-    ALLOWED_HOSTS = ['*', 'www.mydjangoproject.xyz', 'mydjangoproject.xyz', '0.0.0.0', '192.168.0.16']
+    ALLOWED_HOSTS = ['*', 'www.mydjangoproject.xyz', 'mydjangoproject.xyz', '0.0.0.0', '127.0.0.1']
 else:
-    ALLOWED_HOSTS =['0.0.0.0', '*', 'www.mydjangoproject.xyz', 'mydjangoproject.xyz']
+    ALLOWED_HOSTS =['www.mydjangoproject.xyz', 'mydjangoproject.xyz']
 
 
 # Application definition
@@ -151,9 +151,9 @@ ASGI_APPLICATION = 'resistance.routing.application'
 
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer', # asgi_redis.RedisChannelLayer ?
+        'BACKEND': 'channels_redis.core.RedisChannelLayer', 
         'CONFIG': {
-            'hosts': [('localhost', 6379)],
+            'hosts': [(env("HOST"), 6379)], # local or redis_host?
         },
     }
 }

@@ -1,16 +1,6 @@
 version: '3.8'
 
 services:
-  daphne:
-    build: .
-    working_dir: /home/app/web
-    command: daphne -b 0.0.0.0 -p 8080 resistance.asgi:channel_layer
-    ports:
-      - 8080:8080
-    expose:
-      - 8080
-    depends_on:
-      - web
   web:
     build:
       context: .
@@ -22,16 +12,35 @@ services:
       - 8000 # port 8000 is exposed internally to other ports
     env_file:
       - ./resistance/.env.prod
-  
-  static:
+      
+  daphne:
     extends:
       service: web
-    command: python manage.py collectstatic --no-input --clear
+    command: daphne -b 0.0.0.0 --port 8001 resistance.asgi:application #--proxy-headers
+    ports:
+      - 8001:8001
+    expose:
+      - 8001
+    depends_on:
+      - web
+      - redis
+    links:
+      - redis
+
+  # static:
+  #   extends:
+  #     service: web
+  #   command: python manage.py collectstatic --no-input --clear
+  #   depends_on:
+  #     - web
   
   redis:
-    image: redis
+    image: redis:5.0.5-alpine
+    hostname: redis-container
+    expose:
+      - 6379
     ports:
-      - "6379:6379"
+      - 6379:6379
 
   nginx:
     build: ./nginx

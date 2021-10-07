@@ -4,17 +4,18 @@
 FROM python:3.9.6-alpine
 # RUN apk add --update --no-cache curl py-pip
 # create directory for user app
-RUN mkdir -p /home/app
+RUN mkdir -p /home/app && \
+    addgroup --gid 1001 --system app && \
+    adduser --shell /bin/false --disabled-password --uid 1001 --system -G app app
 
 # Create the app user, so we don't have to run as root. Give write permissions
-RUN addgroup -S app && adduser -S -G app app
+# RUN addgroup -S app && adduser -S -G app app
 
 # Create the home directory and set home to /web
 ENV HOME=/home/app
 ENV APP_HOME=/home/app/web
-RUN mkdir $APP_HOME
-# create static files directory
-RUN mkdir $APP_HOME/static
+RUN mkdir $APP_HOME && \
+    mkdir $APP_HOME/static
 WORKDIR $APP_HOME
 
 # set env variables so no writing .pyc or buffering stdout and stderr
@@ -22,17 +23,25 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # copying requirement.txt file to present working directory
-COPY requirements.txt ./
+# also, change ownership since doing that as it's own recursive command takes forever
+COPY --chown=app:app requirements.txt ./
 
 # RUN apt-get update && sudo apt-get upgrade
 # RUN python -m pip install --upgrade pip
 
 # installing dependency in container
-RUN apk add -U --no-cache gcc build-base linux-headers ca-certificates python3-dev libffi-dev libressl-dev libxslt-dev
+RUN apk add -U --no-cache \
+    build-base \
+    python3-dev \
+    libffi-dev
+    # gcc \
+    # linux-headers \
+#  libressl-dev libxslt-dev ca-certificates 
 RUN pip install -r requirements.txt
 
 # copying all the files to present working directory
-COPY . .
+# also, change ownership since doing that as it's own recursive command takes forever
+COPY --chown=app:app . .
 
 # Collect static files
 # RUN virtualenv/bin/python manage.py collectstatic --no-input --clear
@@ -41,10 +50,9 @@ COPY . .
 # Chown all the files to the app user
 RUN chown -R app:app $APP_HOME
 
+# RUN chown app:app db.sqlite3
+
 EXPOSE 80
 
 # change user to app right before running
 USER app
-
-# running server
-# CMD ["python", "manage.py", "runserver", "0.0.0.0:80"]
