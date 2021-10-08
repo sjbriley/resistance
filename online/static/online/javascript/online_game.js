@@ -23,7 +23,6 @@ function connectSocket() {
             wsProtocol + window.location.host + 
             ':8001/online/ws/' + game_ID + '/');
     }
-    }
 
     updateSocket.onmessage = function(e) {
     const data = JSON.parse(e.data);

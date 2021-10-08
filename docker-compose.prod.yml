@@ -27,12 +27,12 @@ services:
     links:
       - redis
 
-  # static:
-  #   extends:
-  #     service: web
-  #   command: python manage.py collectstatic --no-input --clear
-  #   depends_on:
-  #     - web
+  static:
+    extends:
+      service: web
+    command: python manage.py collectstatic --no-input --clear
+    depends_on:
+      - web
   
   redis:
     image: redis:5.0.5-alpine
