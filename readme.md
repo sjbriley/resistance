@@ -15,6 +15,21 @@ echo HOST=redis-container >> resistance/.env.dev
 docker-compose -f docker-compose.prod.yml up -d --build
 ```
 
+or run without docker-compose
+
+```
+git clone https://github.com/sjbriley/resistance
+cd resistance
+echo SECRET_KEY=changeme12345 > resistance/.env
+echo DEBUG=TRUE >> resistance/.env
+echo HOST=redis-container >> resistance/.env
+docker run --name redis-container -d redis
+python -m venv virtualenv
+virtualenv/scripts/activate
+pip install -r requirements.txt
+python manage.py runserver
+```
+
 Visit http://127.0.0.1:8000/
 
 ## To run in production:

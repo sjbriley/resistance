@@ -1,15 +1,11 @@
-# for use in production builds.
-
 # importing base image
 FROM python:3.9.6-alpine
-# RUN apk add --update --no-cache curl py-pip
+
 # create directory for user app
+# create user 'app' and group 'app' with no permission
 RUN mkdir -p /home/app && \
     addgroup --gid 1001 --system app && \
     adduser --shell /bin/false --disabled-password --uid 1001 --system -G app app
-
-# Create the app user, so we don't have to run as root. Give write permissions
-# RUN addgroup -S app && adduser -S -G app app
 
 # Create the home directory and set home to /web
 ENV HOME=/home/app
