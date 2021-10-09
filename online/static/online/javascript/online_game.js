@@ -10,20 +10,20 @@ function connectSocket() {
 
     // not using https
     if (window.location.protocol == 'https:') {
-        wsProtocol = 'ws://'
+        wsProtocol = 'wss://'
       } else {wsProtocol = 'ws://'}
 
     if (window.location.host.includes('8000')){
         updateSocket = new WebSocket(
-            wsProtocol + window.location.host + 
+            wsProtocol + "127.0.0.1" + // used to be window.location.host, doesn't work prod
             '/online/ws/' + game_ID + '/');
     }
     else{
         updateSocket = new WebSocket(
-            wsProtocol + window.location.host + 
+            wsProtocol + "127.0.0.1" + // used to be window.location.host, doesn't work prod
             ':8001/online/ws/' + game_ID + '/');
     }
-
+    console.log(updateSocket);
     updateSocket.onmessage = function(e) {
     const data = JSON.parse(e.data);
     console.log("Received data:", e.data);
