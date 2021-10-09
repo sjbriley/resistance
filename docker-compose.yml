@@ -21,3 +21,16 @@ services:
       - 6379
     ports:
       - 6379:6379
+
+  db:
+    image: postgres:13.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresqpl/data/
+    
+  db_migrate:
+    extends:
+      service: web
+    command: python manage.py migrate --noinput
+
+volumes:
+    postgres_data:

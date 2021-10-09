@@ -12,7 +12,8 @@ cd resistance
 echo SECRET_KEY=changeme12345 > resistance/.env.dev
 echo DEBUG=TRUE >> resistance/.env.dev
 echo HOST=redis-container >> resistance/.env.dev
-docker-compose -f docker-compose.prod.yml up -d --build
+docker-compose -f docker-compose.yml up -d --build
+docker-compose exec web python manage.py migrate --noinput
 ```
 
 or run without docker-compose
@@ -22,8 +23,8 @@ git clone https://github.com/sjbriley/resistance
 cd resistance
 echo SECRET_KEY=changeme12345 > resistance/.env
 echo DEBUG=TRUE >> resistance/.env
-echo HOST=redis-container >> resistance/.env
-docker run --name redis-container -d redis
+echo HOST=localhost >> resistance/.env
+docker run -p 6379:6379 --name redis-container -d redis:5
 python -m venv virtualenv
 virtualenv/scripts/activate
 pip install -r requirements.txt
@@ -42,7 +43,13 @@ echo DEBUG=TRUE >> resistance/.env.prod
 echo HOST=redis-container >> resistance/.env.prod
 
 docker-compose -f docker-compose.prod.yml up -d --build
-docker-compose -f docker-compose.prod.yml exec web python manage.py collectstatic --no-input --clear
+docker-compose exec web python manage.py migrate --noinput
+```
+
+To check database:
+
+```
+docker-compose exec db psql --username=hello_django --dbname=django_db_env
 ```
 
 To bring down:

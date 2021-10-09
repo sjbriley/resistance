@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY=env("SECRET_KEY")
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG") == 'TRUE' # env("DEBUG") returns a string "TRUE" or "FALSE"
@@ -86,9 +86,17 @@ WSGI_APPLICATION = 'resistance.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': env("DB_ENGINE"), # 'django.db.backends.postgresql_psycopg2',
+        'NAME': env("POSTGRES_DB"), # 'db',
+        'USER': env("POSTGRES_USER"), # 'postgres',
+        'PASSWORD': env("POSTGRES_PASSWORD"), # 'mypassword',
+        'HOST': env("DB_HOST"), # 'localhost',
+        'PORT': env("DB_PORT"), # '5432',
     }
 }
 

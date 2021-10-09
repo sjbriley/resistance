@@ -51,6 +51,19 @@ services:
     depends_on:
       - web
       - daphne
+  
+  db:
+    image: postgres:13.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresqpl/data/
+    env_file:
+      - ./resistance/.env.prod
+
+  db_migrate:
+    extends:
+      service: web
+    command: python manage.py migrate --noinput
 
 volumes:
     static_volume:
+    postgres_data:

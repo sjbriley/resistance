@@ -29,8 +29,9 @@ COPY --chown=app:app requirements.txt ./
 RUN apk add -U --no-cache \
     build-base \
     python3-dev \
-    libffi-dev
-    # gcc \
+    libffi-dev \
+    postgresql-dev \
+    gcc
     # linux-headers \
 #  libressl-dev libxslt-dev ca-certificates 
 RUN pip install -r requirements.txt
