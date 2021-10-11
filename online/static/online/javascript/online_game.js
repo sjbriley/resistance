@@ -17,7 +17,7 @@ function connectSocket() {
     if (window.location.host.includes('8000')){
         updateSocket = new WebSocket(
             wsProtocol + "127.0.0.1" + // used to be window.location.host, doesn't work prod
-            '8000/online/ws/' + game_ID + '/');
+            ':8000/online/ws/' + game_ID + '/');
     }
     else{
         updateSocket = new WebSocket(

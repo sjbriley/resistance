@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Game Information{% endblock %}
+
+{% block input_box %}
+
+<div class="lead" id="customLink">
+    <div class="leadCustom">
+        Info about roles and stuff can go here for people to look at pre-game
+        <div class="lead" id="customLink">
+            <div id="leadCustom">
+                <br><a href="{% url 'role_information' %}">View Role Information</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -8,9 +8,17 @@
     <div class="form-control">
         <div class="lead">
             {% for option in form %}
-                <div class="row">
-                    <span class="col-lg">{{ option.label_tag }}&ensp;{{ option }}</span>
-                </div>
+                {% if forloop.counter|divisibleby:2 %}
+                        <div class='col text-start'>
+                            {{ option }}&ensp;%
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="row ">
+                        <div class='col text-end'>
+                            {{ option.label_tag }}&ensp;{{ option }}
+                        </div>
+                {% endif %}
             {% endfor %}
             
             {% if form.errors %}

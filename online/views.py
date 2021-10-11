@@ -61,7 +61,10 @@ def home_page(request):
                     })
 
 def game_information(request):
-    return render(request, 'game_information.html')
+    return render(request, 'game_information/game_information.html')
+
+def role_information(request):
+    return render(request, 'game_information/role_information.html')
 
 def about(request):
     return render(request, 'about.html')
@@ -160,7 +163,9 @@ def home_online(request):
 
 @login_required
 def online_game_set_up(request):
-    """Allows host to set up game with their settings"""
+    """Allows host to set up game with their settings.
+    Generate a random 6 digit ID and save the game to db.    
+    """
     form = GameForm()
     import random, string
     # generate a 6 digit game ID with numbers and uppercase letters
