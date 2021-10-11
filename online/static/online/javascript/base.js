@@ -16,17 +16,17 @@ function show_main_card(card) {
 
   document.getElementById("hoverShowAccount").innerHTML = "";
   document.getElementById("hoverShowLeaderboards").innerHTML = "";
-  document.getElementById("hoverShowLocal").innerHTML = "";
+  // document.getElementById("hoverShowLocal").innerHTML = "";
   document.getElementById("hoverShowOnline").innerHTML = "";
 
   document.getElementById("mainCard").style.zIndex = "100";
 
   document.getElementById("accountCard").style.display = "none";
-  document.getElementById("localCard").style.display = "none";
+  // document.getElementById("localCard").style.display = "none";
   document.getElementById("onlineCard").style.display = "none";
   document.getElementById("leaderboardsCard").style.display = "none";
   document.getElementById("hoverShowLeaderboards").style.zIndex = "-20";
-  document.getElementById("hoverShowLocal").style.zIndex = "-20";
+  // document.getElementById("hoverShowLocal").style.zIndex = "-20";
   document.getElementById("hoverShowAccount").style.zIndex = "-20";
   document.getElementById("hoverShowOnline").style.zIndex = "-20";
 
@@ -41,9 +41,9 @@ function show_main_card(card) {
       document.getElementById("hoverShowOnline").style.zIndex = "20";
       document.getElementById("onlineCard").style.display = "inline-block";
       break;
-    case 'local':
-      document.getElementById("hoverShowLocal").style.zIndex = "20";
-      document.getElementById("localCard").style.display = "inline-block";
+    // case 'local':
+    //   document.getElementById("hoverShowLocal").style.zIndex = "20";
+    //   document.getElementById("localCard").style.display = "inline-block";
       
       break;
     case 'account':
@@ -59,16 +59,16 @@ function show_main_card(card) {
   document.getElementById("hoverShowAccount").style.width = "9%";
   document.getElementById("hoverShowLeaderboards").style.width = "9%";
 
-  document.getElementById("hoverShowLocal").style.left = "14%";
+  // document.getElementById("hoverShowLocal").style.left = "14%";
   document.getElementById("hoverShowOnline").style.left = "14%";
-  document.getElementById("hoverShowLocal").style.width = "9%";
+  // document.getElementById("hoverShowLocal").style.width = "9%";
   document.getElementById("hoverShowOnline").style.width = "9%";
 
   // does not always upadate at beggining for some reason- clear HTML twice
   setTimeout(function() {
     document.getElementById("hoverShowAccount").innerHTML = "";
     document.getElementById("hoverShowLeaderboards").innerHTML = "";
-    document.getElementById("hoverShowLocal").innerHTML = "";
+    // document.getElementById("hoverShowLocal").innerHTML = "";
     document.getElementById("hoverShowOnline").innerHTML = "";
       }, 400);
 }
@@ -76,7 +76,7 @@ function show_main_card(card) {
 function hide_main_card() {
   setTimeout(function() {
     if (mouse_over_main_card == false){
-      document.getElementById("localCard").style.display = "none";
+      // document.getElementById("localCard").style.display = "none";
       document.getElementById("leaderboardsCard").style.display = "none";
       document.getElementById("onlineCard").style.display = "none";
       document.getElementById("accountCard").style.display = "none";
@@ -84,12 +84,12 @@ function hide_main_card() {
       document.getElementById("mainCard").style.zIndex = "-25";
       document.getElementById("hoverShowAccount").style.zIndex = "20";
       document.getElementById("hoverShowOnline").style.zIndex = "20";
-      document.getElementById("hoverShowLocal").style.zIndex = "20";
+      // document.getElementById("hoverShowLocal").style.zIndex = "20";
       document.getElementById("hoverShowLeaderboards").style.zIndex = "20";
       
-      document.getElementById("hoverShowLocal").style.left = "24%";
+      // document.getElementById("hoverShowLocal").style.left = "24%";
       document.getElementById("hoverShowOnline").style.left = "24%";
-      document.getElementById("hoverShowLocal").style.width = "25%";
+      // document.getElementById("hoverShowLocal").style.width = "25%";
       document.getElementById("hoverShowOnline").style.width = "25%";
 
       document.getElementById("hoverShowAccount").style.left = "51%";
@@ -98,7 +98,7 @@ function hide_main_card() {
       document.getElementById("hoverShowLeaderboards").style.width = "25%";
 
       setTimeout(function() {
-      document.getElementById("hoverShowLocal").innerHTML = "Local";
+      // document.getElementById("hoverShowLocal").innerHTML = "Local";
       document.getElementById("hoverShowOnline").innerHTML = "Online";
       document.getElementById("hoverShowAccount").innerHTML = "My Account";
       document.getElementById("hoverShowLeaderboards").innerHTML = "Leaderboards";
@@ -121,12 +121,12 @@ function show_main_card_mobile(card) {
   document.getElementById("mainCard_mobile").style.zIndex = "100";
 
   document.getElementById("accountCard_mobile").style.display = "none";
-  document.getElementById("localCard_mobile").style.display = "none";
+  // document.getElementById("localCard_mobile").style.display = "none";
   document.getElementById("onlineCard_mobile").style.display = "none";
   document.getElementById("leaderboardsCard_mobile").style.display = "none";
   document.getElementById("hoverShowAccount_mobile").style.zIndex = "-20";
   document.getElementById("hoverShowOnline_mobile").style.zIndex = "-20";
-  document.getElementById("hoverShowLocal_mobile").style.zIndex = "-20";
+  // document.getElementById("hoverShowLocal_mobile").style.zIndex = "-20";
   document.getElementById("hoverShowLeaderboards_mobile").style.zIndex = "-20";
 
   switch(card){
@@ -144,12 +144,12 @@ function show_main_card_mobile(card) {
       document.getElementById("hoverShowOnline_mobile").style.bottom = "80%";
       document.getElementById("hoverShowOnline_mobile").style.zIndex = "-20";
       break;
-    case 'local':
-      document.getElementById("hoverShowLocal_mobile").style.zIndex = "20";
-      document.getElementById("localCard_mobile").style.display = "inline-block";
-      document.getElementById("localCard_mobile").style.top = "31%";
-      document.getElementById("hoverShowLocal_mobile").style.bottom = "80%";
-      document.getElementById("hoverShowLocal_mobile").style.zIndex = "-20";
+    // case 'local':
+    //   document.getElementById("hoverShowLocal_mobile").style.zIndex = "20";
+    //   document.getElementById("localCard_mobile").style.display = "inline-block";
+    //   document.getElementById("localCard_mobile").style.top = "31%";
+    //   document.getElementById("hoverShowLocal_mobile").style.bottom = "80%";
+    //   document.getElementById("hoverShowLocal_mobile").style.zIndex = "-20";
       
       break;
     case 'account':
@@ -165,7 +165,7 @@ function show_main_card_mobile(card) {
 }
 
 function closeMainCard() {
-      document.getElementById("localCard_mobile").style.display = "none";
+      // document.getElementById("localCard_mobile").style.display = "none";
       document.getElementById("leaderboardsCard_mobile").style.display = "none";
       document.getElementById("onlineCard_mobile").style.display = "none";
       document.getElementById("accountCard_mobile").style.display = "none";
@@ -173,21 +173,21 @@ function closeMainCard() {
       document.getElementById("mainCard_mobile").style.zIndex = "-25";
       document.getElementById("hoverShowAccount_mobile").style.zIndex = "20";
       document.getElementById("hoverShowOnline_mobile").style.zIndex = "20";
-      document.getElementById("hoverShowLocal_mobile").style.zIndex = "20";
+      // document.getElementById("hoverShowLocal_mobile").style.zIndex = "20";
       document.getElementById("hoverShowLeaderboards_mobile").style.zIndex = "20";
       
-      document.getElementById("hoverShowLocal_mobile").style.bottom = "66%";
+      // document.getElementById("hoverShowLocal_mobile").style.bottom = "66%";
       document.getElementById("hoverShowOnline_mobile").style.bottom = "49%";
       document.getElementById("hoverShowAccount_mobile").style.bottom = "32%";
       document.getElementById("hoverShowLeaderboards_mobile").style.bottom = "15%";
 
       document.getElementById("hoverShowAccount_mobile").style.height = "15%";
       document.getElementById("hoverShowLeaderboards_mobile").style.height = "15%";
-      document.getElementById("hoverShowLocal_mobile").style.height = "15%";
+      // document.getElementById("hoverShowLocal_mobile").style.height = "15%";
       document.getElementById("hoverShowOnline_mobile").style.height = "15%";
 
       setTimeout(function() {
-      document.getElementById("hoverShowLocal_mobile").innerHTML = "Local";
+      // document.getElementById("hoverShowLocal_mobile").innerHTML = "Local";
       document.getElementById("hoverShowOnline_mobile").innerHTML = "Online";
       document.getElementById("hoverShowAccount_mobile").innerHTML = "My Account";
       document.getElementById("hoverShowLeaderboards_mobile").innerHTML = "Leaderboards";

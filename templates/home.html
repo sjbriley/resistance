@@ -57,10 +57,10 @@
                 My Account
             </div>
 
-            <br><br><br><br>
+            {% comment %} <br><br><br><br>
             <div class="card" id="hoverShowLocal" onClick="show_main_card('local')" onMouseOut="hide_main_card()">
                 Local
-            </div>
+            </div> {% endcomment %}
 
             <div class="card" id="hoverShowLeaderboards" onClick="show_main_card('leaderboards')" onMouseOut="hide_main_card()">
                 Leaderboards
@@ -76,9 +76,9 @@
                 My Account
             </div>
 
-            <div class="card" id="hoverShowLocal_mobile" onClick="show_main_card_mobile('local')">
+            {% comment %} <div class="card" id="hoverShowLocal_mobile" onClick="show_main_card_mobile('local')">
                 Local
-            </div>
+            </div> {% endcomment %}
 
             <div class="card" id="hoverShowLeaderboards_mobile" onClick="show_main_card_mobile('leaderboards')">
                 Leaderboards
@@ -87,7 +87,7 @@
 
         <span class="card" id="mainCard" onMouseOut="mouse_out_main_card()" onMouseOver="mouse_in_main_card()">
 
-                <span class="lead" id="localCard" style="display:none;">
+                {% comment %} <span class="lead" id="localCard" style="display:none;">
                     <p>Local<br>Join an Existing Game</p>
                     <form action="{% url 'home_local' %}" id='my_form' method='POST' name="localGame">
                         {% csrf_token %}
@@ -105,7 +105,7 @@
                     <form action="{% url 'local_game_set_up' %}" id='my_form' method='POST'>
                         {% csrf_token %}
                         <button type="submit" class="btn btn-primary btn-md button" style="width:150px;"><span>Start</span></button>
-                    </form>
+                    </form> {% endcomment %}
                 </span>
 
 
@@ -155,7 +155,7 @@
 
         <span class="card" id="mainCard_mobile">
 
-                <span class="lead" id="localCard_mobile" style="display:none;">
+                {% comment %} <span class="lead" id="localCard_mobile" style="display:none;">
                     <p>Local<br>Join an Existing Game</p>
                     <form action="{% url 'home_local' %}" id='my_form' method='POST' name="localGame">
                         {% csrf_token %}
@@ -174,7 +174,7 @@
                         {% csrf_token %}
                         <button type="submit" class="btn btn-primary btn-md button" style="width:150px;"><span>Start</span></button>
                     </form>
-                </span>
+                </span> {% endcomment %}
 
 
             <span class="lead" id="accountCard_mobile" style='display:none;'>

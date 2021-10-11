@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^online/', include(online_urls)),
     path('accounts/sign_up', online_views.sign_up, name="sign_up"),
     path('my_account', online_views.my_account, name="my_account"),
-    path('local/', include(local_urls)),
+    # path('local/', include(local_urls)),
     path('leaderboards', online_views.leaderboards, name="leaderboards"),
     path('about', online_views.about, name="about"),
     path('game_information', online_views.game_information, name="game_information"),

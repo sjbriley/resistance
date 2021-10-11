@@ -55,7 +55,7 @@ services:
   db:
     image: postgres:13.0-alpine
     volumes:
-      - postgres_data:/var/lib/postgresqpl/data/
+      - postgres_data:/var/lib/postgresql/data
     env_file:
       - ./resistance/.env.prod
 
