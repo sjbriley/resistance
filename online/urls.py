@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from online import views as online_views
+from . import views as online_views
 from django.conf.urls import include, url
 
 
