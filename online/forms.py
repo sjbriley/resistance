@@ -1,10 +1,9 @@
 from django.forms import ModelForm, Textarea
 from django import forms
-# from online.models import UserFunction
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from online.models import CustomUser, OnlineGames
+from .models import CustomUser, OnlineGames
 
 roles = ()
 

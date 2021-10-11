@@ -44,13 +44,10 @@
 
 {% if user.is_authenticated %}
     <div class="lead" id="leadCustom">
-
-
         <br>
-        
         <span class="d-none d-lg-block"> <!-- desktop -->
             <div class="card" id="hoverShowOnline" onClick="show_main_card('online')" onMouseOut="hide_main_card()">
-                Online
+                Play Online
             </div>
 
             <div class="card" id="hoverShowAccount" onClick="show_main_card('account')" onMouseOut="hide_main_card()">
@@ -58,8 +55,8 @@
             </div>
 
             <br><br><br><br>
-            <div class="card" id="hoverShowLocal" onClick="show_main_card('local')" onMouseOut="hide_main_card()">
-                Local
+            <div class="card" id="hoverShowGameInfo" onClick="show_main_card('gameInfo')" onMouseOut="hide_main_card()">
+                Game Information
             </div>
 
             <div class="card" id="hoverShowLeaderboards" onClick="show_main_card('leaderboards')" onMouseOut="hide_main_card()">
@@ -76,8 +73,8 @@
                 My Account
             </div>
 
-            <div class="card" id="hoverShowLocal_mobile" onClick="show_main_card_mobile('local')">
-                Local
+            <div class="card" id="hoverShowGameInfo_mobile" onClick="show_main_card_mobile('gameInfo')">
+                Game Information
             </div>
 
             <div class="card" id="hoverShowLeaderboards_mobile" onClick="show_main_card_mobile('leaderboards')">
@@ -87,25 +84,12 @@
 
         <span class="card" id="mainCard" onMouseOut="mouse_out_main_card()" onMouseOver="mouse_in_main_card()">
 
-                <span class="lead" id="localCard" style="display:none;">
-                    <p>Local<br>Join an Existing Game</p>
-                    <form action="{% url 'home_local' %}" id='my_form' method='POST' name="localGame">
-                        {% csrf_token %}
-                        <div class="form-control">
-                            <div class="lead">
-                                <span class="col-md-3" style="float:none;margin:auto;">{{ game_form.game_id }}</span>
-                                {% if form.errors %}
-                                <span style="color:red;">{{ game_form.game_id.errors | striptags }}</span>
-                                {% endif %}
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-md button" style="width:150px;"><span>Join</span></button>
-                    </form>
-                    Or start a new game
-                    <form action="{% url 'local_game_set_up' %}" id='my_form' method='POST'>
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-primary btn-md button" style="width:150px;"><span>Start</span></button>
-                    </form>
+                <span class="lead" id="gameInfoCard" style="display:none;">
+                    <p>Game Information
+                    <br>View Role information
+                    <br>View Game Rules
+                    <br>View website info
+                    </p>
                 </span>
 
 
@@ -155,25 +139,12 @@
 
         <span class="card" id="mainCard_mobile">
 
-                <span class="lead" id="localCard_mobile" style="display:none;">
-                    <p>Local<br>Join an Existing Game</p>
-                    <form action="{% url 'home_local' %}" id='my_form' method='POST' name="localGame">
-                        {% csrf_token %}
-                        <div class="form-control">
-                            <div class="lead">
-                                <span class="col-md-3" style="float:none;margin:auto;">{{ game_form.game_id }}</span>
-                                {% if form.errors %}
-                                <span style="color:red;">{{ game_form.game_id.errors | striptags }}</span>
-                                {% endif %}
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-md button" style="width:150px;"><span>Join</span></button>
-                    </form>
-                    Or start a new game
-                    <form action="{% url 'local_game_set_up' %}" id='my_form' method='POST'>
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-primary btn-md button" style="width:150px;"><span>Start</span></button>
-                    </form>
+                <span class="lead" id="gameInfoCard_mobile" style="display:none;">
+                    <p>Game Information
+                    <br>View Role information
+                    <br>View Game Rules
+                    <br>View website info
+                    </p>
                 </span>
 
 

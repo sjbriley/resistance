@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY=env("SECRET_KEY")
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG") == 'TRUE' # env("DEBUG") returns a string "TRUE" or "FALSE"
@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'online',
     'widget_tweaks',
-    'local',
     'channels',
 ]
 
@@ -86,9 +85,17 @@ WSGI_APPLICATION = 'resistance.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': env("DB_ENGINE"), # 'django.db.backends.postgresql_psycopg2',
+        'NAME': env("POSTGRES_DB"), # 'db',
+        'USER': env("POSTGRES_USER"), # 'postgres',
+        'PASSWORD': env("POSTGRES_PASSWORD"), # 'mypassword',
+        'HOST': env("DB_HOST"), # 'localhost',
+        'PORT': env("DB_PORT"), # '5432',
     }
 }
 
@@ -116,15 +123,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

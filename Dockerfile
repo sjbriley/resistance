@@ -20,7 +20,9 @@ COPY requirements.txt ./
 # installing dependency in container
 RUN apk add -U --no-cache \
     build-base \
-    libffi-dev
+    libffi-dev \
+    postgresql-dev \
+    gcc
 RUN pip install -r requirements.txt
 
 # copying all the files to present working directory

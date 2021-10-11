@@ -29,8 +29,9 @@ COPY --chown=app:app requirements.txt ./
 RUN apk add -U --no-cache \
     build-base \
     python3-dev \
-    libffi-dev
-    # gcc \
+    libffi-dev \
+    postgresql-dev \
+    gcc
     # linux-headers \
 #  libressl-dev libxslt-dev ca-certificates 
 RUN pip install -r requirements.txt
@@ -39,14 +40,8 @@ RUN pip install -r requirements.txt
 # also, change ownership since doing that as it's own recursive command takes forever
 COPY --chown=app:app . .
 
-# Collect static files
-# RUN virtualenv/bin/python manage.py collectstatic --no-input --clear
-# RUN python manage.py collectstatic --no-input --clear
-
 # Chown all the files to the app user
 RUN chown -R app:app $APP_HOME
-
-# RUN chown app:app db.sqlite3
 
 EXPOSE 80
 

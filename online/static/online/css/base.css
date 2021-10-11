@@ -211,7 +211,7 @@ tr:nth-child(odd) {
     background-color: #e5e8f3;
 }
 
-#hoverShowLocal {
+#hoverShowGameInfo {
     position: absolute;
     display: inline-block;
     width: 25%;
@@ -272,7 +272,7 @@ tr:nth-child(odd) {
     transition: 0.5;
 }
 
-#hoverShowLocal_mobile {
+#hoverShowGameInfo_mobile {
     position: absolute;
     display: inline-block;
     width: 70%;
@@ -311,17 +311,17 @@ tr:nth-child(odd) {
     transition: 0.5;
 }
 
-#localCard_mobile, #accountCard_mobile, #onlineCard_mobile, #leaderboardsCard_mobile{
+#gameInfoCard_mobile, #accountCard_mobile, #onlineCard_mobile, #leaderboardsCard_mobile{
     padding-left: 2%;
     padding-right: 2%;
 }
 
-#localCard, #onlineCard, #accountCard, #leaderboardsCard {
+#gameInfoCard, #onlineCard, #accountCard, #leaderboardsCard {
     width:60%;
     font-size:2rem;
 }
 
-#hoverShowLeaderboards:hover, #hoverShowAccount:hover, #hoverShowOnline:hover, #hoverShowLocal:hover {
+#hoverShowLeaderboards:hover, #hoverShowAccount:hover, #hoverShowOnline:hover, #hoverShowGameInfo:hover {
     box-shadow: 0 0 5px rgba(81, 203, 238, 1);
 }
   /*-------------------------*/

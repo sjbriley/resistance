@@ -1,10 +1,9 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
 from django.urls import reverse
-from online.forms import CustomAuthenticationForm, CustomLoginForm, GameForm, JoinExistingGame, ChangeName
+from .forms import CustomAuthenticationForm, CustomLoginForm, GameForm, JoinExistingGame, ChangeName
 from django.contrib.auth.decorators import login_required
-from online.models import CustomUser, OnlineGames
-from local.models import LocalGames
+from .models import CustomUser, OnlineGames
 from django.contrib import messages
 from django.contrib.auth.models import User
 
@@ -47,7 +46,7 @@ def home_page(request):
                      'jesterWins', 'puckWins',
                      'lancelotWins', 'merlinWins'):
             leaderboard[user.username][stat] = 0
-        games = LocalGames.objects.filter(players=user)
+        games = OnlineGames.objects.filter(players=user)
         leaderboard = get_leaderboard_info(games, user, leaderboard)
         data = leaderboard[user.username]
     else:
@@ -93,7 +92,7 @@ def sign_up(request):
 
 def leaderboards(request):
     """Gathers ALL users in database and processes their games and results"""
-    games = LocalGames.objects.all()
+    games = OnlineGames.objects.all()
     users = CustomUser.objects.all()
     leaderboard = {}
     sortedLeaderboardList = []
@@ -108,7 +107,7 @@ def leaderboards(request):
                      'lancelotWins', 'merlinWins'
                      ):
             leaderboard[user.username][stat] = 0
-        games = LocalGames.objects.filter(players=user)
+        games = OnlineGames.objects.filter(players=user)
         leaderboard = get_leaderboard_info(games, user, leaderboard)
         
     sortedLeaderboardList = sorted(sortedLeaderboardList, key=lambda x: leaderboard[x]['wins'])
