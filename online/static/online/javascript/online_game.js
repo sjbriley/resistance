@@ -13,10 +13,11 @@ function connectSocket() {
         wsProtocol = 'wss://'
       } else {wsProtocol = 'ws://'}
 
+    // if we are hosting locally (port 8000) or production (port 8001)
     if (window.location.host.includes('8000')){
         updateSocket = new WebSocket(
             wsProtocol + "127.0.0.1" + // used to be window.location.host, doesn't work prod
-            '/online/ws/' + game_ID + '/');
+            '8000/online/ws/' + game_ID + '/');
     }
     else{
         updateSocket = new WebSocket(

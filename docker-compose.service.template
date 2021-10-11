@@ -1,0 +1,17 @@
+# /etc/systemd/system/docker-compose.service
+
+[Unit]
+Description=Docker Compose Application Startup
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/home/ubuntu/resistance
+ExecStart=docker-compose -f docker-compose.prod.yml up -d --build
+ExecStop=docker-compose -f docker-compose.prod.yml down -v
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target
