@@ -58,11 +58,13 @@ services:
       - postgres_data:/var/lib/postgresql/data
     env_file:
       - ./resistance/.env.prod
+    ports:
+      - 5432:5432
 
-  db_migrate:
-    extends:
-      service: web
-    command: python manage.py migrate --noinput
+  # db_migrate:
+  #   extends:
+  #     service: web
+  #   command: python manage.py migrate --noinput
 
 volumes:
     static_volume:

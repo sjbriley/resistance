@@ -144,10 +144,14 @@
         <span class="card" id="mainCard_mobile">
 
                 <span class="lead" id="gameInfoCard_mobile" style="display:none;">
-                    <p>Game Information
-                    <br>View Role information
-                    <br>View Game Rules
-                    <br>View website info
+                    <div class="lead" id="customLink">
+                        <div id="leadCustom">
+                            <p>Game Information
+                            <br><a href="{% url 'role_information' %}">View Role information</a>
+                            <br><a href="{% url 'game_information' %}">View Game Rules</a>
+                            <br><a href="{% url 'about' %}">About this website</a>
+                        </div>
+                    </div>
                     </p>
                 </span>
 

@@ -1,6 +1,6 @@
 TODO:
 
-- Research & implement REST API
+- Research & implement REST API?
 - Implement actual user login and password authentication
 - Game logic
 - Unix socket for production

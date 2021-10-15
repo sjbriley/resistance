@@ -68,7 +68,7 @@ function show_main_card(card) {
   setTimeout(function() {
     document.getElementById("hoverShowAccount").innerHTML = "";
     document.getElementById("hoverShowLeaderboards").innerHTML = "";
-    // document.getElementById("hoverShowGameInfo").innerHTML = "";
+    document.getElementById("hoverShowGameInfo").innerHTML = "";
     document.getElementById("hoverShowOnline").innerHTML = "";
       }, 400);
 }

@@ -100,7 +100,7 @@ class OnlineGames(models.Model):
             return False
         if self.settings == '':
             return False
-        info = start_game(self.num_players, players, self.settings)
+        info = start_game(players, self.settings)
         self.roles = json.dumps(info)
         if info: return info
         else: return False

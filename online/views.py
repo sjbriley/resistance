@@ -154,10 +154,16 @@ def home_online(request):
             game_id = form.cleaned_data['game_id'].upper()
             try:
                 game = OnlineGames.objects.filter(game_id__iexact=game_id)[0]
-                if game.get_active():
+                # if game is in lobby and players can join
+                if game.get_lobby_setup():
                     return redirect('online_game', game_id = game_id)
-            except:
-                pass
+                else:
+                    print("Game not active")
+            except Exception as e:
+                print(e)
+                print('Exception occured')
+        else:
+            print('form not valid')
     messages.add_message(request, messages.ERROR, 'Game ID not valid')
     return redirect(reverse('home_page'))
 
@@ -191,8 +197,7 @@ def online_game(request, game_id):
             roles = form.getRoles()
             settings = {}
             for role in roles:
-                # settings[role] = form.cleaned_data[role]
-                settings[role] = 'yes'
+                settings[role] = form.cleaned_data[role]
             return render(request, 'online/online_game.html',
                           {
                           'game_id': game_id,
