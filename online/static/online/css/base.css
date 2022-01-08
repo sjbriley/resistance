@@ -59,7 +59,7 @@
 #mainBlock {
     background-color: rgba(241, 241, 241, 0.892);
     height: 100%;
-    position:absolute;
+    position: absolute;
     margin-right: 7.5%;
     margin-left: 7.5%;
     width: 85%;
@@ -161,7 +161,7 @@ html,body {
 }
 
 #goodRole {
-    color: rgb(195, 215, 255);
+    color: rgb(86, 123, 245);
 }
 
 #badRole {

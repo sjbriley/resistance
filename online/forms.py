@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from .models import CustomUser, OnlineGames
+from . import game_logic
 
 roles = ()
 
@@ -11,32 +12,31 @@ class CustomAuthenticationForm(forms.Form):
     """Used for verifying account creation
     """
     username = forms.CharField(
-                                max_length=30,
-                                label="Username",
-                                error_messages={'invalid': "Invalid Username"},
-                                widget=forms.TextInput(
-                                    attrs={
-                                        'class':'form-control',
-                                        'placeholder': 'Choose a unique username',
-                                        'style': 'font-size:1.25rem;'
-                                        }))
+                    max_length=30,
+                    label="Username",
+                    error_messages={'invalid': "Invalid Username"},
+                    widget=forms.TextInput(
+                        attrs={
+                            'class':'form-control',
+                            'placeholder': 'Choose a unique username',
+                            'style': 'font-size:1.25rem;'
+                            }))
     first_name = forms.CharField(
-                                label="First Name",
-                                error_messages={'invalid': "Invalid Name"},
-                                widget=forms.TextInput(
-                                    attrs={'class':'form-control',
-                                           'placeholder': 'First Name',
-                                           'style': 'font-size:1.25rem;'
-                                           }))
+                    label="First Name",
+                    error_messages={'invalid': "Invalid Name"},
+                    widget=forms.TextInput(
+                        attrs={'class':'form-control',
+                                'placeholder': 'First Name',
+                                'style': 'font-size:1.25rem;'
+                                }))
     last_name = forms.CharField(
-                                label="Last Name",
-                                error_messages={'invalid': "Invalid Name"},
-                                widget=forms.TextInput(
-                                    attrs={'class':'form-control',
-                                           'placeholder': 'Last Name',
-                                           'style': 'font-size:1.25rem;'
-                                           }))
-        
+                    label="Last Name",
+                    error_messages={'invalid': "Invalid Name"},
+                    widget=forms.TextInput(
+                        attrs={'class':'form-control',
+                                'placeholder': 'Last Name',
+                                'style': 'font-size:1.25rem;'
+                                }))
     def clean_username(self):
         """Verifies the username does not already exists.
         Returns the username if not for creation.
@@ -70,59 +70,7 @@ class CustomLoginForm(AuthenticationForm):
         model = CustomUser
         fields = ('username',)
 
-# contains all fields in game setup
-# add to the list as roles are added
-# FIELDS = [
-#             'jester', 'jester_percent', 
-#             'merlin', 'merlin_percent',
-#             'percival', 'percival_percent', 
-#             'uther', 'uther_percent',
-#             'tristan', 'tristan_percent',
-#             'iseult', 'iseult_percent',
-#             'arthur', 'arthur_percent',
-#             'lancelot', 'lancelot_percent',
-#             'guinevere', 'guinevere_percent',
-#             'mordred', 'mordred_percent',
-#             'morgana', 'morgana_percent',
-#             'maelagant', 'maelagant_percent',
-#             'colgrevance', 'colgrevance_percent',
-#             'assassin', 'assassin_percent'
-#         ]
-FIELDS = [
-            'jester', 
-            'merlin',
-            'percival',
-            'uther',
-            'tristan',
-            'iseult',
-            'arthur',
-            'lancelot',
-            'guinevere',
-            'mordred',
-            'morgana',
-            'maelagant',
-            'colgrevance',
-            'assassin',
-        ]
 class GameForm(forms.Form):
-    
-    # good roles
-    # jester      = forms.BooleanField(label="jester", required=False, initial=True)
-    # merlin      = forms.BooleanField(label="merlin", required=False, initial=True)
-    # percival    = forms.BooleanField(label="percival", required=False, initial=True)
-    # uther       = forms.BooleanField(label="uther", required=False, initial=True)
-    # tristan     = forms.BooleanField(label="tristan", required=False, initial=True)
-    # iseult      = forms.BooleanField(label="iseult", required=False, initial=True)
-    # arthur      = forms.BooleanField(label="arthur", required=False, initial=True)
-    # lancelot    = forms.BooleanField(label="lancelot", required=False, initial=True)
-    # guinevere   = forms.BooleanField(label="guinevere", required=False, initial=True)
-    
-    # # bad roles
-    # mordred     = forms.BooleanField(label="mordred", required=False, initial=True)
-    # morgana     = forms.BooleanField(label="morgana", required=False, initial=True)
-    # maelagant   = forms.BooleanField(label="maelagant", required=False, initial=True)
-    # colgrevance = forms.BooleanField(label="colgrevance", required=False, initial=True)
-    # assassin    = forms.BooleanField(label="assassin", required=False, initial=True)
     
     # define format to be used for percentage forms
     format = forms.IntegerField(
@@ -139,6 +87,7 @@ class GameForm(forms.Form):
     uther = format
     tristan = format
     iseult = format
+    puck = format
     arthur = format
     lancelot = format
     guinevere = format
@@ -147,10 +96,35 @@ class GameForm(forms.Form):
     maelagant = format
     colgrevance = format
     assassin = format
+    # we need to verify all roles are listed here
+    # and match with ALL_ROLES
+    min_assassinable_roles = forms.IntegerField(
+                label = 'Min # of Assassinable Roles',
+                initial = 1,
+                widget = forms.NumberInput(
+                    attrs={
+                        'class':'form-text',
+                        'min': '0',
+                        'max': '3',
+                 }))
+    max_assassinable_roles = forms.IntegerField(
+                label = 'Max # of Assassinable Roles',
+                initial = 3,
+                widget = forms.NumberInput(
+                    attrs={
+                        'class':'form-text',
+                        'min': '0',
+                        'max': '3',
+                 }))
     # delete so 'format' is not an actual field displayed
     del format
-    field_order = FIELDS
-
+    
+    def __init__(self, *args, **kwargs):
+        super(GameForm, self).__init__(*args, **kwargs)
+        self.roles = game_logic.ALL_ROLES
+        # remove the colon from labels
+        self.label_suffix = ""
+        
     def roles(self):
         # print([field for field in self if 'percent' not in str(field)])
         return [field for field in self]# if 'percent' not in str(field)]
@@ -161,20 +135,13 @@ class GameForm(forms.Form):
     def get_fields(self):
         # print(zip(self.roles(), self.percents()))
         return zip(self.roles(), self.percents())
-    
-    def __init__(self, *args, **kwargs):
-        super(GameForm, self).__init__(*args, **kwargs)
-        self.roles = ('jester', 'merlin', 'percival', 'uther',
-                      'tristan', 'iseult', 'arthur', 'lancelot',
-                      'guinevere', 'mordred', 'morgana', 'maelagant',
-                      'colgrevance', 'assassin')
         
-    def getRoles(self):
+    def get_roles(self):
         return self.roles
-    class Meta:
-        model = OnlineGames
-        fields = FIELDS
-        widgets = {}
+    # class Meta:
+    #     model = OnlineGames
+    #     fields = FIELDS
+    #     widgets = {}
         # for role in fields:
         #     if 'percent' not in role:
         #         widgets[role] = forms.RadioSelect(
@@ -185,45 +152,49 @@ class GameForm(forms.Form):
         
 
     def clean(self):
+        super(GameForm, self).clean()
         cleaned_data = super(GameForm, self).clean()
-        iseult = cleaned_data.get("iseult")
-        tristan = cleaned_data.get("tristan")
+        iseult = cleaned_data.get(game_logic.ISEULT)
+        tristan = cleaned_data.get(game_logic.TRISTAN)
         if iseult != tristan:
-            self.add_error('iseult', "Both iseult and tristan must have the same likelyhood")
+            self.add_error(game_logic.ISEULT, "Both iseult and tristan must have the same likelyhood")
+        if self.cleaned_data[game_logic.MIN_ASSASSIN] > self.cleaned_data[game_logic.MAX_ASSASSIN]:
+            self.add_error(game_logic.MIN_ASSASSIN, "Min # of assassinable roles cannot be greater than max")
         return cleaned_data
+
 class JoinExistingGame(forms.Form):
     game_id = forms.CharField(
-                                max_length=6,
-                                label="Game ID",
-                                error_messages={'invalid': "Invalid Game ID"},
-                                required=True,
-                                widget=forms.TextInput(
-                                    attrs={'class': 'form-control text-center',
-                                           'placeholder': 'Enter 6-character Game ID', 
-                                            'style': 'font-size:1rem;text-transform:uppercase;',
-                                            'autocomplete':'off'
-                                            }))
+                max_length=6,
+                label="Game ID",
+                error_messages={'invalid': "Invalid Game ID"},
+                required=True,
+                widget=forms.TextInput(
+                    attrs={'class': 'form-control text-center',
+                            'placeholder': 'Enter 6-character Game ID', 
+                            'style': 'font-size:1rem;text-transform:uppercase;',
+                            'autocomplete':'off'
+                            }))
     
-    class Meta:
-        model = OnlineGames
-        fields = ('game_id',)
+    # class Meta:
+    #     model = OnlineGames
+    #     fields = ('game_id',)
         
 class ChangeName(forms.Form):
     first_name = forms.CharField(
-                                label="First Name",
-                                error_messages={'invalid': "Invalid Name"},
-                                widget=forms.TextInput(
-                                    attrs={
-                                        'class':'form-control',
-                                        'placeholder': 'First Name',
-                                        'style': 'font-size:1.25rem;'
-                                        }))
+                label="First Name",
+                error_messages={'invalid': "Invalid Name"},
+                widget=forms.TextInput(
+                    attrs={
+                        'class':'form-control',
+                        'placeholder': 'First Name',
+                        'style': 'font-size:1.25rem;'
+                        }))
     last_name = forms.CharField(
-                                label="Last Name",
-                                error_messages={'invalid': "Invalid Name"},
-                                widget=forms.TextInput(
-                                    attrs={
-                                        'class':'form-control',
-                                        'placeholder': 'Last Name',
-                                        'style': 'font-size:1.25rem;'
-                                        }))
+                label="Last Name",
+                error_messages={'invalid': "Invalid Name"},
+                widget=forms.TextInput(
+                    attrs={
+                        'class':'form-control',
+                        'placeholder': 'Last Name',
+                        'style': 'font-size:1.25rem;'
+                        }))

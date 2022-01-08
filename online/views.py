@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .models import CustomUser, OnlineGames
 from django.contrib import messages
 from django.contrib.auth.models import User
+from .game_logic import GOOD_ROLES, BAD_ROLES, MIN_ASSASSIN, MAX_ASSASSIN
 
 def home_page(request):
     """Passes form for user to allow thme to sign in, along with their full name for display.
@@ -179,7 +180,15 @@ def online_game_set_up(request):
                                      + string.digits.replace('0','')) for _ in range(6)])
     game = OnlineGames(game_id=game_id)
     game.save()
-    return render(request, 'online/online_game_set_up.html', {'form': form, 'game_id': game_id})
+    return render(
+        request,
+        'online/online_game_set_up.html',
+        {
+            'form': form,
+            'game_id': game_id,
+            'good_roles': GOOD_ROLES,
+            'bad_roles': BAD_ROLES,
+        })
     
 @login_required
 def online_game(request, game_id):
@@ -194,10 +203,13 @@ def online_game(request, game_id):
     if request.method == 'POST':
         form = GameForm(data=request.POST)
         if form.is_valid():
-            roles = form.getRoles()
+            roles = form.get_roles()
             settings = {}
             for role in roles:
                 settings[role] = form.cleaned_data[role]
+            settings[MIN_ASSASSIN] = form.cleaned_data[MIN_ASSASSIN]
+            settings[MAX_ASSASSIN] = form.cleaned_data[MAX_ASSASSIN]
+            print(settings)
             return render(request, 'online/online_game.html',
                           {
                           'game_id': game_id,

@@ -9,15 +9,22 @@
         <div class="lead">
             {% for option in form %}
                 <div class='col-md-7 text-end'>
-                    {{ option.label_tag }}&ensp;
-                    {{ option }}&ensp;%
+                {% if option.label|lower in good_roles %}
+                    <span id="goodRole"
+                {% elif option.label|lower in bad_roles %}
+                    <span id="badRole">
+                {% endif %}
+                {{ option.label_tag }}:&ensp;
+                </span>
+                {{ option }}&ensp;%
                 </div>
             {% endfor %}
-            
+            Note: Iseult and Tristan (lovers) count as one assassinable role.
             {% if form.errors %}
                 {% for option in form %}
-                    {% if option.errors %}<br>{% endif %}
-                    <span style="color:red;">{{ option.errors | striptags }}</span>
+                    {% if option.errors %}<br>
+                    <span style="color:red;">Error: {{ option.errors | striptags }}</span>
+                    {% endif %}
                 {% endfor %}
             {% endif %}
         </div>
