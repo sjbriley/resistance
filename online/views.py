@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .models import CustomUser, OnlineGames
 from django.contrib import messages
 from django.contrib.auth.models import User
+from .game_logic import GOOD_ROLES, BAD_ROLES, MIN_ASSASSIN, MAX_ASSASSIN
 
 def home_page(request):
     """Passes form for user to allow thme to sign in, along with their full name for display.
@@ -61,7 +62,10 @@ def home_page(request):
                     })
 
 def game_information(request):
-    return render(request, 'game_information.html')
+    return render(request, 'game_information/game_information.html')
+
+def role_information(request):
+    return render(request, 'game_information/role_information.html')
 
 def about(request):
     return render(request, 'about.html')
@@ -151,16 +155,24 @@ def home_online(request):
             game_id = form.cleaned_data['game_id'].upper()
             try:
                 game = OnlineGames.objects.filter(game_id__iexact=game_id)[0]
-                if game.get_active():
+                # if game is in lobby and players can join
+                if game.get_lobby_setup():
                     return redirect('online_game', game_id = game_id)
-            except:
-                pass
+                else:
+                    print("Game not active")
+            except Exception as e:
+                print(e)
+                print('Exception occured')
+        else:
+            print('form not valid')
     messages.add_message(request, messages.ERROR, 'Game ID not valid')
     return redirect(reverse('home_page'))
 
 @login_required
 def online_game_set_up(request):
-    """Allows host to set up game with their settings"""
+    """Allows host to set up game with their settings.
+    Generate a random 6 digit ID and save the game to db.    
+    """
     form = GameForm()
     import random, string
     # generate a 6 digit game ID with numbers and uppercase letters
@@ -168,7 +180,15 @@ def online_game_set_up(request):
                                      + string.digits.replace('0','')) for _ in range(6)])
     game = OnlineGames(game_id=game_id)
     game.save()
-    return render(request, 'online/online_game_set_up.html', {'form': form, 'game_id': game_id})
+    return render(
+        request,
+        'online/online_game_set_up.html',
+        {
+            'form': form,
+            'game_id': game_id,
+            'good_roles': GOOD_ROLES,
+            'bad_roles': BAD_ROLES,
+        })
     
 @login_required
 def online_game(request, game_id):
@@ -183,11 +203,13 @@ def online_game(request, game_id):
     if request.method == 'POST':
         form = GameForm(data=request.POST)
         if form.is_valid():
-            roles = form.getRoles()
+            roles = form.get_roles()
             settings = {}
             for role in roles:
-                # settings[role] = form.cleaned_data[role]
-                settings[role] = 'yes'
+                settings[role] = form.cleaned_data[role]
+            settings[MIN_ASSASSIN] = form.cleaned_data[MIN_ASSASSIN]
+            settings[MAX_ASSASSIN] = form.cleaned_data[MAX_ASSASSIN]
+            print(settings)
             return render(request, 'online/online_game.html',
                           {
                           'game_id': game_id,

@@ -28,5 +28,6 @@ urlpatterns = [
     path('my_account', online_views.my_account, name="my_account"),
     path('leaderboards', online_views.leaderboards, name="leaderboards"),
     path('about', online_views.about, name="about"),
-    path('game_information', online_views.game_information, name="game_information"),
+    path('game_information/', online_views.game_information, name="game_information"),
+    path('game_information/roles', online_views.role_information, name="role_information"),
 ]

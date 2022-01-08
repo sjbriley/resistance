@@ -61,3 +61,15 @@ docker-compose -f docker-compose.yml down -v
 for issues with migrations, try with a specific app-
     python manage.py makemigrations online
     python manage.py migrate
+
+To backup database:
+
+```
+docker-compose -f docker-compose.prod.yml exec resistance_db_1 backup
+docker exec -u sjbriley -i resistance_db_1 pg_dump -Fc db > db.dump
+```
+
+View backups:
+```
+docker-compose -f docker-compose.prod.yml exec resistance_db_1 backups
+```

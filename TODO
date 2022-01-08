@@ -1,0 +1,18 @@
+TODO:
+
+- Research & implement REST API?
+- Implement actual user login and password authentication
+- Game logic
+- Unix socket for production
+- Production:
+    - Persistent database
+    - Backup database
+- Testing:
+    - Write functional tests
+        - webpage rendering
+    - Unit tests:
+        - websockets
+        - views
+        - models and database
+- Game & website information pages
+- Fix leaderboard page, maybe ability for multiple pages

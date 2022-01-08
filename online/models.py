@@ -77,7 +77,8 @@ class OnlineGames(models.Model):
 
     def get_user_leaderboard_info(self, player):
         """Returns games results for a particular player
-        Reurns [won,team, role]"""
+        Reurns [won,team, role]
+        """
         player = CustomUser.objects.filter(username__iexact=player)[0]
         return [True, 'resistance', 'jester']
     
@@ -100,7 +101,7 @@ class OnlineGames(models.Model):
             return False
         if self.settings == '':
             return False
-        info = start_game(self.num_players, players, self.settings)
+        info = start_game(players, self.settings)
         self.roles = json.dumps(info)
         if info: return info
         else: return False
