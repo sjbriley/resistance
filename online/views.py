@@ -6,9 +6,12 @@ from django.contrib.auth.decorators import login_required
 from .models import CustomUser, OnlineGames
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.http import HttpRequest, HttpResponse
+from django.db.models import QuerySet
+from typing import Union
 from .game_logic import GOOD_ROLES, BAD_ROLES, MIN_ASSASSIN, MAX_ASSASSIN
 
-def home_page(request):
+def home_page(request: HttpRequest) -> HttpResponse:
     """Passes form for user to allow thme to sign in, along with their full name for display.
     """
     login_form = CustomLoginForm()
@@ -36,6 +39,7 @@ def home_page(request):
                             })
         else:
             print(login_form.errors)
+    # get this users leaderboard information
     if request.user.is_authenticated:
         full_name = request.user.get_full_name()
         leaderboard = {}
@@ -61,16 +65,16 @@ def home_page(request):
                     'full_name': full_name
                     })
 
-def game_information(request):
+def game_information(request: HttpRequest) -> HttpResponse:
     return render(request, 'game_information/game_information.html')
 
-def role_information(request):
+def role_information(request: HttpRequest) -> HttpResponse:
     return render(request, 'game_information/role_information.html')
 
-def about(request):
+def about(request: HttpRequest) -> HttpResponse:
     return render(request, 'about.html')
 
-def sign_up(request):
+def sign_up(request: HttpRequest) -> HttpResponse:
     """passes form to user allowing for signing up"""
     form = CustomAuthenticationForm()
     if request.method == 'POST':
@@ -94,7 +98,7 @@ def sign_up(request):
             print(form.errors)
     return render(request, 'registration/sign_up.html', {'form':form})
 
-def leaderboards(request):
+def leaderboards(request: HttpRequest) -> HttpResponse:
     """Gathers ALL users in database and processes their games and results"""
     games = OnlineGames.objects.all()
     users = CustomUser.objects.all()
@@ -103,6 +107,7 @@ def leaderboards(request):
     for user in users:
         sortedLeaderboardList.append(user.username)
         leaderboard[user.username] = {}
+        # initialize leaderboard dict with all users
         for stat in (
                      'gamesPlayed', 'wins', 'losses',
                      'resistanceWins', 'spyWins',
@@ -112,6 +117,7 @@ def leaderboards(request):
                      ):
             leaderboard[user.username][stat] = 0
         games = OnlineGames.objects.filter(players=user)
+        # pass in games this user has participated in to update leaderboards
         leaderboard = get_leaderboard_info(games, user, leaderboard)
         
     sortedLeaderboardList = sorted(sortedLeaderboardList, key=lambda x: leaderboard[x]['wins'])
@@ -121,7 +127,7 @@ def leaderboards(request):
         })
 
 @login_required
-def my_account(request):
+def my_account(request: HttpRequest) -> HttpResponse:
     """Access my_account page, pass in form allowing for first name/last name changing"""
     if request.method == 'POST':
         form = ChangeName(data=request.POST)
@@ -146,7 +152,7 @@ def my_account(request):
     return render(request, 'my_account.html', {'data':data, 'form':form})
 
 @login_required
-def home_online(request):
+def home_online(request: HttpRequest) -> HttpResponse:
     """Allows user to enter game ID or start a new game"""
     form = JoinExistingGame()
     if request.method == 'POST':
@@ -169,7 +175,7 @@ def home_online(request):
     return redirect(reverse('home_page'))
 
 @login_required
-def online_game_set_up(request):
+def online_game_set_up(request: HttpRequest) -> HttpResponse:
     """Allows host to set up game with their settings.
     Generate a random 6 digit ID and save the game to db.    
     """
@@ -191,7 +197,7 @@ def online_game_set_up(request):
         })
     
 @login_required
-def online_game(request, game_id):
+def online_game(request: HttpRequest, game_id: int) -> HttpResponse:
     """Game page for online games"""
     try:
         game = OnlineGames.objects.filter(game_id__iexact=game_id)[0]
@@ -223,24 +229,27 @@ def online_game(request, game_id):
                                             })
     return render(request, 'online/online_game.html', {'game_id': game_id})
 
-def get_leaderboard_info(games, user, leaderboard):
+def get_leaderboard_info(games: QuerySet, user: CustomUser, leaderboard: dict) -> dict:
     """Returns information for the leaderboards page and my_account
     Searches games that user was in and compiles information
 
     Args:
-        games
-        user
-        leaderboard
+        games (QuerySet): contains all games that user played in
+        user (CustomUser): current user
+        leaderboard: dict
+        
+    Returns:
+        dict: updated leaderboard info
         
     """
     leaderboard[user.username]['full_name'] = user.get_full_name()
     for game in games:
         # was the game not finished and/or still in progress?
-        if game.get_lobby_setup() == True:
+        if game.get_lobby_setup() is True:
             continue
         info = game.get_user_leaderboard_info(user.username)
         leaderboard[user.username]['games_player'] += 1
-        if info[0] == False:
+        if info[0] is False:
             leaderboard[user.username]['losses'] += 1
             if info[1] == 'spy':
                 leaderboard[user.username]['spy_losses'] += 1
@@ -254,16 +263,16 @@ def get_leaderboard_info(games, user, leaderboard):
                 leaderboard[user.username]['resistance_wins'] += 1
                 if info[2] == 'jester':
                     leaderboard[user.username]['jester_wins'] += 1
-                if info[2] == 'puck':
+                elif info[2] == 'puck':
                     leaderboard[user.username]['puck_wins'] += 1
-                if info[2] == 'lancelot':
+                elif info[2] == 'lancelot':
                     leaderboard[user.username]['lancelot_wins'] += 1
-                if info[2] == 'merlin':
+                elif info[2] == 'merlin':
                     leaderboard[user.username]['merlin_wins'] += 1
     try:
         leaderboard[user.username]['win_percentage'] = round(
-                                leaderboard[user.username]['wins'] / leaderboard[user.username]['gamesPlayed'] * 100, 1
-                                )
+            leaderboard[user.username]['wins'] / leaderboard[user.username]['gamesPlayed'] * 100, 1
+            )
     except ZeroDivisionError:
         leaderboard[user.username]['win_percentage'] = 'N/A'
     return leaderboard

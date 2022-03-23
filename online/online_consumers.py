@@ -1,70 +1,7 @@
-# import json
-# from asgiref.sync import async_to_sync
-# from channels.generic.websocket import WebsocketConsumer
-
-# # def ws_connect(message):
-# #     Group('users').add(message.reply_channel)
-
-
-# # def ws_disconnect(message):
-# #     Group('users').discard(message.reply_channel)
-    
-    
-
-# class GameConsumer(WebsocketConsumer):
-    
-#     def connect(self):
-#         self.game_id = self.scope['url_route']['kwargs']['game_id']
-#         self.sheet_group_name = 'sheet_%s' % self.game_id
-#         print(f'game id is {self.game_id} and sheet name is {self.sheet_group_name}')
-
-#         # Join group
-#         async_to_sync(self.channel_layer.group_add)(
-#             self.sheet_group_name,
-#             self.channel_name
-#         )
-#         self.accept()
-
-#     def disconnect(self, close_code):
-#         # Leave group
-#         async_to_sync(self.channel_layer.group_discard)(
-#             self.sheet_group_name,
-#             self.channel_name
-#         )
-
-#     # Receive message from WebSocket
-#     def receive(self, text_data):
-#         text_data_json = json.loads(text_data)
-#         print('received data: ' + str(text_data_json))
-#         async_to_sync(self.channel_layer.group_send)(
-#             self.sheet_group_name,
-#             {
-#                 'type': 'refresh_sheet',
-#                 'game_id': text_data_json['game_id'],
-#                 'gameType': text_data_json['gameType'],
-#                 'username': text_data_json['username'],
-#                 'init': text_data_json['init'],
-#                 'host': text_data_json['host'],
-#                 'user_roles': text_data_json['user_roles'],
-#             }
-#         )
-
-#     # Receive message from sheet group
-#     def refresh_sheet(self, event):
-#         # Send game_id to WebSocket
-#         self.send(text_data=json.dumps({
-#             'game_id': event['game_id'],
-#             'gameType': event['gameType'],
-#             'username': event['username'],
-#             'init': event['init'],
-#             'host': event['host'],
-#             'user_roles': event['user_roles'],
-#         }))
-
-
 import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
+from typing import Optional
 from .models import OnlineGames
 from .game_logic import JESTER, \
                         MERLIN, \
@@ -83,11 +20,12 @@ from .game_logic import JESTER, \
 
 class GameConsumer(WebsocketConsumer):
 
-    def __init__(self,*args, **kwargs):
+    def __init__(self,*args, **kwargs) -> None:
         super(GameConsumer, self).__init__(*args, **kwargs)
         # create self.username?
 
-    def connect(self):
+    def connect(self) -> None:
+        """Responsipble for connecting user to channel"""
         self.game_id = self.scope['url_route']['kwargs']['game_id']
         self.game = OnlineGames.objects.filter(game_id__iexact=self.game_id)[0]
         self.game_group_name = 'game_id_%s' % self.game_id
@@ -99,15 +37,16 @@ class GameConsumer(WebsocketConsumer):
         )
         self.accept()
 
-    def disconnect(self, close_code):
-        # Leave game group
+    def disconnect(self, close_code: Optional[int] = None) -> None:
+        """responsible for user leaving channel"""
         async_to_sync(self.channel_layer.group_discard)(
             self.game_group_name,
             self.channel_name
         )
 
     # Receive message from WebSocket
-    def receive(self, text_data):
+    def receive(self, text_data: dict) -> None:
+        """Receives messages in channel and interprets what actions need to be done"""
         # receive the data
         text_data_json = json.loads(text_data)
 
@@ -149,8 +88,8 @@ class GameConsumer(WebsocketConsumer):
                     {'type': 'refresh_game', 'game_finished': True, 'winner': winner}
                 )
 
-    # Receive message and send to group. All keys must be in this function
-    def refresh_game(self, event):
+    def refresh_game(self, event: str) -> None:
+        """Send messages to group. Must contain all keys"""
         self.send(text_data=json.dumps(event))
             # {
             # 'game_id': event['game_id'] if 'game_id' in event else None,
