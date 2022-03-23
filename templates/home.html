@@ -190,30 +190,16 @@
             </span>
 
             <span class="lead" id="leaderboardsCard_mobile" style='display:none;'>
-                leaderboard card
+                <span id="customLink">
+                    <a href="{% url 'leaderboards' %}">View Leaderboards</a>
+                </span>
+                <br>Show leaderboards highlights here
             </span>
 
         <button onclick='closeMainCard()' class="btn btn-secondary btn-md" style='position:absolute;bottom:2%;left:20%;width:60%;'>Back</button>
 
         </span>
 
-
-
-{% comment %} 
-        <span class="d-lg-none">
-            <div class="span2" style="margin-top:4%;">
-                <a href="{% url 'my_account' %}" type="button"  class="btn btn-secondary btn-lg btn-block" style="width:250px;">Go to my account</a>
-            </div>
-            <div class="span2" style="margin-top:4%;">
-                <a href="{% url 'leaderboards' %}" type="button"  class="btn btn-secondary btn-lg btn-block" style="width:250px;">Leaderboards</a>
-            </div>
-            <div class="span2" style="margin-top:4%;">
-                <a href="{% url 'game_information' %}" type="button"  class="btn btn-secondary btn-lg btn-block" style="width:250px;">game information</a>
-            </div>
-            <div class="span2" style="margin-top:4%;">
-                <a href="{% url 'about' %}" type="button"  class="btn btn-secondary btn-lg btn-block" style="width:250px;">About</a>
-            </div>
-        </span> {% endcomment %}
 </div>
 {% endif %}
 

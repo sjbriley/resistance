@@ -212,7 +212,7 @@ window.onload = function() {
             }));
             console.log("Game started");
     }
-        // REMOVE THIS BELOW
+        // REMOVE THIS BELOW - debugging purposes
         // updateSocket.send(JSON.stringify({
         //     'game_started': true,
         // }));

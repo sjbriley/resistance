@@ -59,7 +59,7 @@ MAELAGANT, \
 COLGREVANCE
 """
 
-def start_game(players, settings):
+def create_game_logic(players: list, settings: dict) -> dict:
     """Starts the game
     
     Args:
@@ -150,7 +150,7 @@ def start_game(players, settings):
                     count += 1
     return roles
                     
-def get_individual_role(start, chances, roles, player):
+def get_individual_role(start: int, chances: list, roles: dict, player: str) -> tuple:
     """Randomly assigns a role to a player
     
     Args:
@@ -166,7 +166,7 @@ def get_individual_role(start, chances, roles, player):
     """
     # randint is inclusive of 0 and start
     # 'in range' is not inclusive of far end, so we need to add 1
-    while True:
+    for _ in range(100000):
         ran_num = randint(0, start)
         for role in chances:
             if ran_num in range(int(chances[role][0]), int(chances[role][1]) + 1):
@@ -176,8 +176,9 @@ def get_individual_role(start, chances, roles, player):
                     chances, roles = assign_lovers(chances, roles, role)
                 del chances[role]
                 return start, chances, roles
+    raise Exception("Role could not be assigned in get_individual_roles")
             
-def assign_lovers(good_chances, roles, lover_role):
+def assign_lovers(good_chances: dict, roles: dict, lover_role: str) -> dict:
     """Assigns lovers to 2 players, overwrites role if needed.
     
     Args:
@@ -209,9 +210,16 @@ def assign_lovers(good_chances, roles, lover_role):
             del good_chances[other_lover]
             return good_chances, roles
     
-def adjust_assassinable_roles(start, chances, roles, assassinable_range):
+def adjust_assassinable_roles(start: int, chances: dict, roles: dict, assassinable_range: tuple) -> dict:
     """Verifies the minimum and maximum num of assassinable roles are met.
     Removes or adds an assinable role if criteria not met.
+    
+    Args:
+        start (int): max range of choice index
+        chances (dict): each value is a tuple of indexes (#, #)
+                        which represent a range for a role
+        roles (dict): dictionary of players and their role info
+        assassinable_range (tuple): (min # assassinable, max # assassinable)
     
     Returns:
         dict: updated roles
@@ -240,24 +248,4 @@ def adjust_assassinable_roles(start, chances, roles, assassinable_range):
             for player in roles:
                 if roles[player][0] is False and roles[player][1] == '':
                     start, chances, roles = get_individual_role(start, new_chance, roles, player)
-                            
-        
-        
-        
-        
-        
-            # for player in roles:
-                # if roles[player][1] not in ASSASSINABLE_ROLES and roles[player][0] is False:
-                #     for assass_role in ASSASSINABLE_ROLES:
-                #         if assass_role in chances:
-                #             if assass_role == TRISTAN and (assassinable_range[1] - num_assassinable) >= 2:
-                #                 roles[player][1] = assass_role
-                #                 del chances[assass_role]
-                #                 assign_lovers(chances, roles, TRISTAN)
-                #             elif assass_role == ISEULT and (assassinable_range[1] - num_assassinable) >= 2:
-                #                 roles[player][1] = assass_role
-                #                 del chances[assass_role]
-                #                 assign_lovers(chances, roles, ISEULT)
-                #             roles[player][1] = assass_role
-                #             del chances[assass_role]
     return roles

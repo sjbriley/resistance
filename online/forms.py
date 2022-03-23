@@ -3,6 +3,8 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from typing import Union
+
 from .models import CustomUser, OnlineGames
 from . import game_logic
 
@@ -37,7 +39,8 @@ class CustomAuthenticationForm(forms.Form):
                                 'placeholder': 'Last Name',
                                 'style': 'font-size:1.25rem;'
                                 }))
-    def clean_username(self):
+    
+    def clean_username(self) -> str:
         """Verifies the username does not already exists.
         Returns the username if not for creation.
         """
@@ -54,16 +57,16 @@ class CustomLoginForm(AuthenticationForm):
     """Used for verifying user exists when logging in
     """
     username = forms.CharField(
-                                max_length=30,
-                                label="Username",
-                                error_messages={'invalid': "Invalid Username"},
-                                widget=forms.TextInput(
-                                    attrs={'class':'form-control',
-                                           'placeholder': 'Enter your unique username',
-                                           'style': 'font-size:1.25rem;text-align:center;'
-                                           }))
-    
-    def __init__(self,*args, **kwargs):
+                max_length=30,
+                label="Username",
+                error_messages={'invalid': "Invalid Username"},
+                widget=forms.TextInput(
+                    attrs={'class':'form-control',
+                            'placeholder': 'Enter your unique username',
+                            'style': 'font-size:1.25rem;text-align:center;'
+                            }))
+
+    def __init__(self, *args, **kwargs) -> None:
         super(CustomLoginForm, self).__init__(*args, **kwargs)
         del self.fields['password']
     class Meta:
@@ -119,39 +122,27 @@ class GameForm(forms.Form):
     # delete so 'format' is not an actual field displayed
     del format
     
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super(GameForm, self).__init__(*args, **kwargs)
         self.roles = game_logic.ALL_ROLES
         # remove the colon from labels
         self.label_suffix = ""
         
-    def roles(self):
+    def roles(self) -> list:
         # print([field for field in self if 'percent' not in str(field)])
         return [field for field in self]# if 'percent' not in str(field)]
     
-    def percents(self):
+    def percents(self) -> list:
         return [field for field in self if 'percent' in str(field)]
 
-    def get_fields(self):
+    def get_fields(self) -> tuple:
         # print(zip(self.roles(), self.percents()))
         return zip(self.roles(), self.percents())
         
-    def get_roles(self):
+    def get_roles(self) -> tuple:
         return self.roles
-    # class Meta:
-    #     model = OnlineGames
-    #     fields = FIELDS
-    #     widgets = {}
-        # for role in fields:
-        #     if 'percent' not in role:
-        #         widgets[role] = forms.RadioSelect(
-        #             attrs={
-        #                 'class': 'form-check-label',
-        #                 'default': 'enabled'
-        #                 })
-        
 
-    def clean(self):
+    def clean(self) -> dict:
         super(GameForm, self).clean()
         cleaned_data = super(GameForm, self).clean()
         iseult = cleaned_data.get(game_logic.ISEULT)
@@ -174,11 +165,6 @@ class JoinExistingGame(forms.Form):
                             'style': 'font-size:1rem;text-transform:uppercase;',
                             'autocomplete':'off'
                             }))
-    
-    # class Meta:
-    #     model = OnlineGames
-    #     fields = ('game_id',)
-        
 class ChangeName(forms.Form):
     first_name = forms.CharField(
                 label="First Name",

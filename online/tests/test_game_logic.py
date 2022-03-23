@@ -20,7 +20,7 @@ class GameLogic(TestCase):
         for player in players:
             log[player] = 0
         for _ in range(10000):
-            results = game_logic.start_game(players, settings)
+            results = game_logic.create_game_logic(players, settings)
             for player in results:
                 if results[player][0] is True:
                     log[player] += 1
@@ -41,7 +41,7 @@ class GameLogic(TestCase):
         settings[game_logic.MIN_ASSASSIN] = '1'
         settings[game_logic.MAX_ASSASSIN] = '2'
         settings = json.dumps(settings)
-        results = game_logic.start_game(players, settings)
+        results = game_logic.create_game_logic(players, settings)
         # assert the correct # of good/bad roles as well as only 1 assassin
         good = 0
         bad = 0
@@ -71,7 +71,7 @@ class GameLogic(TestCase):
         settings[game_logic.MAX_ASSASSIN] = '1'
         settings[game_logic.ASSASSIN] = '0'
         settings = json.dumps(settings)
-        results = game_logic.start_game(players, settings)
+        results = game_logic.create_game_logic(players, settings)
         # assert the correct # of good/bad roles as well as only 1 assassin
         good = 0
         bad = 0
@@ -107,7 +107,7 @@ class GameLogic(TestCase):
         for player in players:
             log[player] = 0
         for _ in range(10000):
-            results = game_logic.start_game(players, settings)
+            results = game_logic.create_game_logic(players, settings)
             for player in results:
                 if results[player][2] is True:
                     log[player] += 1
@@ -137,7 +137,7 @@ class GameLogic(TestCase):
         for _ in range(100):
             iseult = False
             tristan = False
-            results = game_logic.start_game(players, settings)
+            results = game_logic.create_game_logic(players, settings)
             for player in results:
                 if results[player][1] == game_logic.TRISTAN:
                     tristan = True
